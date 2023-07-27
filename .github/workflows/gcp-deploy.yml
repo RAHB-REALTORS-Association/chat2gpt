@@ -25,4 +25,4 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           
-      - run: gcloud functions deploy chat2gpt --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ env.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ env.MODEL_NAME }},SYSTEM_PROMPT=${{ env.SYSTEM_PROMPT }}
+      - run: gcloud functions deploy chat2gpt --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ env.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME="${{ env.MODEL_NAME }}",SYSTEM_PROMPT="${{ env.SYSTEM_PROMPT }}"
