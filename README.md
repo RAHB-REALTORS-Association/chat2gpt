@@ -34,7 +34,20 @@ Copy the project files to the function directory. The directory structure should
     requirements.txt
 ```
 
-**5. Deploy Your Function**
+**5. Create a Service Account and JSON Key**
+
+In the Google Cloud Console:
+
+- Navigate to "IAM & Admin" > "Service Accounts".
+- Click on "Create Service Account".
+- Give your service account a name and description, then click "Create and Continue".
+- Grant this service account the "Cloud Functions Developer" role (or any role that has the "cloudfunctions.functions.create" permission) to allow it to create and update - - Cloud Functions. If you plan to use other Google Cloud services, you might need to grant additional roles.
+- Click "Continue" and then "Done".
+- Click on the newly created service account from the list.
+- Go to the "Keys" tab, click "Add Key" and select "Create new key".
+- Choose "JSON" as the key type and click "Create". The JSON key file will be automatically downloaded to your local machine. This file contains the service account credentials that will be used by GitHub Actions for deploying your function. Be careful with this file as it provides admin access to your Google Cloud project.
+
+**6. Deploy Your Function**
 
 Deploy your function to Google Cloud Functions using the `gcloud` command-line tool:
 
@@ -47,8 +60,20 @@ Replace `/path/to/your/function/directory` with the path to the directory contai
 
 The `--runtime python39` flag specifies that your function should be run with Python 3.9, the `--trigger-http` flag indicates that your function is triggered by HTTP requests, and the `--entry-point process_event` specifies that the `process_event` function in your `main.py` file should be executed when your function is triggered.
 
-**6. Set Environment Variables**
+**7. Set Environment Variables**
 
 In the Google Cloud Console, navigate to your deployed function and set the `OPENAI_API_KEY`, `MODEL_NAME`, and `SYSTEM_PROMPT` environment variables to their appropriate values.
 
 And that's it! Your function is now deployed and ready to be used. Remember to check the logs in Google Cloud Console for any issues that may arise when your function is invoked.
+
+**8. Configure Bot Access**
+
+- Navigate to https://chat.google.com/u/0/botmanagement.
+- Click on the bot you created.
+- Under "Functionality", select "Bot works in...".
+- Select "Spaces any user can create".
+- Click "Save".
+
+Now, your bot can be added to any room within your Google Workspace.
+
+Remember, the bot will be able to interact only when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with.

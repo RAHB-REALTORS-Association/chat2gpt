@@ -26,6 +26,7 @@ try:
 except Exception as e:
     print(f"Error getting system prompt: {str(e)}")
 
+
 def process_event(request):
     try:
         event = request.get_json()
@@ -36,6 +37,7 @@ def process_event(request):
     except Exception as e:
         print(f"Error processing event: {str(e)}")
         return jsonify({'text': 'Sorry, I encountered an error while processing your message.'})
+
 
 def handle_message(message):
     # If the message contains text
@@ -64,4 +66,3 @@ def handle_message(message):
         bot_message = "I'm sorry, I can only process text messages."
 
     return jsonify({'text': bot_message})
-
