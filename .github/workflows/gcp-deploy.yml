@@ -15,7 +15,7 @@ jobs:
       SYSTEM_PROMPT: "You are a helpful assistant."
     steps:
       - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@main
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
