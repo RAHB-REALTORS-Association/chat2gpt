@@ -52,3 +52,15 @@ The `--runtime python39` flag specifies that your function should be run with Py
 In the Google Cloud Console, navigate to your deployed function and set the `OPENAI_API_KEY`, `MODEL_NAME`, and `SYSTEM_PROMPT` environment variables to their appropriate values.
 
 And that's it! Your function is now deployed and ready to be used. Remember to check the logs in Google Cloud Console for any issues that may arise when your function is invoked.
+
+**7. Configure Bot Access**
+
+- Navigate to https://chat.google.com/u/0/botmanagement.
+- Click on the bot you created.
+- Under "Functionality", select "Bot works in...".
+- Select "Spaces any user can create".
+- Click "Save".
+
+Now, your bot can be added to any room within your Google Workspace.
+
+Remember, the bot will be able to interact only when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with.
