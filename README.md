@@ -47,7 +47,7 @@ Replace `/path/to/your/function/directory` with the path to the directory contai
 
 The `--runtime python39` flag specifies that your function should be run with Python 3.9, the `--trigger-http` flag indicates that your function is triggered by HTTP requests, and the `--entry-point process_event` specifies that the `process_event` function in your `main.py` file should be executed when your function is triggered.
 
-**7. Set Environment Variables**
+**6. Set Environment Variables**
 
 In the Google Cloud Console, navigate to your deployed function and set the `OPENAI_API_KEY`, `MODEL_NAME`, and `SYSTEM_PROMPT` environment variables to their appropriate values.
 
