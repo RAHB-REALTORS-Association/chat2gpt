@@ -34,7 +34,6 @@ def process_event(request):
 
         if event_type == 'ADDED_TO_SPACE':
             return jsonify({'text': 'Hello! I am your Chat bot. How can I assist you today?'})
-
         elif event_type == 'MESSAGE':
             message = event['message']
             user_message = message['text']
@@ -47,7 +46,6 @@ def process_event(request):
                             user_message = user_message.replace(annotation['userMention']['text'], '').strip()
 
             return handle_message(user_message)
-
         else:
             return jsonify({'text': 'Sorry, I can only process messages and being added to a space.'})
 
@@ -56,30 +54,23 @@ def process_event(request):
         return jsonify({'text': 'Sorry, I encountered an error while processing your message.'})
 
 
-def handle_message(message):
-    # If the message contains text
-    if 'text' in message:
-        user_message = message['text']
-        try:
-            response = openai.ChatCompletion.create(
-                model=model_name,  # Use the model name from the environment variable
-                messages=[
-                    {
-                        "role": "system",
-                        "content": system_prompt  # Use the system prompt from the environment variable
-                    },
-                    {
-                        "role": "user",
-                        "content": user_message
-                    }
-                ]
-            )
-            bot_message = response.choices[0].message['content']
-        except Exception as e:
-            print(f"Error calling OpenAI API: {str(e)}")
-            bot_message = "Sorry, I'm currently unable to generate a response."
-    else:
-        # If the message does not contain text, ignore or send a default response
-        bot_message = "I'm sorry, I can only process text messages."
-
+def handle_message(user_message):
+    try:
+        response = openai.ChatCompletion.create(
+            model=model_name,  # Use the model name from the environment variable
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt  # Use the system prompt from the environment variable
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ]
+        )
+        bot_message = response.choices[0].message['content']
+    except Exception as e:
+        print(f"Error calling OpenAI API: {str(e)}")
+        bot_message = "Sorry, I'm currently unable to generate a response."
     return jsonify({'text': bot_message})
