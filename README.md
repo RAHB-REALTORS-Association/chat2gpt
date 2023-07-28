@@ -1,5 +1,7 @@
+[![Python 3.9](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml)[![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
+
 # Chat²GPT
-Chat²GPT is a Google Chat bot powered by OpenAI's GPT model.
+Chat²GPT is a ChatGPT chat bot for Google Chat.
 
 ## Setup
 This bot is intended to be deployed on Google Cloud Functions and its continuous deployment pipeline is managed using GitHub Actions.
