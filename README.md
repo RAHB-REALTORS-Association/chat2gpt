@@ -39,7 +39,8 @@ will be used by GitHub Actions for deploying your function. Be careful with this
 In your GitHub repository:
 - Navigate to "Settings" > "Secrets" > "New repository secret".
 - Add the following secrets:
-  - `GCP_PROJECT`: Your Google Cloud project ID.
+  - `GCP_FUNCTION`: Your desired Google Cloud Function name.
+  - `GCP_REGION`: Your chosen Google Cloud region.
   - `GCP_SA_KEY`: The entire JSON key file content that was downloaded in the previous step, encoded as base64.
   - `OPENAI_API_KEY`: Your OpenAI API key.
   - `MODEL_NAME`: The name of the OpenAI model you're using. For this project, we recommend "gpt-3.5-turbo".

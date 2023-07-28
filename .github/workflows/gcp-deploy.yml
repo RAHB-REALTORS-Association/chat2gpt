@@ -8,11 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      GCP_PROJECT_ID: chat2gpt
-      GCP_REGION: us-east1
-      MODEL_NAME: gpt-3.5-turbo
-      SYSTEM_PROMPT: "You are a helpful assistant."
     steps:
       - uses: actions/checkout@v2
       
@@ -25,4 +20,4 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           
-      - run: gcloud functions deploy chat2gpt --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ env.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME="${{ env.MODEL_NAME }}",SYSTEM_PROMPT="${{ env.SYSTEM_PROMPT }}"
+      - run: gcloud functions deploy ${{ secrets.GCP_FUNCTION }} --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ secrets.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}"
