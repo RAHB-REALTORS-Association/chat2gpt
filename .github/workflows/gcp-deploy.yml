@@ -11,14 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        
+
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ steps.auth.outputs.credentials_file_path }}
+          export_default_credentials: true
+
       - run: gcloud functions deploy ${{ secrets.GCP_FUNCTION }} --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ secrets.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}"
