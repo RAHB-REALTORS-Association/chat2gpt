@@ -22,7 +22,5 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ steps.auth.outputs.credentials_file_path }}
-          export_default_credentials: true
 
       - run: gcloud functions deploy ${{ secrets.GCP_FUNCTION }} --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ secrets.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}"
