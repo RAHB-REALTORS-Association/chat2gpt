@@ -1,6 +1,7 @@
 # Chat²GPT
 
-[![Python 3.9](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml)[![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
+[![Python 3.9](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml)
+[![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Chat²GPT is a ChatGPT chat bot for Google Chat.
@@ -48,6 +49,7 @@ will be used by GitHub Actions for deploying your function. Be careful with this
 In your GitHub repository:
 - Navigate to "Settings" > "Secrets" > "New repository secret".
 - Add the following secrets:
+  - `GCP_PROJECT_ID`: Your Google Cloud Project identifier.
   - `GCP_FUNCTION`: Your desired Google Cloud Function name.
   - `GCP_REGION`: Your chosen Google Cloud region.
   - `GCP_SA_KEY`: The entire JSON key file content that was downloaded in the previous step, encoded as base64.
