@@ -7,7 +7,6 @@
 Chat²GPT is a ChatGPT chat bot for Google Chat. 💬🤖
 
 - [Setup](#setup)
-- [How it works](#how-it-works)
 - [Community](#community)
   - [Contributing](#contributing)
   - [Reporting Bugs](#reporting-bugs)
