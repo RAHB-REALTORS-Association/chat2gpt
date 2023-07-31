@@ -14,6 +14,8 @@ Chat²GPT is a ChatGPT chat bot for Google Chat.
 - [License](#license)
 
 ## Setup
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?git_repo=https://github.com/RAHB-REALTORS-Association/chat2gpt)
+
 This bot is intended to be deployed on Google Cloud Functions and its continuous deployment pipeline is managed using GitHub Actions.
 
 Follow these steps to setup your Chat²GPT bot:
