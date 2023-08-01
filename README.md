@@ -58,6 +58,7 @@ In your GitHub repository:
   - `OPENAI_API_KEY`: Your OpenAI API key.
   - `MODEL_NAME`: The name of the OpenAI model you're using. For this project, we recommend "gpt-3.5-turbo".
   - `SYSTEM_PROMPT`: The system prompt to use for the OpenAI API.
+  - `MAX_TURNS`: The number of messages per user that are "remembered" before their chat session is reset (Default: 10).
 
 **5. GitHub Actions 🚀**
 
@@ -73,7 +74,7 @@ The GitHub Actions workflow is configured to automatically deploy the bot to Goo
 
 Now, your bot can be added to any room within your Google Workspace.
 
-Your bot is now ready! It can interact in any chat room when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with.
+Your bot is now ready! It can interact in any chat room when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with. The bot can remember several turns of conversation per user session to maintain coherency. In other words, you can ask a question, get an answer, and ask a following question referencing the original or its response(s). For performance reasons this is limited with a configurable setting, we recommend 5-10 turns.
 
 ## 🌐 Community
 
