@@ -1,6 +1,6 @@
 # 💬 Chat²GPT 🤖
 
-[![Python 3.9](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml)
+[![Python 3.11](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml)
 [![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

@@ -26,6 +26,7 @@ except Exception as e:
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
+turn_counts = {}  # A dictionary to track the turn count for each user
 
 def process_event(request):
     try:
@@ -58,15 +59,18 @@ def handle_message(user_id, user_message):
     try:
         # Get the AIChat instance for the user, or create a new one
         ai_chat = user_sessions.get(user_id)
-        if ai_chat is None or ai_chat.turn_count >= MAX_TURNS:
+        turn_count = turn_counts.get(user_id, 0)
+        if ai_chat is None or turn_count >= MAX_TURNS:
             ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
             user_sessions[user_id] = ai_chat
+            turn_count = 0
 
         # Generate the response
         response = ai_chat(user_message)
 
         # Update the turn count
-        ai_chat.turn_count += 1
+        turn_count += 1
+        turn_counts[user_id] = turn_count
 
         bot_message = response
 
