@@ -4,13 +4,7 @@
 [![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Chat²GPT is a ChatGPT chat bot for Google Chat. 💬🤖
-
-- [Setup](#setup)
-- [Community](#community)
-  - [Contributing](#contributing)
-  - [Reporting Bugs](#reporting-bugs)
-- [License](#license)
+Chat²GPT is a ChatGPT chat bot for Google Chat. 💬🤖 It enhances communication and productivity in Google Chat rooms, providing an intelligent and responsive virtual assistant. Designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment.
 
 ## 🛠️ Setup
 [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?git_repo=https://github.com/RAHB-REALTORS-Association/chat2gpt)
