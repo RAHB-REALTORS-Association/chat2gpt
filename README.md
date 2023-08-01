@@ -1,4 +1,4 @@
-# 🤖 Chat²GPT 🤖
+# 💬 Chat²GPT 🤖
 
 [![Python 3.9](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.9.yml)
 [![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
