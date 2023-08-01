@@ -1,14 +1,12 @@
 import os
 from flask import jsonify
-from simpleaichat import AIChat, set_openai_api_key
+from simpleaichat import AIChat
 
 # Try to get the OpenAI API key from an environment variable
 try:
     openai_api_key = os.getenv('OPENAI_API_KEY')
     if openai_api_key is None:
         raise ValueError('OPENAI_API_KEY environment variable not set.')
-    else:
-        set_openai_api_key(openai_api_key)
 except Exception as e:
     print(f"Error getting OpenAI API key: {str(e)}")
 
@@ -28,7 +26,6 @@ except Exception as e:
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
-
 
 def process_event(request):
     try:
@@ -57,13 +54,12 @@ def process_event(request):
         print(f"Error processing event: {str(e)}")
         return jsonify({'text': 'Sorry, I encountered an error while processing your message.'})
 
-
 def handle_message(user_id, user_message):
     try:
         # Get the AIChat instance for the user, or create a new one
         ai_chat = user_sessions.get(user_id)
         if ai_chat is None or ai_chat.turn_count >= MAX_TURNS:
-            ai_chat = AIChat(system=system_prompt)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
             user_sessions[user_id] = ai_chat
 
         # Generate the response
