@@ -23,4 +23,4 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - run: gcloud functions deploy ${{ secrets.GCP_FUNCTION }} --runtime python39 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ secrets.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}",MAX_TURNS="${{ secrets.MAX_TURNS }}"
+      - run: gcloud functions deploy ${{ secrets.GCP_FUNCTION }} --runtime python311 --trigger-http --allow-unauthenticated --entry-point process_event --region ${{ secrets.GCP_REGION }} --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}",MAX_TURNS="${{ secrets.MAX_TURNS }}"
