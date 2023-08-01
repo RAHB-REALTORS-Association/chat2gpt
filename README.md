@@ -8,6 +8,7 @@ Chat²GPT is a ChatGPT chat bot for Google Chat. 💬🤖 It enhances communicat
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
+- [🧑‍💻 Usage](#-usage)
 - [🌐 Community](#-community)
   - [Contributing 👥🤝](#contributing-)
   - [Reporting Bugs 🐛📝](#reporting-bugs-)
@@ -73,6 +74,8 @@ The GitHub Actions workflow is configured to automatically deploy the bot to Goo
 - Click "Save".
 
 Now, your bot can be added to any room within your Google Workspace.
+
+## 🧑‍💻 Usage
 
 Your bot is now ready! It can interact in any chat room when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with. The bot can remember several turns of conversation per user session to maintain coherency. In other words, you can ask a question, get an answer, and ask a following question referencing the original or its response(s). For performance reasons this is limited with a configurable setting, we recommend 5-10 turns.
 
