@@ -59,7 +59,8 @@ In your GitHub repository:
   - `OPENAI_API_KEY`: Your OpenAI API key.
   - `MODEL_NAME`: The name of the OpenAI model you're using. For this project, we recommend "gpt-3.5-turbo".
   - `SYSTEM_PROMPT`: The system prompt to use for the OpenAI API.
-  - `MAX_TURNS`: The number of messages per user that are "remembered" before their chat session is reset (Default: 10).
+  - `MAX_TURNS`: This sets the maximum number of exchanges the bot remembers in a user session before resetting. Default: 10 exchanges.
+  - `TTL`: This sets the duration (in seconds) a user session stays active from the last received message before it resets. Default: 600 seconds (10 minutes).
 
 **5. GitHub Actions 🚀**
 
@@ -77,7 +78,7 @@ Now, your bot can be added to any room within your Google Workspace.
 
 ## 🧑‍💻 Usage
 
-Your bot is now ready! It can interact in any chat room when it's explicitly mentioned (@botname) or directly messaged, depending on the functionality you've programmed it with. The bot can remember several turns of conversation per user session to maintain coherency. In other words, you can ask a question, get an answer, and ask a following question referencing the original or its response(s). For performance reasons this is limited with a configurable setting, we recommend 5-10 turns.
+Your bot is all set and ready for action! It's capable of interacting in any chat room, responding when directly mentioned (@botname), or when it receives a direct message, based on the functionality you've programmed. Our bot is designed to remember several rounds of a conversation per user session, providing a coherent and continuous interaction. This means you can ask a question, receive a response, and continue the conversation by referencing the initial query or its response. However, for performance optimization, the length of the conversation is limited by a configurable setting; we recommend setting it to 5-10 turns. Importantly, each session also tracks the time since the last received message, automatically resetting if it exceeds the specified 'Time to Live' (TTL) value. This ensures a seamless and efficient conversation experience with the bot.
 
 ## 🌐 Community
 
