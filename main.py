@@ -36,6 +36,7 @@ user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
 
+
 def process_event(request):
     try:
         event = request.get_json()
@@ -63,6 +64,7 @@ def process_event(request):
         print(f"Error processing event: {str(e)}")
         return jsonify({'text': 'Sorry, I encountered an error while processing your message.'})
 
+
 def handle_message(user_id, user_message):
     try:
         current_time = datetime.datetime.now()
@@ -77,21 +79,24 @@ def handle_message(user_id, user_message):
             ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
             user_sessions[user_id] = ai_chat
             turn_count = 0
+
+            bot_message = "Your session has been reset. How can I assist you now?"
+
         # If it's not a reset command, handle it normally
-        elif ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
-            user_sessions[user_id] = ai_chat
-            turn_count = 0
+        else:
+            if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+                user_sessions[user_id] = ai_chat
+                turn_count = 0
 
-        # Generate the response
-        response = ai_chat(user_message)
+            # Generate the response
+            response = ai_chat(user_message)
+            bot_message = response
 
-        # Update the turn count and the last received time
-        turn_count += 1
-        turn_counts[user_id] = turn_count
-        last_received_times[user_id] = current_time
-
-        bot_message = response
+            # Update the turn count and the last received time
+            turn_count += 1
+            turn_counts[user_id] = turn_count
+            last_received_times[user_id] = current_time
 
     except Exception as e:
         print(f"Error calling OpenAI API: {str(e)}")
