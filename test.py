@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import datetime
-from main import handle_message, user_sessions, turn_counts, last_received_times
+from main import handle_message, user_sessions, turn_counts, last_received_times, MAX_TURNS, TTL
 
 class TestHandleMessage(unittest.TestCase):
     @patch('main.AIChat')
