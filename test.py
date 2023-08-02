@@ -2,10 +2,12 @@ import os
 import unittest
 from unittest.mock import patch, MagicMock
 import datetime
-from main import handle_message, process_event, user_sessions, turn_counts, last_received_times
+from main import handle_message, process_event, user_sessions, turn_counts, last_received_times, MAX_TURNS, TTL
 
 os.environ['OPENAI_API_KEY'] = 'test'
 os.environ['SYSTEM_PROMPT'] = 'test'
+os.environ['MAX_TURNS'] = '10'
+os.environ['TTL'] = '600'
 
 class TestHandleMessage(unittest.TestCase):
     @patch('main.AIChat')
