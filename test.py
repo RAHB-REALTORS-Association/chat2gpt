@@ -1,15 +1,18 @@
+import os
 import unittest
 from unittest.mock import patch, MagicMock
 import datetime
 from main import handle_message, process_event, user_sessions, turn_counts, last_received_times
 
-class TestMain(unittest.TestCase):
+os.environ['OPENAI_API_KEY'] = 'test'
+os.environ['SYSTEM_PROMPT'] = 'test'
+
+class TestHandleMessage(unittest.TestCase):
     @patch('main.AIChat')
     def test_max_turns(self, mock_aichat):
         user_id = 'test_user'
         user_message = 'Hello, bot!'
-        MAX_TURNS = 5
-        mock_aichat.return_value = MagicMock(**{'__call__.return_value': 'Hello, user!'})
+        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
 
         # Send MAX_TURNS + 1 messages
         for _ in range(MAX_TURNS + 1):
@@ -25,8 +28,7 @@ class TestMain(unittest.TestCase):
     def test_ttl_expiration(self, mock_datetime, mock_aichat):
         user_id = 'test_user'
         user_message = 'Hello, bot!'
-        TTL = 600
-        mock_aichat.return_value = MagicMock(**{'__call__.return_value': 'Hello, user!'})
+        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
 
         # First message
         mock_datetime.datetime.now.return_value = datetime.datetime(2022, 1, 1, 0, 0)
@@ -51,17 +53,17 @@ class TestMain(unittest.TestCase):
             'user': {'name': 'test_user'},
             'message': {'text': 'Hello, bot!'}
         }
-        mock_aichat.return_value = MagicMock(**{'__call__.return_value': 'Hello, user!'})
+        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
         response = process_event(MagicMock(get_json=MagicMock(return_value=event_data_message)))
         self.assertEqual(response.get_json(), {'text': 'Hello, user!'})
-
+    
         event_data_added_to_space = {
             'type': 'ADDED_TO_SPACE',
             'user': {'name': 'test_user'}
         }
         response = process_event(MagicMock(get_json=MagicMock(return_value=event_data_added_to_space)))
         self.assertEqual(response.get_json(), {'text': 'Hello! I am your Chat bot. How can I assist you today?'})
-
+    
         event_data_unknown_type = {
             'type': 'UNKNOWN_TYPE',
             'user': {'name': 'test_user'}
