@@ -14,10 +14,10 @@ class TestHandleMessage(unittest.TestCase):
     def test_max_turns(self, mock_aichat):
         user_id = 'test_user'
         user_message = 'Hello, bot!'
-        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
+        mock_aichat.return_value.__call__.side_effect = lambda x: 'Hello, user!'
 
         # Send MAX_TURNS + 1 messages
-        for _ in range(MAX_TURNS + 1):
+        for _ in range(int(MAX_TURNS) + 1):
             response = handle_message(user_id, user_message)
             self.assertEqual(response.get_json(), {'text': 'Hello, user!'})
             self.assertIsNotNone(user_sessions.get(user_id))
@@ -30,7 +30,7 @@ class TestHandleMessage(unittest.TestCase):
     def test_ttl_expiration(self, mock_datetime, mock_aichat):
         user_id = 'test_user'
         user_message = 'Hello, bot!'
-        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
+        mock_aichat.return_value.__call__.side_effect = lambda x: 'Hello, user!'
 
         # First message
         mock_datetime.datetime.now.return_value = datetime.datetime(2022, 1, 1, 0, 0)
@@ -55,7 +55,7 @@ class TestHandleMessage(unittest.TestCase):
             'user': {'name': 'test_user'},
             'message': {'text': 'Hello, bot!'}
         }
-        mock_aichat.return_value.__call__.return_value = 'Hello, user!'
+        mock_aichat.return_value.__call__.side_effect = lambda x: 'Hello, user!'
         response = process_event(MagicMock(get_json=MagicMock(return_value=event_data_message)))
         self.assertEqual(response.get_json(), {'text': 'Hello, user!'})
     
