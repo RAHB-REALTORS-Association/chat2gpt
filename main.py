@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import jsonify
 from simpleaichat import AIChat
 
@@ -24,9 +25,16 @@ try:
 except Exception as e:
     print(f"Error getting max turns: {str(e)}")
 
+# Try to get the TTL from an environment variable
+try:
+    TTL = int(os.getenv('TTL', 600))  # Default to 600 seconds (10 minutes)
+except Exception as e:
+    print(f"Error getting TTL: {str(e)}")
+
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
+last_received_times = {}  # A dictionary to track the last received time for each user
 
 def process_event(request):
     try:
@@ -57,10 +65,14 @@ def process_event(request):
 
 def handle_message(user_id, user_message):
     try:
+        current_time = datetime.datetime.now()
+
         # Get the AIChat instance for the user, or create a new one
         ai_chat = user_sessions.get(user_id)
         turn_count = turn_counts.get(user_id, 0)
-        if ai_chat is None or turn_count >= MAX_TURNS:
+        last_received_time = last_received_times.get(user_id)
+
+        if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
             ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
             user_sessions[user_id] = ai_chat
             turn_count = 0
@@ -68,9 +80,10 @@ def handle_message(user_id, user_message):
         # Generate the response
         response = ai_chat(user_message)
 
-        # Update the turn count
+        # Update the turn count and the last received time
         turn_count += 1
         turn_counts[user_id] = turn_count
+        last_received_times[user_id] = current_time
 
         bot_message = response
 
