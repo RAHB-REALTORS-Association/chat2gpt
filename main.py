@@ -72,7 +72,13 @@ def handle_message(user_id, user_message):
         turn_count = turn_counts.get(user_id, 0)
         last_received_time = last_received_times.get(user_id)
 
-        if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
+        # Reset the session if the user types '/reset'
+        if user_message.strip().lower() == '/reset':
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+            user_sessions[user_id] = ai_chat
+            turn_count = 0
+        # If it's not a reset command, handle it normally
+        elif ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
             ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
             user_sessions[user_id] = ai_chat
             turn_count = 0
