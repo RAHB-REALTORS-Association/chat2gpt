@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**.py'
+      - 'requirements.txt'
+    paths-ignore:
+      - 'test*.py'
   workflow_dispatch:
 
 jobs:
