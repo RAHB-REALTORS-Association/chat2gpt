@@ -91,8 +91,15 @@ def handle_message(user_id, user_message):
         # Count the tokens in the user message
         num_tokens = num_tokens_from_string(user_message + system_prompt)
 
+        # If the user types '/reset', reset the session
+        if user_message.strip().lower() == '/reset':
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+            user_sessions[user_id] = ai_chat
+            turn_count = 0
+            bot_message = "Your session has been reset. How can I assist you now?"
+
         # If the message is too large, return an error message
-        if num_tokens > MAX_TOKENS_INPUT:
+        elif num_tokens > MAX_TOKENS_INPUT:
             return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
 
         # If it's not a reset command, handle it normally
