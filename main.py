@@ -45,9 +45,10 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 
 
 # Define the function for token counting
-def num_tokens_from_string(string: str) -> int:
+def num_tokens_from_string(user_message: str, system_prompt: str) -> int:
+    combined_message = system_prompt + user_message
     tokenizer = tiktoken.Tokenizer(tiktoken.get_encoding("cl100k_base"))
-    num_tokens = len(tokenizer.encode(string))
+    num_tokens = len(tokenizer.encode(combined_message))
     return num_tokens
 
 
