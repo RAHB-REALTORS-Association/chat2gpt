@@ -2,7 +2,7 @@ import os
 import datetime
 from flask import jsonify
 from simpleaichat import AIChat
-from tiktoken import Tokenizer, TokenizerV2, models
+import tiktoken
 
 # Try to get the OpenAI API key from an environment variable
 try:
