@@ -46,7 +46,7 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 
 # Define the function for token counting
 def num_tokens_from_string(string: str, model_name: str) -> int:
-    tokenizer = Tokenizer(models.get_encoder(model_name))
+    tokenizer = tiktoken.Tokenizer(tiktoken.models.get_encoder(model_name))
     num_tokens = len(tokenizer.encode(string))
     return num_tokens
 
