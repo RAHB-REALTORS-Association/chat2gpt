@@ -2,6 +2,7 @@ import os
 import datetime
 from flask import jsonify
 from simpleaichat import AIChat
+import tiktoken
 
 # Try to get the OpenAI API key from an environment variable
 try:
@@ -31,10 +32,23 @@ try:
 except Exception as e:
     print(f"Error getting TTL: {str(e)}")
 
+# Try to get the max tokens from an environment variable
+try:
+    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 2000))  # Default to 2000 tokens
+except Exception as e:
+    print(f"Error getting MAX_TOKENS_INPUT: {str(e)}")
+
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
+
+
+# Define the function for token counting
+def num_tokens_from_string(string: str, model_name: str) -> int:
+    encoding = tiktoken.encoding_for_model(model_name)
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
 
 
 def process_event(request):
@@ -74,13 +88,12 @@ def handle_message(user_id, user_message):
         turn_count = turn_counts.get(user_id, 0)
         last_received_time = last_received_times.get(user_id)
 
-        # Reset the session if the user types '/reset'
-        if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
-            user_sessions[user_id] = ai_chat
-            turn_count = 0
+        # Count the tokens in the user message
+        num_tokens = num_tokens_from_string(user_message, system_prompt)
 
-            bot_message = "Your session has been reset. How can I assist you now?"
+        # If the message is too large, return an error message
+        if num_tokens > MAX_TOKENS_INPUT:
+            return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
 
         # If it's not a reset command, handle it normally
         else:
