@@ -89,7 +89,7 @@ def handle_message(user_id, user_message):
         last_received_time = last_received_times.get(user_id)
 
         # Count the tokens in the user message
-        num_tokens = num_tokens_from_string(user_message, system_prompt)
+        num_tokens = num_tokens_from_string(user_message + system_prompt)
 
         # If the message is too large, return an error message
         if num_tokens > MAX_TOKENS_INPUT:
