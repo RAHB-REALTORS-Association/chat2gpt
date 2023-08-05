@@ -6,9 +6,11 @@ nav_order: 4
 
 # 📄 License
 
-MIT License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Copyright (c) 2023 REALTORSⓇ Association of Hamilton-Burlington
+[MIT License](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2023 [REALTORSⓇ Association of Hamilton-Burlington](https://www.rahb.ca)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
