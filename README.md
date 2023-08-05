@@ -1,10 +1,18 @@
-# 💬 Chat²GPT 🤖
-
 [![Python 3.11](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml)
 [![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Chat²GPT is a ChatGPT chat bot for Google Chat. 🤖💬 It enhances communication and productivity in Google Chat rooms, providing an intelligent and responsive virtual assistant. Designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment.
+<br/>
+<p align="center">
+<img src="https://raw.githubusercontent.com/RAHB-REALTORS-Association/chat2gpt/master/docs/chat2gpt.png" alt="Logo" width="300"/>
+</p>
+<hr/>
+
+**Chat²GPT** is a ChatGPT chat bot for Google Chat 🤖💬, designed to enhance communication and productivity in your Google Chat rooms. It acts as an intelligent and responsive virtual assistant, capable of providing relevant responses and information.
+
+This bot maintains individual sessions for each user, tracking a turn count and Time-To-Live (TTL) limit. This functionality contributes to a more interactive and consistent conversation flow. Users can manually reset their session at any time using the `/reset` command, providing additional control over their interactions with the bot.
+
+Chat²GPT is designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment, making it a flexible and adaptable tool for enhancing your Google Chat experience.
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
@@ -90,7 +98,7 @@ Additionally, to ensure we don't overload the system with large messages, we've 
 ### Contributing 👥🤝
 
 Contributions of any kind are very welcome, and would be much appreciated. 🙏
-For Code of Conduct, see [Contributor Convent](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+For Code of Conduct, see [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 To get started, fork the repo, make your changes, add, commit and push the code, then come back here to open a pull request. If you're new to GitHub or open source, [this guide](https://www.freecodecamp.org/news/how-to-make-your-first-pull-request-on-github-3#let-s-make-our-first-pull-request-) or the [git docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) may help you get started, but feel free to reach out if you need any support.
 
@@ -104,4 +112,4 @@ For bugs, please outline the steps needed to reproduce, and include relevant inf
 [![Raise an Issue](https://img.shields.io/badge/Raise_an_Issue-GitHub-%23060606?style=for-the-badge&logo=github&logoColor=fff)](https://github.com/RAHB-REALTORS-Association/chat2gpt/issues/new/choose)
 
 ## 📄 License
-This project is open sourced under the MIT license. See the [LICENSE](LICENSE) file for more info. 📜
+This project is open sourced under the MIT license. See the [LICENSE](LICENSE) file for more info.
