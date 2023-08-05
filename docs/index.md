@@ -13,9 +13,9 @@ nav_order: 0
 Chat²GPT is a ChatGPT chat bot for Google Chat. 🤖💬 It enhances communication and productivity in Google Chat rooms, providing an intelligent and responsive virtual assistant. Designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment.
 
 ## 📖 Table of Contents
-- [🛠️ Setup](setup.md)
-- [🧑‍💻 Usage](usage.md)
-- [🌐 Community](community.md)
+- [🛠️ Setup](setup.html)
+- [🧑‍💻 Usage](usage.html)
+- [🌐 Community](community.html)
   - [Contributing 👥🤝](community.html#Contributing-)
   - [Reporting Bugs 🐛📝](community.html#reporting-bugs-)
-- [📄 License](license.md)
+- [📄 License](license.html)
