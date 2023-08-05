@@ -4,8 +4,11 @@ layout: home
 nav_order: 0
 ---
 <h1 align="center">
-💬 Chat²GPT 🤖
+Chat²GPT
 </h1>
+<p align="center">
+<img src="https://github.com/RAHB-REALTORS-Association/chat2gpt/blob/master/docs/chat2gpt.svg"/>
+</p>
 
 Chat²GPT is a ChatGPT chat bot for Google Chat 🤖💬, designed to enhance communication and productivity in your Google Chat rooms. It acts as an intelligent and responsive virtual assistant, capable of providing relevant responses and information.
 
