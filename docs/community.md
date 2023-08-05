@@ -1,6 +1,7 @@
 ---
 title: "🌐 Community"
 layout: page
+nav_order: 3
 ---
 
 # 🌐 Community

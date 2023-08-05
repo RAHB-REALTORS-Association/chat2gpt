@@ -1,6 +1,7 @@
 ---
 title: "📜 License"
 layout: page
+nav_order: 4
 ---
 
 # 📄 License

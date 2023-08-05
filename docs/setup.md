@@ -1,6 +1,7 @@
 ---
 title: "🛠️ Setup"
 layout: page
+nav_order: 1
 ---
 
 # 🛠️ Setup
