@@ -3,14 +3,15 @@ title: "🏠 Home"
 layout: home
 nav_order: 0
 ---
+<h1 align="center">
+💬 Chat²GPT 🤖
+</h1>
 
-# 💬 Chat²GPT 🤖
+Chat²GPT is a ChatGPT chat bot for Google Chat 🤖💬, designed to enhance communication and productivity in your Google Chat rooms. It acts as an intelligent and responsive virtual assistant, capable of providing relevant responses and information.
 
-[![Python 3.11](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/python-3.11.yml)
-[![GCP Deployment](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/chat2gpt/actions/workflows/gcp-deploy.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+This bot maintains individual sessions for each user, tracking a turn count and Time-To-Live (TTL) limit. This functionality contributes to a more interactive and consistent conversation flow. Users can manually reset their session at any time using the /reset command, providing additional control over their interactions with the bot.
 
-Chat²GPT is a ChatGPT chat bot for Google Chat. 🤖💬 It enhances communication and productivity in Google Chat rooms, providing an intelligent and responsive virtual assistant. Designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment.
+Chat²GPT is designed to run on Google Cloud or your preferred FaaS (Function as a Service) or PaaS (Platform as a Service) environment, making it a flexible and adaptable tool for enhancing your Google Chat experience.
 
 ## 📖 Table of Contents
 - [🛠️ Setup](setup.html)
