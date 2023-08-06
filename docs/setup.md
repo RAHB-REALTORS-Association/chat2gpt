@@ -59,7 +59,7 @@ The GitHub Actions workflow is configured to automatically deploy the bot to Goo
 
 **6. Configure Bot Access 🤝**
 
-- Navigate to https://chat.google.com/u/0/botmanagement.
+- Navigate to [https://chat.google.com/u/0/botmanagement](https://chat.google.com/u/0/botmanagement).
 - Click on the bot you created.
 - Under "Functionality", select "Bot works in...".
 - Select "Spaces any user can create".
