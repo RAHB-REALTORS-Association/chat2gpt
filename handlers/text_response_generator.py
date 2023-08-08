@@ -5,10 +5,16 @@ from ..utils.session_manager import user_sessions, turn_counts, last_received_ti
 from .slash_commands import handle_slash_command
 from ..settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT, MAX_TOKENS_OUTPUT
 from ..utils.tokenizer import num_tokens_from_string
+from ..utils.moderation import moderate_content
 
 
 def handle_message(user_id, user_message):
     try:
+        # Check the user input for any policy violations
+        moderation_result = moderate_content(user_message)
+        if moderation_result["flagged"]:
+            return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+
         current_time = datetime.datetime.now()
 
         # Get the AIChat instance for the user, or create a new one
@@ -42,6 +48,11 @@ def handle_message(user_id, user_message):
                 response = ai_chat(user_message, max_tokens=MAX_TOKENS_OUTPUT)
 
             bot_message = response
+
+            # Check the bot's response for any policy violations
+            moderation_result = moderate_content(bot_message)
+            if moderation_result["flagged"]:
+                bot_message = 'Sorry, the generated response does not comply with our content policy.'
 
             # Update the turn count and the last received time
             turn_count += 1
