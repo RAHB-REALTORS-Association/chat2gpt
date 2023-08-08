@@ -1,7 +1,3 @@
-import os
-from flask import jsonify
-from simpleaichat import AIChat
-
 # Import environment variables
 from settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT
 

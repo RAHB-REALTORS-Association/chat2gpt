@@ -1,5 +1,4 @@
 from flask import jsonify
-from simpleaichat import AIChat
 from .text_response_generator import handle_message
 from ..utils.tokenizer import num_tokens_from_string
 from ..settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT
