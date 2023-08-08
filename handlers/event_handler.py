@@ -4,6 +4,7 @@ from ..utils.tokenizer import num_tokens_from_string
 from ..settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT
 from ..utils.session_manager import user_sessions, turn_counts, last_received_times
 
+
 def process_event(request):
     try:
         event = request.get_json()
