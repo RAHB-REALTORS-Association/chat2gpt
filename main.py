@@ -109,7 +109,7 @@ def handle_message(user_id, user_message):
             bot_message = "Your session has been reset. How can I assist you now?"
 
         # Check if the user input starts with /image
-        if user_message.strip().lower().startswith('/image'):
+        elif user_message.strip().lower().startswith('/image'):
             prompt = user_message.split('/image', 1)[1].strip()
             if not prompt:
                 return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
