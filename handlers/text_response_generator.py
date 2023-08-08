@@ -3,7 +3,7 @@ from flask import jsonify
 from simpleaichat import AIChat
 from ..utils.session_manager import user_sessions, turn_counts, last_received_times
 from .slash_commands import handle_slash_command
-from ..settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT
+from ..settings.env_loader import openai_api_key, system_prompt, MAX_TURNS, TTL, MAX_TOKENS_INPUT, MAX_TOKENS_OUTPUT
 from ..utils.tokenizer import num_tokens_from_string
 
 
@@ -19,7 +19,7 @@ def handle_message(user_id, user_message):
         # Count the tokens in the user message
         num_tokens = num_tokens_from_string(user_message + system_prompt)
 
-        # Check if the message starts with a slash
+        # Check if the message is a slash command
         if user_message.startswith('/'):
             return handle_slash_command(user_id, user_message.split()[0][1:], ' '.join(user_message.split()[1:]))
     
@@ -27,7 +27,7 @@ def handle_message(user_id, user_message):
         elif num_tokens > MAX_TOKENS_INPUT:
             return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
 
-        # If it's not a reset command, handle it normally
+        # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
                 ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
@@ -35,7 +35,12 @@ def handle_message(user_id, user_message):
                 turn_count = 0
 
             # Generate the response
-            response = ai_chat(user_message)
+            # Conditional API call based on MAX_TOKENS_OUTPUT
+            if MAX_TOKENS_OUTPUT == 0:
+                response = ai_chat(user_message)
+            else:
+                response = ai_chat(user_message, max_tokens=MAX_TOKENS_OUTPUT)
+
             bot_message = response
 
             # Update the turn count and the last received time
