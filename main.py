@@ -1,5 +1,6 @@
 import os
 import datetime
+import uuid
 from flask import jsonify
 from simpleaichat import AIChat
 import openai
@@ -46,6 +47,11 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 
 # Set the OpenAI API key
 openai.api_key = openai_api_key
+
+
+# Function to generate a unique cardId
+def generate_unique_card_id():
+    return f"image_card_{int(datetime.datetime.now().timestamp())}_{uuid.uuid4().hex[:6]}"
 
 
 # Define the function for token counting
@@ -104,34 +110,36 @@ def handle_message(user_id, user_message):
 
         # Check if the user input starts with /image
         if user_message.strip().lower().startswith('/image'):
-            prompt = user_message.split('/image', 1)[1].strip()  # Extract the prompt after the /image command
-            if not prompt:  # If there's no prompt provided
+            prompt = user_message.split('/image', 1)[1].strip()
+            if not prompt:
                 return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
+            
             try:
                 image_resp = openai.Image.create(prompt=prompt, n=1, size="512x512")
                 image_url = image_resp["data"][0]["url"]
                 return jsonify({
-                    'actionResponse': {
-                        'type': 'NEW_MESSAGE',
-                        'message': {
-                            'text': '',
-                            'cards': [
-                                {
-                                    'sections': [
-                                        {
-                                            'widgets': [
-                                                {
-                                                    'image': {
-                                                        'imageUrl': image_url
-                                                    }
+                    'cardsV2': [
+                        {
+                            'cardId': generate_unique_card_id(),
+                            'card': {
+                                'header': {
+                                    'title': 'Generated Image',
+                                    'subtitle': prompt,
+                                },
+                                'sections': [
+                                    {
+                                        'widgets': [
+                                            {
+                                                'image': {
+                                                    'imageUrl': image_url
                                                 }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
                         }
-                    }
+                    ]
                 })
             except Exception as e:
                 return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
