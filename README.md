@@ -21,7 +21,7 @@ Chat²GPT is designed to run on Google Cloud or your preferred FaaS (Function as
 - [🧑‍💻 Usage](#-usage)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
   - [Data Practices: 📝](#data-practices-)
-  - [OpenAI and User Awareness: ℹ️](#openai-and-user-awareness-)
+  - [OpenAI and User Awareness: ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
 - [🌐 Community](#-community)
   - [Contributing 👥🤝](#contributing-)
   - [Reporting Bugs 🐛📝](#reporting-bugs-)
