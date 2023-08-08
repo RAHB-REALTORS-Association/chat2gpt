@@ -2,6 +2,7 @@ import os
 import datetime
 from flask import jsonify
 from simpleaichat import AIChat
+import openai
 import tiktoken
 
 # Try to get the OpenAI API key from an environment variable
@@ -42,6 +43,9 @@ except Exception as e:
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
+
+# Set the OpenAI API key
+openai.api_key = openai_api_key
 
 
 # Define the function for token counting
@@ -98,11 +102,45 @@ def handle_message(user_id, user_message):
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
 
+        # Check if the user input starts with /image
+        if user_message.strip().lower().startswith('/image'):
+            prompt = user_message.split('/image', 1)[1].strip()  # Extract the prompt after the /image command
+            if not prompt:  # If there's no prompt provided
+                return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
+            try:
+                image_resp = openai.Image.create(prompt=prompt, n=1, size="512x512")
+                image_url = image_resp["data"][0]["url"]
+                return jsonify({
+                    'actionResponse': {
+                        'type': 'NEW_MESSAGE',
+                        'message': {
+                            'text': '',
+                            'cards': [
+                                {
+                                    'sections': [
+                                        {
+                                            'widgets': [
+                                                {
+                                                    'image': {
+                                                        'imageUrl': image_url
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                })
+            except Exception as e:
+                return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
+
         # If the message is too large, return an error message
         elif num_tokens > MAX_TOKENS_INPUT:
             return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
 
-        # If it's not a reset command, handle it normally
+        # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
                 ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
