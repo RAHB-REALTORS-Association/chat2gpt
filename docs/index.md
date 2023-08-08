@@ -18,6 +18,7 @@ Chat²GPT is designed to run on Google Cloud or your preferred FaaS (Function as
 ## 📖 Table of Contents
 - [🛠️ Setup](setup.html)
 - [🧑‍💻 Usage](usage.html)
+- [🛡️ Privacy](privacy.html)
 - [🌐 Community](community.html)
   - [Contributing 👥🤝](community.html#Contributing-)
   - [Reporting Bugs 🐛📝](community.html#reporting-bugs-)
