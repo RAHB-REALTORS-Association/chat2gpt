@@ -45,4 +45,9 @@ def handle_message(user_id, user_message):
 
     except Exception as e:
         bot_message = "Sorry, I'm currently unable to generate a response."
+    
+    # Check and truncate the response if it's too long
+    if len(bot_message) > 4096:
+        bot_message = bot_message[:4060] + " (MESSAGE TRUNCATED)"
+
     return jsonify({'text': bot_message})
