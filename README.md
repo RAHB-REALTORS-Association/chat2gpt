@@ -106,7 +106,7 @@ Additionally, to ensure we don't overload the system with large messages, we've 
 
 ### OpenAI and User Awareness: ℹ️
 
--**OpenAI's Commitment:** We use OpenAI's APIs, which, as per OpenAI's policy, don't use user inputs for model training. More details are on OpenAI's official site.
+-**OpenAI's Commitment:** We use OpenAI's APIs, which, as per OpenAI's policy, don't use user inputs for model training. More details are on [OpenAI's official site](https://openai.com/policies/api-data-usage-policies).
 
 -**User Awareness:** Discussing sensitive topics? Exercise caution, especially in group settings. Chat²GPT doesn't log conversations, but your organization or platform might.
 
