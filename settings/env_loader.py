@@ -28,14 +28,21 @@ try:
 except Exception as e:
     print(f"Error getting TTL: {str(e)}")
 
-# Try to get the max tokens from an environment variable
+# Try to get the max tokens input from an environment variable
 try:
     MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 1000))  # Default to 2000 tokens
 except Exception as e:
     print(f"Error getting MAX_TOKENS_INPUT: {str(e)}")
 
-# Try to get the max tokens from an environment variable
+# Try to get the max tokens output from an environment variable
 try:
     MAX_TOKENS_OUTPUT = int(os.getenv('MAX_TOKENS_OUTPUT', 1000))  # Default to 2000 tokens
 except Exception as e:
     print(f"Error getting MAX_TOKENS_OUTPUT: {str(e)}")
+
+ # Try to get the image size from an environment variable
+try:
+    IMAGE_SIZE = os.getenv('IMAGE_SIZE', '512x512')
+except Exception as e:
+    print(f"Error getting IMAGE_SIZE: {str(e)}")
+    
