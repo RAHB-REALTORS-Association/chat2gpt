@@ -3,7 +3,6 @@ title: "🏠 Home"
 layout: home
 nav_order: 0
 ---
-<br/>
 <p align="center">
 <img src="https://raw.githubusercontent.com/RAHB-REALTORS-Association/chat2gpt/master/docs/chat2gpt.png" alt="Logo" width="300"/>
 </p>
