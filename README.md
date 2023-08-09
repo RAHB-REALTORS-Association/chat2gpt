@@ -64,12 +64,15 @@ In your GitHub repository:
   - `GCP_REGION`: Your chosen Google Cloud region.
   - `GCP_SA_KEY`: The entire JSON key file content that was downloaded in the previous step, encoded as base64.
   - `OPENAI_API_KEY`: Your OpenAI API key.
-  - `MODEL_NAME`: The name of the OpenAI model you're using. For this project, we recommend "gpt-3.5-turbo".
+  - `MODEL_NAME`: The name of the OpenAI model you're using. Default: "gpt-3.5-turbo".
   - `SYSTEM_PROMPT`: The system prompt to use for the OpenAI API.
   - `MAX_TURNS`: This sets the maximum number of exchanges the bot remembers in a user session before resetting. Default: 10 exchanges.
   - `TTL`: This sets the duration (in seconds) a user session stays active from the last received message before it resets. Default: 600 seconds (10 minutes).
   - `MAX_TOKENS_INPUT`: This sets the maximum number of tokens that can be sent. Default: 1000 tokens.
   - `MAX_TOKENS_OUTPUT`: This sets the maximum number of tokens that can be received. Default: 1000 tokens.
+  - `TEMPERATURE`: This sets the temperature for the OpenAI API. Default: 0.8.
+  - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
+  - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
 
 **5. GitHub Actions 🚀**
 

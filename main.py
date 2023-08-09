@@ -50,6 +50,18 @@ try:
 except Exception as e:
     print(f"Error getting MAX_TOKENS_OUTPUT: {str(e)}")
 
+# Try to get the temperature value from an environment variable
+try:
+    TEMPERATURE = float(os.getenv('TEMPERATURE', 0.8)) # Default to 0.8
+except Exception as e:
+    print(f"Error getting TEMPERATURE: {str(e)}")
+
+# Try to get the image size from an environment variable
+try:
+    IMAGE_SIZE = os.getenv('IMAGE_SIZE', '512x512')
+except Exception as e:
+    print(f"Error getting image size: {str(e)}")
+
 # Try to get the chat completions API endpoint from an environment variable
 # Example: https://example.com:8000/v1/chat/completions
 API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
@@ -62,8 +74,8 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 # Set the OpenAI API key
 openai.api_key = openai_api_key
 
-# Set the max_tokens for output
-params = {'max_tokens': MAX_TOKENS_OUTPUT}
+# Set the temperature and max_tokens for output
+params = {'temperature': TEMPERATURE, 'max_tokens': MAX_TOKENS_OUTPUT}
 
 # define the function for moderation
 def moderate_content(text: str) -> dict:
@@ -141,7 +153,7 @@ def handle_message(user_id, user_message):
                 return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
             
             try:
-                image_resp = openai.Image.create(prompt=prompt, n=1, size="512x512")
+                image_resp = openai.Image.create(prompt=prompt, n=1, size=IMAGE_SIZE)
                 image_url = image_resp["data"][0]["url"]
                 return jsonify({
                     'cardsV2': [
