@@ -3,13 +3,12 @@ title: "🏠 Home"
 layout: home
 nav_order: 0
 ---
-<br/>
 <p align="center">
 <img src="https://raw.githubusercontent.com/RAHB-REALTORS-Association/chat2gpt/master/docs/chat2gpt.png" alt="Logo" width="300"/>
 </p>
 <hr/>
 
-**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
+**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. Moreover, with the integration of Eleven Labs TTS API, Chat²GPT now brings voice interactions, letting users convert textual prompts into audio. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
 
 ## 📖 Table of Contents
 - [🛠️ Setup](setup.html)
