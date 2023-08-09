@@ -8,7 +8,7 @@
 </p>
 <hr/>
 
-**Chat²GPT** is a ChatGPT chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's DALL·E 2 API, and dynamic interactions through mentions or direct messaging.
+**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
