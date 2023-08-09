@@ -1,6 +1,8 @@
 import os
 import datetime
 import uuid
+import wave
+import boto3
 from flask import jsonify
 from simpleaichat import AIChat
 import requests
@@ -123,7 +125,18 @@ def text_to_speech(prompt, voice_name):
     }
     response = requests.post(endpoint, json=payload, headers=headers)
     if response.status_code == 200:
-        return response.json().get("audio_url"), None
+        # Convert the binary data into an audio file
+        with wave.open('audio.wav', 'wb') as audio_file:
+            audio_file.writeframes(response.content)
+        
+        # Upload the audio file to a cloud storage service
+        s3 = boto3.client('s3')
+        s3.upload_file('audio.wav', 'mybucket', 'audio.wav')
+        
+        # Retrieve a public URL for the file
+        url = s3.generate_presigned_url('get_object', Params={'Bucket': 'mybucket', 'Key': 'audio.wav'}, ExpiresIn=3600)
+        
+        return url, None
     else:
         return None, response.text
 
