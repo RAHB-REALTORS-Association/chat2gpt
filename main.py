@@ -3,6 +3,8 @@ import datetime
 import uuid
 from flask import jsonify
 from simpleaichat import AIChat
+import requests
+import json
 import openai
 import tiktoken
 
@@ -66,6 +68,16 @@ except Exception as e:
 # Example: https://example.com:8000/v1/chat/completions
 API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 
+# Eleven Labs Text-to-Speech API
+ELEVENLABS_API_KEY = os.getenv('ELEVENLABS_API_KEY')
+ELEVENLABS_MODEL_NAME = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
+
+with open("data/voices.json", "r") as file:
+    voice_list = json.load(file)
+
+voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
+voice_names = list(voices_data.keys())
+
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
@@ -94,6 +106,26 @@ def num_tokens_from_string(string: str) -> int:
     encoding = tiktoken.get_encoding("cl100k_base")
     num_tokens = len(encoding.encode(string))
     return num_tokens
+
+
+def text_to_speech(prompt, voice_name):
+    BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
+    
+    voice_id = voices_data[voice_name.lower()]
+    endpoint = BASE_URL + voice_id  # Using voice_id to build the endpoint
+    headers = {
+        "xi-api-key": ELEVENLABS_API_KEY,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "text": prompt,
+        "model_id": ELEVENLABS_MODEL_NAME,
+    }
+    response = requests.post(endpoint, json=payload, headers=headers)
+    if response.status_code == 200:
+        return response.json().get("audio_url"), None
+    else:
+        return None, response.text
 
 
 def process_event(request):
@@ -183,6 +215,31 @@ def handle_message(user_id, user_message):
                 })
             except Exception as e:
                 return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
+
+        # Check if the user input starts with /voices
+        elif user_message.strip().lower() == '/voices':
+            # Join voice names with commas and spaces for readability
+            voices_string = ', '.join(voice_names)
+            return jsonify({'text': f"Available voices: {voices_string}"})
+
+        # Check if the user input starts with /tts
+        elif user_message.strip().lower().startswith('/tts'):
+            parts = user_message.split(' ')
+            if len(parts) < 3:  # Checking for /tts, voice, and message
+                return jsonify({'text': 'Please use the format `/tts <voice> <message>`.'})
+            
+            voice = parts[1].lower()
+            if voice not in voices_data:  # Checking against voices_data now
+                return jsonify({'text': f"Sorry, I couldn't recognize the voice `{voice}`. Please choose a valid voice."})
+            
+            prompt = ' '.join(parts[2:])
+            audio_url, error = text_to_speech(prompt, voice)
+            if audio_url:
+                # Return the audio link with alt-text
+                audio_link = f"<{audio_url}|Click to play audio>"
+                return jsonify({'text': audio_link})
+            else:
+                return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
 
         # If the message is too large, return an error message
         elif num_tokens > MAX_TOKENS_INPUT:
