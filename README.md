@@ -8,14 +8,14 @@
 </p>
 <hr/>
 
-**Chat²GPT** is a ChatGPT chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's DALL·E 2 API, and dynamic interactions through mentions or direct messaging.
+**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
 - [🧑‍💻 Usage](#-usage)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
-  - [Data Practices: 📝](#data-practices-)
-  - [OpenAI and User Awareness: ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
+  - [Data Practices 📝](#data-practices-)
+  - [OpenAI and User Awareness ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
 - [🌐 Community](#-community)
   - [Contributing 👥🤝](#contributing-)
   - [Reporting Bugs 🐛📝](#reporting-bugs-)
@@ -100,7 +100,7 @@ Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (
 
 ## 🛡️ Privacy
 
-### Data Practices: 📝
+### Data Practices 📝
 
 - **Ephemeral Conversations:** Chat²GPT doesn't store or retain conversation history. Every session is temporary, ending when a conversation concludes or times out.
 
@@ -108,7 +108,7 @@ Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (
 
 - **Anonymous Sessions:** Users are tracked using anonymous ID numbers solely for session consistency. These IDs are cleared with each app redeployment.
 
-### OpenAI and User Awareness: ℹ️
+### OpenAI and User Awareness ℹ️
 
 - **OpenAI's Commitment:** We use OpenAI's APIs, which, as per OpenAI's policy, don't use user inputs for model training. More details are on [OpenAI's official site](https://openai.com/policies/api-data-usage-policies).
 

@@ -6,14 +6,16 @@ nav_order: 2
 
 # 🧑‍💻 Usage
 
-- **Dynamic Interactions:** Chat²GPT is attentive to its surroundings. You can invoke it in chat rooms by directly mentioning it using `@botname`. Alternatively, for more private interactions or queries, you can send a direct message to the bot.
+- **Dynamic Interactions:** Chat²GPT is deeply integrated with your chat environment. Invoke it directly in chat rooms by tagging `@botname`. For confidential interactions or specific queries, slide into its direct messages.
 
-- **Interactive Sessions:** This bot remembers multiple rounds of a conversation per user, creating an illusion of continuous dialogue. It can even reference past questions or answers, mimicking a natural conversation flow.
+- **Interactive Sessions:** Chat²GPT recalls multiple interaction rounds for each user, creating a seamless dialogue illusion. It can refer back to earlier parts of the conversation, providing a more human-like chat experience.
 
-- **Session Management:** To maintain efficient performance, each conversation is limited by a configurable setting, recommended at 5-10 turns. Moreover, the bot keeps an eye on the time since the last message, auto-resetting the session if a set time limit is surpassed. And if needed, users can manually reset their own session anytime with the `/reset` command.
+- **Session Management:** Efficiency is key. Conversations are confined by a tunable setting, ideally between 5-10 turns. The bot also watches for inactive periods, resetting sessions automatically after a certain duration. Users wishing for a fresh start can use the `/reset` command to reinitialize their session.
 
-- **Image Generation:** Want to visualize an idea? Use the `/image <prompt>` command. Based on the given prompt, which can range from a word to a paragraph, the bot leverages OpenAI's DALL·E 2 API to generate a relevant image.
+- **Content Moderation:** Keeping our interactions safe, Chat²GPT screens both incoming messages and its own responses to make sure they're in line with content standards. If any content is flagged, a polite reminder is returned, ensuring all interactions uphold a high quality standard.
 
-- **Optimized Performance:** We prioritize a smooth experience. Before processing any message, the bot checks its size by counting its tokens. If found too lengthy, an error message suggests the user to condense their message. This ensures uninterrupted bot interactions without straining the system.
+- **Image Generation:** Visualize thoughts effortlessly with the `/image <prompt>` command. Feed in your prompt, and watch as Chat²GPT, utilizing OpenAI's DALL·E 2 API, crafts a fitting image.
 
-Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (Function as a Service), or PaaS (Platform as a Service) environments, ensuring it's a perfect fit for all your Google Chat endeavors.
+- **Optimized Performance:** A fluid experience is paramount. The bot reviews message length by analyzing token count. If a message is overly verbose, a friendly error message nudges the user to keep it more concise. This ensures consistent, smooth interactions without overburdening the system.
+
+Chat²GPT's versatility shines, making it apt for deployment across Google Cloud, FaaS (Function as a Service), and PaaS (Platform as a Service) platforms, cementing its place in all your Google Chat activities.

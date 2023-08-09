@@ -34,11 +34,17 @@ try:
 except Exception as e:
     print(f"Error getting TTL: {str(e)}")
 
-# Try to get the max tokens from an environment variable
+# Try to get the max tokens (input) from an environment variable
 try:
-    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 2000))  # Default to 2000 tokens
+    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 1000))  # Default to 1000 tokens
 except Exception as e:
     print(f"Error getting MAX_TOKENS_INPUT: {str(e)}")
+
+# Try to get the max tokens (output) from an environment variable
+try:
+    MAX_TOKENS_OUTPUT = int(os.getenv('MAX_TOKENS_OUTPUT', 1000))  # Default to 1000 tokens
+except Exception as e:
+    print(f"Error getting MAX_TOKENS_OUTPUT: {str(e)}")
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
@@ -48,6 +54,14 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 # Set the OpenAI API key
 openai.api_key = openai_api_key
 
+# Set the max_tokens for output
+max_tokens_output = MAX_TOKENS_OUTPUT
+
+
+# define the function for moderation
+def moderate_content(text: str) -> dict:
+    response = openai.Moderation.create(input=text)
+    return response["results"][0]
 
 # Function to generate a unique cardId
 def generate_unique_card_id():
@@ -91,6 +105,11 @@ def process_event(request):
 
 def handle_message(user_id, user_message):
     try:
+        # Check the user input for any policy violations
+        moderation_result = moderate_content(user_message)
+        if moderation_result["flagged"]:
+            return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+        
         current_time = datetime.datetime.now()
 
         # Get the AIChat instance for the user, or create a new one
@@ -103,7 +122,7 @@ def handle_message(user_id, user_message):
 
         # If the user types '/reset', reset the session
         if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
             user_sessions[user_id] = ai_chat
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
@@ -151,12 +170,16 @@ def handle_message(user_id, user_message):
         # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
             # Generate the response
             response = ai_chat(user_message)
+            # Check the API output for any policy violations
+            moderation_result = moderate_content(response)
+            if moderation_result["flagged"]:
+                return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
             bot_message = response
 
             # Update the turn count and the last received time
