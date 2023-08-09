@@ -121,11 +121,16 @@ def handle_message(user_id, user_message):
         # Check if the user input starts with /tts
         elif user_message.strip().lower().startswith('/tts'):
             # Call the TTS API and get the binary audio data
-            # This part is assumed to be implemented elsewhere
-            binary_audio_data = call_tts_api(user_message)
+            try:
+                binary_audio_data = call_tts_api(user_message)
+            except Exception as e:
+                return jsonify({'text': f"Error calling TTS API: {str(e)}"})
             
             # Store the binary audio data in Google Cloud Storage and get the URL
-            audio_url = store_in_gcs(binary_audio_data)
+            try:
+                audio_url = store_in_gcs(binary_audio_data)
+            except Exception as e:
+                return jsonify({'text': f"Error storing audio in Google Cloud Storage: {str(e)}"})
             
             # Return the URL in the bot's response
             return jsonify({'text': f"Here is your audio: {audio_url}"})
