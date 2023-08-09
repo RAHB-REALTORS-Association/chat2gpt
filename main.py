@@ -61,8 +61,7 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 openai.api_key = openai_api_key
 
 # Set the max_tokens for output
-max_tokens_output = MAX_TOKENS_OUTPUT
-params = {'max_tokens': max_tokens_output}
+params = {'max_tokens': MAX_TOKENS_OUTPUT}
 
 # define the function for moderation
 def moderate_content(text: str) -> dict:
@@ -128,7 +127,7 @@ def handle_message(user_id, user_message):
 
         # If the user types '/reset', reset the session
         if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=model, params=params)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL, params=params)
             user_sessions[user_id] = ai_chat
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
@@ -176,7 +175,7 @@ def handle_message(user_id, user_message):
         # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=model, params=params)
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL, params=params)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
