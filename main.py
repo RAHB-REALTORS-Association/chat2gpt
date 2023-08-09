@@ -5,6 +5,7 @@ from flask import jsonify
 from simpleaichat import AIChat
 import openai
 import tiktoken
+from google.cloud import storage  # Added import for Google Cloud Storage
 
 # Try to get the OpenAI API key from an environment variable
 try:
@@ -116,6 +117,18 @@ def handle_message(user_id, user_message):
         moderation_result = moderate_content(user_message)
         if moderation_result["flagged"]:
             return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+        
+        # Check if the user input starts with /tts
+        elif user_message.strip().lower().startswith('/tts'):
+            # Call the TTS API and get the binary audio data
+            # This part is assumed to be implemented elsewhere
+            binary_audio_data = call_tts_api(user_message)
+            
+            # Store the binary audio data in Google Cloud Storage and get the URL
+            audio_url = store_in_gcs(binary_audio_data)
+            
+            # Return the URL in the bot's response
+            return jsonify({'text': f"Here is your audio: {audio_url}"})
         
         current_time = datetime.datetime.now()
 
