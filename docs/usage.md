@@ -16,6 +16,8 @@ nav_order: 2
 
 - **Image Generation:** Visualize thoughts effortlessly with the `/image <prompt>` command. Feed in your prompt, and watch as Chat²GPT, utilizing OpenAI's DALL·E 2 API, crafts a fitting image.
 
+- **Text-to-Speech (TTS):** Utilize the power of Eleven Labs TTS API with the `/tts <voice> <prompt>` command. This command will return a voice response based on the given prompt in the specified voice. To see a list of available voices, use the `/voices` command.
+
 - **Optimized Performance:** A fluid experience is paramount. The bot reviews message length by analyzing token count. If a message is overly verbose, a friendly error message nudges the user to keep it more concise. This ensures consistent, smooth interactions without overburdening the system.
 
 Chat²GPT's versatility shines, making it apt for deployment across Google Cloud, FaaS (Function as a Service), and PaaS (Platform as a Service) platforms, cementing its place in all your Google Chat activities.
