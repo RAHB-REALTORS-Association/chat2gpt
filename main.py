@@ -22,6 +22,12 @@ try:
 except Exception as e:
     print(f"Error getting system prompt: {str(e)}")
 
+# Try to get the model from an environment variable
+try:
+    MODEL = os.getenv('MODEL', 'gpt-3.5-turbo')
+except Exception as e:
+    print(f"Error getting model: {str(e)}")
+
 # Try to get the max turns from an environment variable
 try:
     MAX_TURNS = int(os.getenv('MAX_TURNS', 10))
@@ -56,7 +62,7 @@ openai.api_key = openai_api_key
 
 # Set the max_tokens for output
 max_tokens_output = MAX_TOKENS_OUTPUT
-
+params = {'max_tokens': max_tokens_output}
 
 # define the function for moderation
 def moderate_content(text: str) -> dict:
@@ -122,7 +128,7 @@ def handle_message(user_id, user_message):
 
         # If the user types '/reset', reset the session
         if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=model, params=params)
             user_sessions[user_id] = ai_chat
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
@@ -170,16 +176,22 @@ def handle_message(user_id, user_message):
         # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=model, params=params)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
             # Generate the response
             response = ai_chat(user_message)
+
+            # Ensure the response is less than 4096 characters
+            if len(response) > 4096:
+                response = response[:4070] + "<MESSAGE TRUNCATED>"  # truncated to leave space for the appended message
+
             # Check the API output for any policy violations
             moderation_result = moderate_content(response)
             if moderation_result["flagged"]:
                 return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+
             bot_message = response
 
             # Update the turn count and the last received time
