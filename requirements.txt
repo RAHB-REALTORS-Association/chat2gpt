@@ -3,3 +3,4 @@ requests==2.31.0
 simpleaichat==0.2.2
 openai==0.27.8
 tiktoken==0.4.0
+google-cloud-storage==1.42.0
