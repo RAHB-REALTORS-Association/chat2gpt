@@ -54,6 +54,9 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 # Set the OpenAI API key
 openai.api_key = openai_api_key
 
+# Set the max_tokens for output
+max_tokens_output = MAX_TOKENS_OUTPUT
+
 
 # define the function for moderation
 def moderate_content(text: str) -> dict:
