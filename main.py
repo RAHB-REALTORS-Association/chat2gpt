@@ -14,19 +14,17 @@ try:
 except Exception as e:
     print(f"Error getting OpenAI API key: {str(e)}")
 
-# Try to get the system prompt from an environment variable
-try:
-    system_prompt = os.getenv('SYSTEM_PROMPT')
-    if system_prompt is None:
-        raise ValueError('SYSTEM_PROMPT environment variable not set.')
-except Exception as e:
-    print(f"Error getting system prompt: {str(e)}")
-
 # Try to get the model from an environment variable
 try:
-    MODEL = os.getenv('MODEL', 'gpt-3.5-turbo')
+    MODEL_NAME = os.getenv('MODEL_NAME', 'gpt-3.5-turbo')
 except Exception as e:
-    print(f"Error getting model: {str(e)}")
+    print(f"Error getting model name: {str(e)}")
+
+# Try to get the system prompt from an environment variable
+try:
+    system_prompt = os.getenv('SYSTEM_PROMPT', 'You are a helpful assistant.')
+except Exception as e:
+    print(f"Error getting system prompt: {str(e)}")
 
 # Try to get the max turns from an environment variable
 try:
@@ -127,7 +125,7 @@ def handle_message(user_id, user_message):
 
         # If the user types '/reset', reset the session
         if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL, params=params)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL_NAME, params=params)
             user_sessions[user_id] = ai_chat
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
@@ -175,7 +173,7 @@ def handle_message(user_id, user_message):
         # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL, params=params)
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, model=MODEL_NAME, params=params)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
