@@ -34,11 +34,17 @@ try:
 except Exception as e:
     print(f"Error getting TTL: {str(e)}")
 
-# Try to get the max tokens from an environment variable
+# Try to get the max tokens (input) from an environment variable
 try:
-    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 2000))  # Default to 2000 tokens
+    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 1000))  # Default to 1000 tokens
 except Exception as e:
     print(f"Error getting MAX_TOKENS_INPUT: {str(e)}")
+
+# Try to get the max tokens (output) from an environment variable
+try:
+    MAX_TOKENS_OUTPUT = int(os.getenv('MAX_TOKENS_OUTPUT', 1000))  # Default to 1000 tokens
+except Exception as e:
+    print(f"Error getting MAX_TOKENS_OUTPUT: {str(e)}")
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
@@ -103,7 +109,7 @@ def handle_message(user_id, user_message):
 
         # If the user types '/reset', reset the session
         if user_message.strip().lower() == '/reset':
-            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+            ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
             user_sessions[user_id] = ai_chat
             turn_count = 0
             bot_message = "Your session has been reset. How can I assist you now?"
@@ -151,7 +157,7 @@ def handle_message(user_id, user_message):
         # If it's not a slash command, handle it normally
         else:
             if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt)
+                ai_chat = AIChat(api_key=openai_api_key, system=system_prompt, max_tokens=max_tokens_output)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
