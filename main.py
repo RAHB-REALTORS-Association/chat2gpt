@@ -77,10 +77,12 @@ openai.api_key = openai_api_key
 # Set the temperature and max_tokens for output
 params = {'temperature': TEMPERATURE, 'max_tokens': MAX_TOKENS_OUTPUT}
 
+
 # define the function for moderation
 def moderate_content(text: str) -> dict:
     response = openai.Moderation.create(input=text)
     return response["results"][0]
+
 
 # Function to generate a unique cardId
 def generate_unique_card_id():
