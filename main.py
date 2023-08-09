@@ -55,6 +55,11 @@ last_received_times = {}  # A dictionary to track the last received time for eac
 openai.api_key = openai_api_key
 
 
+# define the function for moderation
+def moderate_content(text: str) -> dict:
+    response = openai.Moderation.create(input=text)
+    return response["results"][0]
+
 # Function to generate a unique cardId
 def generate_unique_card_id():
     return f"image_card_{int(datetime.datetime.now().timestamp())}_{uuid.uuid4().hex[:6]}"
@@ -97,6 +102,11 @@ def process_event(request):
 
 def handle_message(user_id, user_message):
     try:
+        # Check the user input for any policy violations
+        moderation_result = moderate_content(user_message)
+        if moderation_result["flagged"]:
+            return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+        
         current_time = datetime.datetime.now()
 
         # Get the AIChat instance for the user, or create a new one
@@ -163,6 +173,10 @@ def handle_message(user_id, user_message):
 
             # Generate the response
             response = ai_chat(user_message)
+            # Check the API output for any policy violations
+            moderation_result = moderate_content(response)
+            if moderation_result["flagged"]:
+                return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
             bot_message = response
 
             # Update the turn count and the last received time
