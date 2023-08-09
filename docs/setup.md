@@ -51,7 +51,8 @@ In your GitHub repository:
   - `SYSTEM_PROMPT`: The system prompt to use for the OpenAI API.
   - `MAX_TURNS`: This sets the maximum number of exchanges the bot remembers in a user session before resetting. Default: 10 exchanges.
   - `TTL`: This sets the duration (in seconds) a user session stays active from the last received message before it resets. Default: 600 seconds (10 minutes).
-  - `MAX_TOKENS_INPUT`: This sets the maximum number of tokens that can be sent. Default: 2000 tokens.
+  - `MAX_TOKENS_INPUT`: This sets the maximum number of tokens that can be sent. Default: 1000 tokens.
+  - `MAX_TOKENS_OUTPUT`: This sets the maximum number of tokens that can be received. Default: 1000 tokens.
 
 **5. GitHub Actions 🚀**
 
