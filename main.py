@@ -130,8 +130,9 @@ def text_to_speech(prompt, voice_name):
             audio_file.writeframes(response.content)
         
         # Upload the audio file to a cloud storage service
-        s3 = boto3.client('s3')
-        s3.upload_file('audio.wav', 'mybucket', 'audio.wav')
+        s3 = boto3.client('s3', aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
+        unique_file_name = f"audio_{uuid.uuid4().hex}.wav"
+        s3.upload_file('audio.wav', 'mybucket', unique_file_name)
         
         # Retrieve a public URL for the file
         url = s3.generate_presigned_url('get_object', Params={'Bucket': 'mybucket', 'Key': 'audio.wav'}, ExpiresIn=3600)
