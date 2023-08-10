@@ -205,6 +205,20 @@ def handle_message(user_id, user_message):
                                                 'image': {
                                                     'imageUrl': image_url
                                                 }
+                                            },
+                                            {
+                                                'buttons': [
+                                                    {
+                                                        'textButton': {
+                                                            'text': 'Download',
+                                                            'onClick': {
+                                                                'openLink': {
+                                                                    'url': image_url
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
