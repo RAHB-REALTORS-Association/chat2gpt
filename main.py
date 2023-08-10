@@ -203,7 +203,12 @@ def handle_message(user_id, user_message):
                                         'widgets': [
                                             {
                                                 'image': {
-                                                    'imageUrl': image_url
+                                                    'imageUrl': image_url,
+                                                    'onClick': {
+                                                        'openLink': {
+                                                            'url': image_url
+                                                        }
+                                                    }
                                                 }
                                             }
                                         ]
