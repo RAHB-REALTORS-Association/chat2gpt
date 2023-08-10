@@ -19,6 +19,6 @@ nav_order: 3
 
 - **OpenAI's Commitment:** We use OpenAI's APIs, which, as per OpenAI's policy, don't use user inputs for model training. More details are on [OpenAI's official site](https://openai.com/policies/api-data-usage-policies).
 
-- **Eleven Labs' Commitment:** We use Eleven Labs' APIs, which, as per Eleven Labs' policy, don't use user inputs for model training. More details are on [Eleven Labs' official site](https://www.eleven-labs.com/en/legal/).
+- **Eleven Labs' Commitment:** We use Eleven Labs' APIs, which, as per Eleven Labs' policy, don't use user inputs for model training. More details are on [Eleven Labs' official site](https://elevenlabs.io/terms)).
 
 - **User Awareness:** Discussing sensitive topics? Exercise caution, especially in group settings. Chat²GPT doesn't log conversations, but your organization or platform might.
