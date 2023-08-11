@@ -4,6 +4,8 @@ from flask import jsonify
 import json
 from flask import jsonify
 
+from handlers.chat_response import handle_message
+
 def process_event(request):
     try:
         event = request.get_json()
