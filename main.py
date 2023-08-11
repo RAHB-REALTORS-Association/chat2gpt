@@ -280,16 +280,18 @@ def handle_message(user_id, user_message):
                             'cardId': generate_unique_card_id(),
                             'card': {
                                 'header': {
-                                    'title': 'Audio',
-                                    'subtitle': 'Click to Play Audio',
+                                    'title': 'Generated Audio',
+                                    'subtitle': 'Click to Play Audio'
                                 },
                                 'sections': [
                                     {
+                                        'collapsible': False,
+                                        'uncollapsibleWidgetsCount': 1,
                                         'widgets': [
                                             {
-                                                'buttons': [
-                                                    {
-                                                        'textButton': {
+                                                'buttonList': {
+                                                    'buttons': [
+                                                        {
                                                             'text': 'Click to Play Audio',
                                                             'onClick': {
                                                                 'openLink': {
@@ -297,8 +299,8 @@ def handle_message(user_id, user_message):
                                                                 }
                                                             }
                                                         }
-                                                    }
-                                                ]
+                                                    ]
+                                                }
                                             }
                                         ]
                                     }
