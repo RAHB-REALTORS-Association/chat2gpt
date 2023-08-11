@@ -11,6 +11,8 @@ nav_order: 3
 
 - **Ephemeral Conversations:** Chat²GPT doesn't store or retain conversation history. Every session is temporary, ending when a conversation concludes or times out.
 
+- **Temporary Audio Storage:** Text-To-Speech audio files are stored temporarily in Google Cloud Storage to allow users enough time for downloading. To ensure data privacy and efficient storage utilization, these files are deleted with each app redeployment.
+
 - **Reactive Responses:** The bot only reacts to direct prompts, such as @mentions or direct messages, and doesn't "read the room".
 
 - **Anonymous Sessions:** Users are tracked using anonymous ID numbers solely for session consistency. These IDs are cleared with each app redeployment.

@@ -1,6 +1,9 @@
 import os
 import datetime
 import uuid
+import base64
+from google.cloud import storage
+from google.oauth2.service_account import Credentials
 from flask import jsonify
 from simpleaichat import AIChat
 import requests
@@ -78,6 +81,18 @@ with open("data/voices.json", "r") as file:
 voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
 voice_names = list(voices_data.keys())
 
+GCS_BUCKET_NAME = os.getenv('GCS_BUCKET_NAME')
+
+# Decode the base64 service account JSON
+decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
+service_account_info = json.loads(decoded_service_account_info)
+
+# Create credentials from the decoded service account JSON
+credentials = Credentials.from_service_account_info(service_account_info)
+
+# Create a GCS client with the credentials
+storage_client = storage.Client(credentials=credentials)
+
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
@@ -110,9 +125,9 @@ def num_tokens_from_string(string: str) -> int:
 
 def text_to_speech(prompt, voice_name):
     BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
-    
+
     voice_id = voices_data[voice_name.lower()]
-    endpoint = BASE_URL + voice_id  # Using voice_id to build the endpoint
+    endpoint = BASE_URL + voice_id
     headers = {
         "xi-api-key": ELEVENLABS_API_KEY,
         "Content-Type": "application/json"
@@ -121,9 +136,26 @@ def text_to_speech(prompt, voice_name):
         "text": prompt,
         "model_id": ELEVENLABS_MODEL_NAME,
     }
-    response = requests.post(endpoint, json=payload, headers=headers)
+    response = requests.post(endpoint, json=payload, headers=headers)    
+
     if response.status_code == 200:
-        return response.json().get("audio_url"), None
+        # Get the raw audio data
+        audio_data = response.content
+
+        # Generate a unique filename for the audio
+        file_name = f"tts_{uuid.uuid4()}.mp3"
+
+        # Use the authenticated GCS client to upload
+        bucket = storage_client.bucket(GCS_BUCKET_NAME)
+        blob = bucket.blob(file_name)
+        blob.upload_from_string(audio_data, content_type="audio/mpeg")
+
+        # Set the blob to be publicly readable
+        blob.make_public()
+
+        # Return the blob's public URL
+        return blob.public_url, None
+
     else:
         return None, response.text
 
@@ -231,18 +263,52 @@ def handle_message(user_id, user_message):
         elif user_message.strip().lower().startswith('/tts'):
             parts = user_message.split(' ')
             if len(parts) < 3:  # Checking for /tts, voice, and message
-                return jsonify({'text': 'Please use the format `/tts <voice> <message>`.'})
+                return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
             
             voice = parts[1].lower()
             if voice not in voices_data:  # Checking against voices_data now
-                return jsonify({'text': f"Sorry, I couldn't recognize the voice `{voice}`. Please choose a valid voice."})
+                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
             
             prompt = ' '.join(parts[2:])
             audio_url, error = text_to_speech(prompt, voice)
+            
             if audio_url:
-                # Return the audio link with alt-text
-                audio_link = f"<{audio_url}|Click to play audio>"
-                return jsonify({'text': audio_link})
+                # Return a card with the audio link in a button
+                return jsonify({
+                    'cardsV2': [
+                        {
+                            'cardId': generate_unique_card_id(),
+                            'card': {
+                                'header': {
+                                    'title': 'Generated Audio',
+                                    'subtitle': 'Click to Play Audio'
+                                },
+                                'sections': [
+                                    {
+                                        'collapsible': False,
+                                        'uncollapsibleWidgetsCount': 1,
+                                        'widgets': [
+                                            {
+                                                'buttonList': {
+                                                    'buttons': [
+                                                        {
+                                                            'text': 'Click to Play Audio',
+                                                            'onClick': {
+                                                                'openLink': {
+                                                                    'url': audio_url
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                })
             else:
                 return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
 

@@ -24,7 +24,7 @@
 ## 🛠️ Setup
 [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?git_repo=https://github.com/RAHB-REALTORS-Association/chat2gpt)
 
-This bot is intended to be deployed on Google Cloud Functions and its continuous deployment pipeline is managed using GitHub Actions.
+This bot is intended to be deployed on Google Cloud Functions, with audio data temporarily stored in Google Cloud Storage. Its continuous deployment pipeline is managed using GitHub Actions.
 
 Follow these steps to setup your Chat²GPT bot:
 
@@ -43,16 +43,18 @@ Create a new project in your Google Cloud Console or select an existing one.
 **3. Create a Service Account and JSON Key 📑**
 
 In the Google Cloud Console:
-- Navigate to "IAM & Admin" > "Service Accounts".
-- Click on "Create Service Account".
-- Give your service account a name and description, then click "Create and Continue".
-- Grant this service account the "Cloud Functions Developer" role (or any role that has the "cloudfunctions.functions.create" permission) to allow it to create and update Cloud 
-Functions. If you plan to use other Google Cloud services, you might need to grant additional roles.
+- Head to "IAM & Admin" > "Service Accounts".
+- Click "Create Service Account".
+- Assign a name and description, then hit "Create and Continue".
+- Grant this account the "Cloud Functions Developer" role for Cloud Functions creation and updating. If leveraging other Google Cloud services, additional roles may be required.
 - Click "Continue" and then "Done".
-- Click on the newly created service account from the list.
-- Go to the "Keys" tab, click "Add Key" and select "Create new key".
-- Choose "JSON" as the key type and click "Create". The JSON key file will be automatically downloaded to your local machine. This file contains the service account credentials that 
-will be used by GitHub Actions for deploying your function. Be careful with this file as it provides admin access to your Google Cloud project.
+- From the list, select the new service account.
+- Under the "Keys" tab, choose "Add Key" > "Create new key".
+- Opt for "JSON" as the key type and hit "Create". This auto-downloads the JSON key file to your device. This file, containing the service account credentials, facilitates GitHub Actions in deploying your function. Handle with caution.
+
+When assigning roles to your service account:
+- For the bot to read/write objects and metadata in the Cloud Storage bucket, grant the "Storage Object Admin" `(roles/storage.objectAdmin)` role.
+- For the GitHub action to create and delete the bucket, grant the "Storage Admin" `(roles/storage.admin)` role.
 
 **4. Set GitHub Secrets 🔒**
 
@@ -75,14 +77,15 @@ In your GitHub repository:
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
   - `ELEVENLABS_API_KEY`: Your Eleven Labs API key. Can be disabled by omitting this secret.
   - `ELEVENLABS_MODEL_NAME`: Eleven Labs model you're using. Default: "eleven_monolingual_v1".
+  - `GCS_BUCKET_NAME`: Your chosen name for the GCS bucket meant for TTS audio file storage.
 
 **5. GitHub Actions 🚀**
 
-The GitHub Actions workflow is configured to automatically deploy the bot to Google Cloud Functions whenever changes are pushed to the main branch of the repository.
+The bot's deployment to Google Cloud Functions and Storage gets automatically handled by the GitHub Actions workflow upon pushing changes to the main branch.
 
 **6. Configure Bot Access 🤝**
 
-- Navigate to https://chat.google.com/u/0/botmanagement.
+- Navigate to [https://chat.google.com/u/0/botmanagement](https://chat.google.com/u/0/botmanagement).
 - Click on the bot you created.
 - Under "Functionality", select "Bot works in...".
 - Select "Spaces any user can create".
@@ -111,6 +114,8 @@ Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (
 ### Data Practices 📝
 
 - **Ephemeral Conversations:** Chat²GPT doesn't store or retain conversation history. Every session is temporary, ending when a conversation concludes or times out.
+
+- **Temporary Audio Storage:** Text-To-Speech audio files are stored temporarily in Google Cloud Storage to allow users enough time for downloading. To ensure data privacy and efficient storage utilization, these files are deleted with each app redeployment.
 
 - **Reactive Responses:** The bot only reacts to direct prompts, such as @mentions or direct messages, and doesn't "read the room".
 
