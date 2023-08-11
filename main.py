@@ -3,7 +3,7 @@ import datetime
 import uuid
 import base64
 from google.cloud import storage
-from google.oauth2.credentials import Credentials
+from google.oauth2.service_account import Credentials
 from flask import jsonify
 from simpleaichat import AIChat
 import requests
