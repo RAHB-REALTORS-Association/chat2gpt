@@ -313,100 +313,116 @@ def handle_message(user_id, user_message):
             return jsonify({'text': f"Available voices: {voices_string}"})
 
         # Check if the user input starts with /tts
-        elif user_message.strip().lower().startswith('/tts'):
-            if not xi_api_key:
-                return jsonify({'text': 'This function is disabled.'})
-            parts = user_message.split(' ')
-            if len(parts) < 3:  # Checking for /tts, voice, and message
-                return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
-            
-            voice = parts[1].lower()
-            
-            voices_data_dict, error = get_voices_data()
-            if error:
-                return jsonify({'text': error})
-            
-            if voice not in voices_data_dict:
-                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
+    elif user_message.strip().lower().startswith('/tts'):
+        if not xi_api_key:
+            return jsonify({'text': 'This function is disabled.'})
+        parts = user_message.split(' ')
+        if len(parts) < 3:  # Checking for /tts, voice, and message
+            return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
+        
+        voice = parts[1].lower()
+        
+        voices_data_dict, error = get_voices_data()
+        if error:
+            return jsonify({'text': error})
+        
+        if voice not in voices_data_dict:
+            return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
 
-            
-            prompt = ' '.join(parts[2:])
-            audio_url, error = text_to_speech(prompt, voice)
-            
-            if audio_url:
-                # Return a card with the audio link in a button
-                return jsonify({
-                    'cardsV2': [
-                        {
-                            'cardId': generate_unique_card_id(),
-                            'card': {
-                                'header': {
-                                    'title': 'Generated Audio',
-                                    'subtitle': 'Click to Play Audio'
-                                },
-                                'sections': [
-                                    {
-                                        'collapsible': False,
-                                        'uncollapsibleWidgetsCount': 1,
-                                        'widgets': [
-                                            {
-                                                'buttonList': {
-                                                    'buttons': [
-                                                        {
-                                                            'text': 'Play ▶️',
-                                                            'onClick': {
-                                                                'openLink': {
-                                                                    'url': audio_url
-                                                                }
+        
+        prompt = ' '.join(parts[2:])
+        audio_url, error = text_to_speech(prompt, voice)
+        
+        if audio_url:
+            # Return a card with the audio link in a button
+            return jsonify({
+                'cardsV2': [
+                    {
+                        'cardId': generate_unique_card_id(),
+                        'card': {
+                            'header': {
+                                'title': 'Generated Audio',
+                                'subtitle': 'Click to Play Audio'
+                            },
+                            'sections': [
+                                {
+                                    'collapsible': False,
+                                    'uncollapsibleWidgetsCount': 1,
+                                    'widgets': [
+                                        {
+                                            'buttonList': {
+                                                'buttons': [
+                                                    {
+                                                        'text': 'Play ▶️',
+                                                        'onClick': {
+                                                            'openLink': {
+                                                                'url': audio_url
                                                             }
                                                         }
-                                                    ]
-                                                }
+                                                    }
+                                                ]
                                             }
-                                        ]
-                                    }
-                                ]
-                            }
+                                        }
+                                    ]
+                                }
+                            ]
                         }
-                    ]
-                })
-            else:
-                return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
-
-        # If the message is too large, return an error message
-        elif num_tokens > MAX_TOKENS_INPUT:
-            return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
-
-        # If it's not a slash command, handle it normally
+                    }
+                ]
+            })
         else:
-            if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
-                if API_URL:
-                    ai_chat = AIChat(api_key=None, api_url=API_URL, system=SYSTEM_PROMPT, params=params)
-                else:
-                    ai_chat = AIChat(api_key=openai_api_key, system=SYSTEM_PROMPT, model=MODEL_NAME, params=params)
-                user_sessions[user_id] = ai_chat
-                turn_count = 0
+            return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
 
-            # Generate the response
-            response = ai_chat(user_message)
+    # If the message is too large, return an error message
+    elif num_tokens > MAX_TOKENS_INPUT:
+        return jsonify({'text': 'Sorry, your message is too large. Please try a shorter message.'})
 
-            # Ensure the response is less than 4096 characters
-            if len(response) > 4096:
-                response = response[:4070] + "<MESSAGE TRUNCATED>"  # truncated to leave space for the appended message
+    # If it's not a slash command, handle it normally
+    elif user_message.strip().lower() == '/help':
+        try:
+            # Read the docs/usage.md file
+            with open('docs/usage.md', 'r') as file:
+                content = file.read()
 
-            # Check the API output for any policy violations
-            moderation_result = moderate_content(response)
-            if moderation_result["flagged"]:
-                return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+            # Split the content at the "---" header line and get the second part
+            help_content = content.split("---", 2)[-1].strip()
 
-            bot_message = response
+            # Return the extracted content as the bot's response
+            return jsonify({'text': help_content})
 
-            # Update the turn count and the last received time
-            turn_count += 1
-            turn_counts[user_id] = turn_count
-            last_received_times[user_id] = current_time
+        except Exception as e:
+            print(f"Error reading help content: {str(e)}")
+            return jsonify({'text': 'Sorry, I encountered an error retrieving the help content.'})
 
-    except Exception as e:
-        print(f"Error calling OpenAI API: {str(e)}")
-        bot_message = "Sorry, I'm currently unable to generate a response."
-    return jsonify({'text': bot_message})
+    else:
+        if ai_chat is None or turn_count >= MAX_TURNS or (last_received_time is not None and (current_time - last_received_time).total_seconds() > TTL):
+            if API_URL:
+                ai_chat = AIChat(api_key=None, api_url=API_URL, system=SYSTEM_PROMPT, params=params)
+            else:
+                ai_chat = AIChat(api_key=openai_api_key, system=SYSTEM_PROMPT, model=MODEL_NAME, params=params)
+            user_sessions[user_id] = ai_chat
+            turn_count = 0
+
+        # Generate the response
+        response = ai_chat(user_message)
+
+        # Ensure the response is less than 4096 characters
+        if len(response) > 4096:
+            response = response[:4070] + "<MESSAGE TRUNCATED>"  # truncated to leave space for the appended message
+
+        # Check the API output for any policy violations
+        moderation_result = moderate_content(response)
+        if moderation_result["flagged"]:
+            return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+
+        bot_message = response
+
+        # Update the turn count and the last received time
+        turn_count += 1
+        turn_counts[user_id] = turn_count
+        last_received_times[user_id] = current_time
+
+except Exception as e:
+    print(f"Error calling OpenAI API: {str(e)}")
+    bot_message = "Sorry, I'm currently unable to generate a response."
+return jsonify({'text': bot_message})
