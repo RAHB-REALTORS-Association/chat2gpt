@@ -117,6 +117,26 @@ def num_tokens_from_string(string: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
+
+def get_docs(doc_name: str) -> str:
+    try:
+        # Construct the file path based on the doc_name
+        file_path = f'docs/{doc_name}.md'
+        
+        # Read the specified markdown file
+        with open(file_path, 'r') as file:
+            content = file.read()
+
+        # Split the content at the "---" header line and get the second part
+        doc_content = content.split("---", 2)[-1].strip()
+
+        return doc_content
+
+    except Exception as e:
+        print(f"Error reading {doc_name} content: {str(e)}")
+        return f'Sorry, I encountered an error retrieving the {doc_name} content.'
+
+
 # Define the function for downloading voices data
 def get_voices_data():
     BASE_URL = "https://api.elevenlabs.io/v1/voices"
@@ -372,6 +392,11 @@ def handle_message(user_id, user_message):
                 })
             else:
                 return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
+
+        # Check if the user input starts with /help
+        elif user_message.strip().lower() == '/help':
+            help_content = get_docs("usage")
+            return jsonify({'text': help_content})
 
         # If the message is too large, return an error message
         elif num_tokens > MAX_TOKENS_INPUT:
