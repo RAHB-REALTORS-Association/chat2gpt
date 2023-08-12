@@ -8,7 +8,7 @@
 </p>
 <hr/>
 
-**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. Moreover, with the integration of Eleven Labs TTS API, Chat²GPT now brings voice interactions, letting users convert textual prompts into audio. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
+**Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. Moreover, with the integration of ElevenLabs' [Text-to-Speech API](https://docs.elevenlabs.io/api-reference/text-to-speech), Chat²GPT now brings voice interactions, letting users convert textual prompts into audio. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
@@ -75,8 +75,8 @@ In your GitHub repository:
   - `TEMPERATURE`: This sets the temperature for the OpenAI API. Default: 0.8.
   - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
-  - `ELEVENLABS_API_KEY`: Your Eleven Labs API key. Can be disabled by omitting this secret.
-  - `ELEVENLABS_MODEL_NAME`: Eleven Labs model you're using. Default: "eleven_monolingual_v1".
+  - `ELEVENLABS_API_KEY`: Your ElevenLabs API key. Can be disabled by omitting this secret.
+  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_monolingual_v1".
   - `GCS_BUCKET_NAME`: Your chosen name for the GCS bucket meant for TTS audio file storage.
 
 **5. GitHub Actions 🚀**
@@ -115,17 +115,17 @@ Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (
 
 - **Ephemeral Conversations:** Chat²GPT doesn't store or retain conversation history. Every session is temporary, ending when a conversation concludes or times out.
 
-- **Temporary Audio Storage:** Text-To-Speech audio files are stored temporarily in Google Cloud Storage to allow users enough time for downloading. To ensure data privacy and efficient storage utilization, these files are deleted with each app redeployment.
+- **Temporary Audio Storage:** Audio files are stored temporarily in Google Cloud Storage to allow users enough time for downloading. To ensure data privacy and efficient storage utilization, these files are deleted with each app redeployment.
 
 - **Reactive Responses:** The bot only reacts to direct prompts, such as @mentions or direct messages, and doesn't "read the room".
 
 - **Anonymous Sessions:** Users are tracked using anonymous ID numbers solely for session consistency. These IDs are cleared with each app redeployment.
 
-### AI APIs and User Awareness ℹ️
+## AI APIs and User Awareness ℹ️
 
 - **OpenAI's Commitment:** We use OpenAI's APIs, which, as per OpenAI's policy, don't use user inputs for model training. More details are on [OpenAI's official site](https://openai.com/policies/api-data-usage-policies).
 
-- **Eleven Labs' Commitment:** We use Eleven Labs' APIs, which, as per Eleven Labs' policy, don't use user inputs for model training. More details are on [Eleven Labs' official site](https://elevenlabs.io/terms)).
+- **ElevenLabs' Commitment:** We use ElevenLabs' APIs, which, as per ElevenLabs' policy, don't use user inputs for model training. More details are on [ElevenLabs' official site](https://elevenlabs.io/terms)).
 
 - **User Awareness:** Discussing sensitive topics? Exercise caution, especially in group settings. Chat²GPT doesn't log conversations, but your organization or platform might.
 
