@@ -152,18 +152,25 @@ def get_voices_data():
         return None, f"Error fetching and filtering voice data: {str(e)}"
 
 
-def text_to_speech(prompt, voice_name):
-    BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
-
-    # Fetch and process the voice data directly
-    voices_data_dict, error = get_voices_data()
+def get_voice_id(voice_name):
+    voices_data, error = get_voices_data()
     if error:
         return None, error
     
-    voice_id = voices_data_dict.get(voice_name.lower())
+    voice_id = voices_data.get(voice_name.lower())
     if not voice_id:
         return None, f"Voice {voice_name} not found."
     
+    return voice_id, None
+
+
+def text_to_speech(prompt, voice_name):
+    BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
+
+    voice_id, error = get_voice_id(voice_name)
+    if error:
+        return None, error
+
     endpoint = BASE_URL + voice_id
     headers = {
         "xi-api-key": xi_api_key,
@@ -295,12 +302,11 @@ def handle_message(user_id, user_message):
             if not xi_api_key:
                 return jsonify({'text': 'This function is disabled.'})
             
-            # Fetch and process the voice data directly
-            voices_data_dict, error = get_voices_data()
+            voices_data, error = get_voices_data()
             if error:
                 return jsonify({'text': error})
             
-            voice_names_list = list(voices_data_dict.keys())
+            voice_names_list = list(voices_data.keys())
             
             # Join voice names with commas and spaces for readability
             voices_string = ', '.join(voice_names_list)
@@ -321,7 +327,8 @@ def handle_message(user_id, user_message):
                 return jsonify({'text': error})
             
             if voice not in voices_data_dict:
-                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})          
+                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
+
             
             prompt = ' '.join(parts[2:])
             audio_url, error = text_to_speech(prompt, voice)
