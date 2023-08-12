@@ -271,46 +271,37 @@ def handle_message(user_id, user_message):
                             'cardId': generate_unique_card_id(),
                             'card': {
                                 'header': {
-                                    'title': 'Generated Image',
-                                    'subtitle': prompt,
-                                },
-                                'sections': [
-                                    {
-                                        'widgets': [
-                                            {
-                                                'image': {
-                                                    'imageUrl': image_url,
-                                                    'onClick': {
-                                                        'openLink': {
-                                                            'url': image_url
-                                                        }
-                                                    }
-                                                }
+        # Check if the user input starts with /image
+        elif user_message.strip().lower().startswith('/image'):
+            prompt = user_message.split('/image', 1)[1].strip()
+            if not prompt:
+                return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
+            
+            # Before the actual image generation, immediately respond with a processing message
+            return jsonify({
+                'text': 'Processing your image request...',
+                'cardsV2': [
+                    {
+                        'cardId': generate_unique_card_id(),
+                        'card': {
+                            'header': {
+                                'title': 'Processing...',
+                            },
+                            'sections': [
+                                {
+                                    'widgets': [
+                                        {
+                                            'textParagraph': {
+                                                'text': 'Generating the image based on your request. Please wait...'
                                             }
-                                        ]
-                                    }
-                                ]
-                            }
+                                        }
+                                    ]
+                                }
+                            ]
                         }
-                    ]
-                })
-            except Exception as e:
-                return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
-
-        # Check if the user input starts with /voice (assuming you meant /voices)
-        elif user_message.strip().lower() == '/voices':
-            if not xi_api_key:
-                return jsonify({'text': 'This function is disabled.'})
-            
-            voices_data, error = get_voices_data()
-            if error:
-                return jsonify({'text': error})
-            
-            voice_names_list = list(voices_data.keys())
-            
-            # Join voice names with commas and spaces for readability
-            voices_string = ', '.join(voice_names_list)
-            return jsonify({'text': f"Available voices: {voices_string}"})
+                    }
+                ]
+            })
 
         # Check if the user input starts with /tts
         elif user_message.strip().lower().startswith('/tts'):
@@ -334,33 +325,22 @@ def handle_message(user_id, user_message):
             audio_url, error = text_to_speech(prompt, voice)
             
             if audio_url:
-                # Return a card with the audio link in a button
+                # Before the actual text-to-speech conversion, immediately respond with a processing message
                 return jsonify({
+                    'text': 'Processing your TTS request...',
                     'cardsV2': [
                         {
                             'cardId': generate_unique_card_id(),
                             'card': {
                                 'header': {
-                                    'title': 'Generated Audio',
-                                    'subtitle': 'Click to Play Audio'
+                                    'title': 'Processing...',
                                 },
                                 'sections': [
                                     {
-                                        'collapsible': False,
-                                        'uncollapsibleWidgetsCount': 1,
                                         'widgets': [
                                             {
-                                                'buttonList': {
-                                                    'buttons': [
-                                                        {
-                                                            'text': 'Play ▶️',
-                                                            'onClick': {
-                                                                'openLink': {
-                                                                    'url': audio_url
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
+                                                'textParagraph': {
+                                                    'text': 'Generating the speech output based on your request. Please wait...'
                                                 }
                                             }
                                         ]
