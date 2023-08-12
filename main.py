@@ -133,26 +133,23 @@ def get_voices_data():
         response.raise_for_status()
         
         data = response.json()
-        
+
+        # Ensure 'voices' key exists in the data
+        if 'voices' not in data:
+            return None, "Error: 'voices' key not found in the API response."
+
         # Extract the list of voices and filter it
-        voices_data = data["voices"]
-        filtered_voices = [
-            {
-                "voice_id": voice["voice_id"],
-                "name": voice["name"],
-                "labels": voice["labels"]
-            }
-            for voice in voices_data
-        ]
-        
-        # Save the filtered voices data to tmp/voices_data.json
-        with open("tmp/voices_data.json", "w") as file:
-            json.dump(filtered_voices, file)
-        
-        return "Voice data successfully fetched and filtered."
-    
+        voices_data = {
+            voice["name"].lower(): voice["voice_id"]
+            for voice in data["voices"]
+        }
+
+        return voices_data, None
+
+    except requests.RequestException as re:
+        return None, f"API request error: {str(re)}"
     except Exception as e:
-        return f"Error fetching and filtering voice data: {str(e)}"
+        return None, f"Error fetching and filtering voice data: {str(e)}"
 
 
 def text_to_speech(prompt, voice_name):
@@ -291,20 +288,10 @@ def handle_message(user_id, user_message):
                 return jsonify({'text': 'This function is disabled.'})
             
             # Fetch and process the voice data directly
-            voices_response = get_voices_data()
-            if "Error" in voices_response:
-                return jsonify({'text': voices_response})
+            voices_data_dict, error = get_voices_data()
+            if error:
+                return jsonify({'text': error})
             
-            filtered_voices = [
-                {
-                    "voice_id": voice["voice_id"],
-                    "name": voice["name"],
-                    "labels": voice["labels"]
-                }
-                for voice in voices_data["voices"]
-            ]
-            
-            voices_data_dict = {voice["name"].lower(): voice["voice_id"] for voice in filtered_voices}
             voice_names_list = list(voices_data_dict.keys())
             
             # Join voice names with commas and spaces for readability
