@@ -2,6 +2,7 @@ import os
 import datetime
 import uuid
 import base64
+import jwt
 from google.cloud import storage
 from google.oauth2.service_account import Credentials
 from flask import jsonify
@@ -10,6 +11,7 @@ import requests
 import json
 import openai
 import tiktoken
+
 
 # Try to get the OpenAI API key from an environment variable
 try:
@@ -75,11 +77,27 @@ API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 xi_api_key = os.getenv('ELEVENLABS_API_KEY')
 xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
 
+# Try to get the GCP Service Account email from an environment variable
+try:
+    GCP_SA_ACCOUNT = os.getenv('GCP_SA_ACCOUNT')
+    if GCP_SA_ACCOUNT is None:
+        raise ValueError('GCP_SA_ACCOUNT environment variable not set.')
+except Exception as e:
+    print(f"Error getting GCP Service Account email: {str(e)}")
+
+# Try to get the GCP Service Account key from an environment variable
+try:
+    GCP_SA_KEY = os.getenv('GCP_SA_KEY')
+    if GCP_SA_KEY is None:
+        raise ValueError('GCP_SA_KEY environment variable not set.')
+except Exception as e:
+    print(f"Error getting GCP Service Account key: {str(e)}")
+
 bucket_name = os.getenv('GCS_BUCKET_NAME')
 
 if bucket_name:
     # Decode the base64 service account JSON
-    decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
+    decoded_service_account_info = base64.b64decode(GCP_SA_KEY).decode('utf-8')
     service_account_info = json.loads(decoded_service_account_info)
     
     # Create credentials from the decoded service account JSON
@@ -98,6 +116,22 @@ openai.api_key = openai_api_key
 
 # Set the temperature and max_tokens for output
 params = {'temperature': TEMPERATURE, 'max_tokens': MAX_TOKENS_OUTPUT}
+
+def verify_token(request):
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return False
+    
+    # Extract token from the header
+    token = auth_header.split(' ')[1]
+
+    # Decode the token without verification (to extract the email claim)
+    decoded_token = jwt.decode(token, options={"verify_signature": False})
+    
+    email_claim = decoded_token.get('email')
+    if email_claim == GCP_SA_ACCOUNT:
+        return True
+    return False
 
 
 # define the function for moderation
@@ -205,6 +239,10 @@ def text_to_speech(prompt, voice_name):
 
 
 def process_event(request):
+    # Verify the token
+    if not verify_token(request.headers.get('Authorization')):
+        return jsonify({'text': 'Unauthorized access'}), 401  # Returns a 401 Unauthorized HTTP status
+
     try:
         event = request.get_json()
         event_type = event['type']
