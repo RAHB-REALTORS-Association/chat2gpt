@@ -286,6 +286,7 @@ def handle_message(user_id, user_message):
                 image_resp = openai.Image.create(prompt=prompt, n=1, size=IMAGE_SIZE)
                 image_url = image_resp["data"][0]["url"]
                 return jsonify({
+                    'text': 'Processing your image request...',
                     'cardsV2': [
                         {
                             'cardId': generate_unique_card_id(),
@@ -349,13 +350,13 @@ def handle_message(user_id, user_message):
             if voice not in voices_data_dict:
                 return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
 
-            
             prompt = ' '.join(parts[2:])
             audio_url, error = text_to_speech(prompt, voice)
             
             if audio_url:
                 # Return a card with the audio link in a button
                 return jsonify({
+                    'text': 'Processing your TTS request...',
                     'cardsV2': [
                         {
                             'cardId': generate_unique_card_id(),
