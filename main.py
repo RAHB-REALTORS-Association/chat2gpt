@@ -2,14 +2,14 @@ import os
 import datetime
 import uuid
 import base64
+import json
 from google.cloud import storage
 from google.oauth2.service_account import Credentials
 from flask import jsonify
 from simpleaichat import AIChat
-import requests
-import json
 import openai
 import tiktoken
+from elevenlabs import set_api_key, voices, generate
 
 # Try to get the OpenAI API key from an environment variable
 try:
@@ -74,6 +74,8 @@ API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 # Eleven Labs Text-to-Speech API
 xi_api_key = os.getenv('ELEVENLABS_API_KEY')
 xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
+if xi_api_key:
+    set_api_key(xi_api_key)
 
 bucket_name = os.getenv('GCS_BUCKET_NAME')
 
@@ -117,91 +119,19 @@ def num_tokens_from_string(string: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-# Define the function for downloading voices data
-def get_voices_data():
-    BASE_URL = "https://api.elevenlabs.io/v1/voices"
 
-    endpoint = BASE_URL
-    headers = {
-        "xi-api-key": xi_api_key,
-        "Content-Type": "application/json"
-    }
-    
-    try:
-        # Fetch data from the ElevenLabs voices API
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()
-        
-        data = response.json()
-
-        # Ensure 'voices' key exists in the data
-        if 'voices' not in data:
-            return None, "Error: 'voices' key not found in the API response."
-
-        # Extract the list of voices and filter it
-        voices_data = {
-            voice["name"].lower(): voice["voice_id"]
-            for voice in data["voices"]
-        }
-
-        return voices_data, None
-
-    except requests.RequestException as re:
-        return None, f"API request error: {str(re)}"
-    except Exception as e:
-        return None, f"Error fetching and filtering voice data: {str(e)}"
-
-
-def get_voice_id(voice_name):
-    voices_data, error = get_voices_data()
-    if error:
-        return None, error
-    
-    voice_id = voices_data.get(voice_name.lower())
-    if not voice_id:
-        return None, f"Voice {voice_name} not found."
-    
-    return voice_id, None
-
-
+# Define the function for generating speech from text
 def text_to_speech(prompt, voice_name):
-    BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
-
-    voice_id, error = get_voice_id(voice_name)
-    if error:
-        return None, error
-
-    endpoint = BASE_URL + voice_id
-    headers = {
-        "xi-api-key": xi_api_key,
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "text": prompt,
-        "model_id": xi_model_name,
-    }
-    response = requests.post(endpoint, json=payload, headers=headers)    
-
-    if response.status_code == 200:
-        # Get the raw audio data
-        audio_data = response.content
-
-        # Generate a unique filename for the audio
+    try:
+        audio_data = generate(text=prompt, voice=voice_name, model=xi_model_name)
         file_name = f"tts_{uuid.uuid4()}.mp3"
-
-        # Use the authenticated GCS client to upload
         bucket = storage_client.bucket(bucket_name)
         blob = bucket.blob(file_name)
         blob.upload_from_string(audio_data, content_type="audio/mpeg")
-
-        # Set the blob to be publicly readable
         blob.make_public()
-
-        # Return the blob's public URL
         return blob.public_url, None
-
-    else:
-        return None, response.text
+    except Exception as e:
+        return None, f"Error generating the audio: {str(e)}"
 
 
 def process_event(request):
@@ -299,38 +229,26 @@ def handle_message(user_id, user_message):
 
         # Check if the user input starts with /voice (assuming you meant /voices)
         elif user_message.strip().lower() == '/voices':
-            if not xi_api_key:
-                return jsonify({'text': 'This function is disabled.'})
-            
-            voices_data, error = get_voices_data()
-            if error:
-                return jsonify({'text': error})
-            
-            voice_names_list = list(voices_data.keys())
-            
-            # Join voice names with commas and spaces for readability
+            available_voices = voices()
+            voice_names_list = [voice["name"] for voice in available_voices]
             voices_string = ', '.join(voice_names_list)
             return jsonify({'text': f"Available voices: {voices_string}"})
 
         # Check if the user input starts with /tts
         elif user_message.strip().lower().startswith('/tts'):
-            if not xi_api_key:
-                return jsonify({'text': 'This function is disabled.'})
             parts = user_message.split(' ')
-            if len(parts) < 3:  # Checking for /tts, voice, and message
+            if len(parts) < 3:
                 return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
-            
+        
             voice = parts[1].lower()
-            
-            voices_data_dict, error = get_voices_data()
-            if error:
-                return jsonify({'text': error})
-            
-            if voice not in voices_data_dict:
-                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
-
-            
             prompt = ' '.join(parts[2:])
+        
+            # Validate the voice name
+            available_voices = voices()
+            voice_names_list = [voice["name"].lower() for voice in available_voices]
+            if voice not in voice_names_list:
+                return jsonify({'text': f"Sorry, I couldn't recognize the voice '{voice}'. Please choose a valid voice."})
+        
             audio_url, error = text_to_speech(prompt, voice)
             
             if audio_url:
