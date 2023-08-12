@@ -187,16 +187,6 @@ def text_to_speech(prompt, voice_name):
     else:
         return None, response.text
 
-# Eleven Labs Text-to-Speech API
-xi_api_key = os.getenv('ELEVENLABS_API_KEY')
-xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
-
-if xi_api_key:
-    get_voices_data()
-    with open("tmp/voices_data.json", "r") as file:
-        voice_list = json.load(file)
-    voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
-    voice_names = list(voices_data.keys())
 
 def process_event(request):
     try:
@@ -295,8 +285,26 @@ def handle_message(user_id, user_message):
         elif user_message.strip().lower() == '/voices':
             if not xi_api_key:
                 return jsonify({'text': 'This function is disabled.'})
+            
+            # Fetch and process the voice data directly
+            voices_response = get_voices_data()
+            if "Error" in voices_response:
+                return jsonify({'text': voices_response})
+            
+            filtered_voices = [
+                {
+                    "voice_id": voice["voice_id"],
+                    "name": voice["name"],
+                    "labels": voice["labels"]
+                }
+                for voice in voices_data["voices"]
+            ]
+            
+            voices_data_dict = {voice["name"].lower(): voice["voice_id"] for voice in filtered_voices}
+            voice_names_list = list(voices_data_dict.keys())
+            
             # Join voice names with commas and spaces for readability
-            voices_string = ', '.join(voice_names)
+            voices_string = ', '.join(voice_names_list)
             return jsonify({'text': f"Available voices: {voices_string}"})
 
         # Check if the user input starts with /tts
