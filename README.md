@@ -107,6 +107,8 @@ Now, your bot can be added to any room within your Google Workspace.
 
 - **Optimized Performance:** We prioritize a smooth experience. Before processing any message, the bot checks its size by counting its tokens. If found too lengthy, an error message suggests the user to condense their message. This ensures uninterrupted bot interactions without straining the system.
 
+- **Help On-Demand:** Have questions on how to use Chat²GPT? Just type in the `/help` command. The bot fetches content directly from the `docs/usage.md` file, ensuring users get accurate, up-to-date information.
+
 Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (Function as a Service), or PaaS (Platform as a Service) environments, ensuring it's a perfect fit for all your Google Chat endeavors.
 
 ## 🛡️ Privacy
