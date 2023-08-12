@@ -84,17 +84,6 @@ if bucket_name:
     # Create a GCS client with the credentials
     storage_client = storage.Client(credentials=credentials)
 
-# Eleven Labs Text-to-Speech API
-xi_api_key = os.getenv('ELEVENLABS_API_KEY')
-xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
-
-if xi_api_key:
-    get_voices_data()
-    with open("tmp/voices.json", "r") as file:
-        voice_list = json.load(file)
-    voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
-    voice_names = list(voices_data.keys())
-
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
@@ -198,6 +187,16 @@ def text_to_speech(prompt, voice_name):
     else:
         return None, response.text
 
+# Eleven Labs Text-to-Speech API
+xi_api_key = os.getenv('ELEVENLABS_API_KEY')
+xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
+
+if xi_api_key:
+    get_voices_data()
+    with open("tmp/voices.json", "r") as file:
+        voice_list = json.load(file)
+    voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
+    voice_names = list(voices_data.keys())
 
 def process_event(request):
     try:
