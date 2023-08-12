@@ -71,27 +71,29 @@ except Exception as e:
 # Example: https://example.com:8000/v1/chat/completions
 API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 
+bucket_name = os.getenv('GCS_BUCKET_NAME')
+
+    if bucket_name:
+    # Decode the base64 service account JSON
+    decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
+    service_account_info = json.loads(decoded_service_account_info)
+    
+    # Create credentials from the decoded service account JSON
+    credentials = Credentials.from_service_account_info(service_account_info)
+    
+    # Create a GCS client with the credentials
+    storage_client = storage.Client(credentials=credentials)
+
 # Eleven Labs Text-to-Speech API
-ELEVENLABS_API_KEY = os.getenv('ELEVENLABS_API_KEY')
-ELEVENLABS_MODEL_NAME = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
+xi_api_key = os.getenv('ELEVENLABS_API_KEY')
+xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
 
-with open("data/voices.json", "r") as file:
-    voice_list = json.load(file)
-
-voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
-voice_names = list(voices_data.keys())
-
-GCS_BUCKET_NAME = os.getenv('GCS_BUCKET_NAME')
-
-# Decode the base64 service account JSON
-decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
-service_account_info = json.loads(decoded_service_account_info)
-
-# Create credentials from the decoded service account JSON
-credentials = Credentials.from_service_account_info(service_account_info)
-
-# Create a GCS client with the credentials
-storage_client = storage.Client(credentials=credentials)
+if xi_api_key:
+    get_voices_data()
+    with open("tmp/voices.json", "r") as file:
+        voice_list = json.load(file)
+    voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
+    voice_names = list(voices_data.keys())
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
@@ -122,6 +124,43 @@ def num_tokens_from_string(string: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
+# Define the function for downloading voices data
+def get_voices_data():
+    BASE_URL = "https://api.elevenlabs.io/v1/voices"
+
+    endpoint = BASE_URL
+    headers = {
+        "xi-api-key": xi_api_key,
+        "Content-Type": "application/json"
+    }
+    
+    try:
+        # Fetch data from the ElevenLabs voices API
+        response = requests.get(endpoint, headers=headers)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        # Extract the list of voices and filter it
+        voices_data = data["voices"]
+        filtered_voices = [
+            {
+                "voice_id": voice["voice_id"],
+                "name": voice["name"],
+                "labels": voice["labels"]
+            }
+            for voice in voices_data
+        ]
+        
+        # Save the filtered voices data to tmp/voices_data.json
+        with open("tmp/voices_data.json", "w") as file:
+            json.dump(filtered_voices, file)
+        
+        return "Voice data successfully fetched and filtered."
+    
+    except Exception as e:
+        return f"Error fetching and filtering voice data: {str(e)}"
+
 
 def text_to_speech(prompt, voice_name):
     BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
@@ -129,12 +168,12 @@ def text_to_speech(prompt, voice_name):
     voice_id = voices_data[voice_name.lower()]
     endpoint = BASE_URL + voice_id
     headers = {
-        "xi-api-key": ELEVENLABS_API_KEY,
+        "xi-api-key": xi_api_key,
         "Content-Type": "application/json"
     }
     payload = {
         "text": prompt,
-        "model_id": ELEVENLABS_MODEL_NAME,
+        "model_id": xi_model_name,
     }
     response = requests.post(endpoint, json=payload, headers=headers)    
 
@@ -146,7 +185,7 @@ def text_to_speech(prompt, voice_name):
         file_name = f"tts_{uuid.uuid4()}.mp3"
 
         # Use the authenticated GCS client to upload
-        bucket = storage_client.bucket(GCS_BUCKET_NAME)
+        bucket = storage_client.bucket(bucket_name)
         blob = bucket.blob(file_name)
         blob.upload_from_string(audio_data, content_type="audio/mpeg")
 
@@ -253,14 +292,18 @@ def handle_message(user_id, user_message):
             except Exception as e:
                 return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
 
-        # Check if the user input starts with /voices
+        # Check if the user input starts with /voice (assuming you meant /voices)
         elif user_message.strip().lower() == '/voices':
+            if not xi_api_key:
+                return jsonify({'text': 'This function is disabled.'})
             # Join voice names with commas and spaces for readability
             voices_string = ', '.join(voice_names)
             return jsonify({'text': f"Available voices: {voices_string}"})
 
         # Check if the user input starts with /tts
         elif user_message.strip().lower().startswith('/tts'):
+            if not xi_api_key:
+                return jsonify({'text': 'This function is disabled.'})
             parts = user_message.split(' ')
             if len(parts) < 3:  # Checking for /tts, voice, and message
                 return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
