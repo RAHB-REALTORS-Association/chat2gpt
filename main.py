@@ -73,7 +73,7 @@ API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 
 bucket_name = os.getenv('GCS_BUCKET_NAME')
 
-    if bucket_name:
+if bucket_name:
     # Decode the base64 service account JSON
     decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
     service_account_info = json.loads(decoded_service_account_info)
