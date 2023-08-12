@@ -155,7 +155,15 @@ def get_voices_data():
 def text_to_speech(prompt, voice_name):
     BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/"
 
-    voice_id = voices_data[voice_name.lower()]
+    # Fetch and process the voice data directly
+    voices_data_dict, error = get_voices_data()
+    if error:
+        return None, error
+    
+    voice_id = voices_data_dict.get(voice_name.lower())
+    if not voice_id:
+        return None, f"Voice {voice_name} not found."
+    
     endpoint = BASE_URL + voice_id
     headers = {
         "xi-api-key": xi_api_key,
@@ -307,8 +315,13 @@ def handle_message(user_id, user_message):
                 return jsonify({'text': 'Please use the format /tts <voice> <message>.'})
             
             voice = parts[1].lower()
-            if voice not in voices_data:  # Checking against voices_data now
-                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
+            
+            voices_data_dict, error = get_voices_data()
+            if error:
+                return jsonify({'text': error})
+            
+            if voice not in voices_data_dict:
+                return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})          
             
             prompt = ' '.join(parts[2:])
             audio_url, error = text_to_speech(prompt, voice)
