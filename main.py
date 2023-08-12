@@ -353,7 +353,7 @@ def handle_message(user_id, user_message):
                                                 'buttonList': {
                                                     'buttons': [
                                                         {
-                                                            'text': 'Click to Play Audio',
+                                                            'text': 'Play ▶️',
                                                             'onClick': {
                                                                 'openLink': {
                                                                     'url': audio_url
