@@ -239,6 +239,10 @@ def text_to_speech(prompt, voice_name):
 
 
 def process_event(request):
+    # Verify the token
+    if not verify_token(request.headers.get('Authorization')):
+        return jsonify({'text': 'Unauthorized access'}), 401  # Returns a 401 Unauthorized HTTP status
+
     try:
         event = request.get_json()
         event_type = event['type']
