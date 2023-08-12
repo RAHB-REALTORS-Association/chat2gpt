@@ -193,7 +193,7 @@ xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
 
 if xi_api_key:
     get_voices_data()
-    with open("tmp/voices.json", "r") as file:
+    with open("tmp/voices_data.json", "r") as file:
         voice_list = json.load(file)
     voices_data = {voice["name"].lower(): voice["voice_id"] for voice in voice_list}
     voice_names = list(voices_data.keys())
