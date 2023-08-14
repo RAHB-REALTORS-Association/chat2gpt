@@ -396,7 +396,7 @@ def handle_message(user_id, user_message):
 
         # Check if the user input starts with /help
         elif user_message.strip().lower() == '/help':
-            help_content = get_docs("usage")
+            help_content = get_docs("help")
             return jsonify({'text': help_content})
 
         # If the message is too large, return an error message
