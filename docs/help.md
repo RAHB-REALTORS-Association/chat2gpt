@@ -4,8 +4,6 @@ title: 🛟 Help
 nav_exclude: true
 ---
 
-# 🛟 Help
-
 Use the following commands for Chat²GPT:
 
 - `/reset`: Reinitialize your session.
