@@ -167,9 +167,9 @@ def get_voices_data():
         return voices_data, None
 
     except requests.RequestException as re:
-        return None, f"API request error: {str(re)}"
+        print(f"API request error: {str(re)}"); return None, "An internal error has occurred. Please try again later."
     except Exception as e:
-        return None, f"Error fetching and filtering voice data: {str(e)}"
+        print(f"Error fetching and filtering voice data: {str(e)}"); return None, "An internal error has occurred. Please try again later."
 
 
 def get_voice_id(voice_name):
@@ -316,7 +316,7 @@ def handle_message(user_id, user_message):
                     ]
                 })
             except Exception as e:
-                return jsonify({'text': f"Sorry, I encountered an error generating the image: {str(e)}"})
+                print(f"Error generating image: {str(e)}"); return jsonify({'text': "Sorry, I encountered an internal error generating the image. Please try again later."})
 
         # Check if the user input starts with /voice (assuming you meant /voices)
         elif user_message.strip().lower() == '/voices':
@@ -325,7 +325,7 @@ def handle_message(user_id, user_message):
             
             voices_data, error = get_voices_data()
             if error:
-                return jsonify({'text': error})
+                print(f"Error: {error}"); return jsonify({'text': "An internal error has occurred. Please try again later."})
             
             voice_names_list = list(voices_data.keys())
             
@@ -345,7 +345,7 @@ def handle_message(user_id, user_message):
             
             voices_data_dict, error = get_voices_data()
             if error:
-                return jsonify({'text': error})
+                print(f"Error: {error}"); return jsonify({'text': "An internal error has occurred. Please try again later."})
             
             if voice not in voices_data_dict:
                 return jsonify({'text': f"Sorry, I couldn't recognize the voice {voice}. Please choose a valid voice."})
@@ -392,7 +392,7 @@ def handle_message(user_id, user_message):
                     ]
                 })
             else:
-                return jsonify({'text': f"Sorry, I encountered an error generating the audio: {error}"})
+                print(f"Error generating audio: {error}"); return jsonify({'text': "Sorry, I encountered an internal error generating the audio. Please try again later."})
 
         # Check if the user input starts with /help
         elif user_message.strip().lower() == '/help':
