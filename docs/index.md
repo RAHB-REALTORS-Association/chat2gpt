@@ -13,7 +13,7 @@ nav_order: 0
 ## 📖 Table of Contents
 - [🛠️ Setup](setup.html)
 - [🧑‍💻 Usage](usage/)
-  - [/help Page 🛟](usage/help.html)
+  - [Commands ⌨️](usage/help.html)
 - [🛡️ Privacy](privacy.html)
   - [Data Practices 📝](privacy.html#data-practices-)
   - [OpenAI and User Awareness ℹ️](privacy.html#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
