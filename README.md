@@ -13,6 +13,7 @@
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
 - [🧑‍💻 Usage](#-usage)
+  - [Commands ⌨️](#%EF%B8%8F-commands)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
   - [Data Practices 📝](#data-practices-)
   - [OpenAI and User Awareness ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
@@ -110,6 +111,16 @@ Now, your bot can be added to any room within your Google Workspace.
 - **Help On-Demand:** Have questions on how to use Chat²GPT? Just type in the `/help` command. The bot fetches content directly from the `docs/usage.md` file, ensuring users get accurate, up-to-date information.
 
 Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (Function as a Service), or PaaS (Platform as a Service) environments, ensuring it's a perfect fit for all your Google Chat endeavors.
+
+### ⌨️ Commands
+
+Use the following commands for Chat²GPT:
+
+- `/reset`: Reinitialize your session.
+- `/image <prompt>`: Generate an image using OpenAI's DALL·E 2 API.
+- `/tts <voice> <prompt>`: Get a voice response with ElevenLabs' TTS API.
+- `/voices`: View available voices for TTS.
+- `/help`: Access accurate, up-to-date information from the docs.
 
 ## 🛡️ Privacy
 
