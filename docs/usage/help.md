@@ -15,6 +15,6 @@ Use the following commands for Chat²GPT:
 - `/voices`: View available voices for TTS.
 - `/help`: Access accurate, up-to-date information from the docs.
 
-For more details, visit [Usage](rahb-realtors-association.github.io/chat2gpt/usage.html).
+For more details, visit [Usage](https://rahb-realtors-association.github.io/chat2gpt/usage/).
 
-For privacy information, see [Privacy](rahb-realtors-association.github.io/chat2gpt/privacy.html).
+For privacy information, see [Privacy](https://rahb-realtors-association.github.io/chat2gpt/privacy.html).
