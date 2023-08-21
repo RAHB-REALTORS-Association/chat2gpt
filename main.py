@@ -73,7 +73,7 @@ API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
 
 # Eleven Labs Text-to-Speech API
 xi_api_key = os.getenv('ELEVENLABS_API_KEY')
-xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_monolingual_v1')
+xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_multilingual_v1')
 
 bucket_name = os.getenv('GCS_BUCKET_NAME')
 
