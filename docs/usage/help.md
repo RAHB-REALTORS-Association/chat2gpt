@@ -2,7 +2,7 @@
 layout: default
 title: 🛟 Help
 parent: Usage
-nav_order: 1
+nav_order: 3
 ---
 
 # 🛟 Help
