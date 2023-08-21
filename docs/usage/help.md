@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 🛟 Help
-parent: Usage
+parent: 🧑‍💻 Usage
 nav_order: 3
 ---
 
