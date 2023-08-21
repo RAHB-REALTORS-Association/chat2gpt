@@ -1,8 +1,11 @@
 ---
 layout: default
 title: 🛟 Help
-nav_exclude: true
+parent: Usage
+nav_order: 1
 ---
+
+# 🛟 Help
 
 Use the following commands for Chat²GPT:
 
@@ -12,4 +15,6 @@ Use the following commands for Chat²GPT:
 - `/voices`: View available voices for TTS.
 - `/help`: Access accurate, up-to-date information from the docs.
 
-For more details, visit rahb-realtors-association.github.io/chat2gpt/usage.html. For privacy information, see rahb-realtors-association.github.io/chat2gpt/privacy.html.
+For more details, visit [Usage](rahb-realtors-association.github.io/chat2gpt/usage.html).
+
+For privacy information, see [Privacy](rahb-realtors-association.github.io/chat2gpt/privacy.html).
