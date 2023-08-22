@@ -10,7 +10,8 @@ import requests
 import json
 import openai
 import tiktoken
-from env_loader import get_env 
+from env_loader import get_env
+from utils.gcs import initialize_gcs_client
 
 # Load environment variables
 OPENAI_API_KEY = get_env("OPENAI_API_KEY")
@@ -28,15 +29,7 @@ ELEVENLABS_MODEL_NAME = get_env("ELEVENLABS_MODEL_NAME")
 GCS_BUCKET_NAME = get_env("GCS_BUCKET_NAME")
 
 if GCS_BUCKET_NAME:
-    # Decode the base64 service account JSON
-    decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
-    service_account_info = json.loads(decoded_service_account_info)
-    
-    # Create credentials from the decoded service account JSON
-    credentials = Credentials.from_service_account_info(service_account_info)
-    
-    # Create a GCS client with the credentials
-    storage_client = storage.Client(credentials=credentials)
+    storage_client = initialize_gcs_client(GCS_BUCKET_NAME)
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
