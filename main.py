@@ -6,6 +6,7 @@ import openai
 from env_loader import get_env
 from utils.openai import initialize_openai, moderate_content, num_tokens_from_string
 from utils.elevenlabs import get_voices_data, text_to_speech
+from utils.misc import generate_unique_card_id, get_docs
 
 # Load environment variables
 OPENAI_API_KEY = get_env("OPENAI_API_KEY")
@@ -28,27 +29,6 @@ user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
 
-# Function to generate a unique cardId
-def generate_unique_card_id():
-    return f"image_card_{int(datetime.datetime.now().timestamp())}_{uuid.uuid4().hex[:6]}"
-
-def get_docs(doc_name: str) -> str:
-    try:
-        # Construct the file path based on the doc_name
-        file_path = f'docs/{doc_name}.md'
-        
-        # Read the specified markdown file
-        with open(file_path, 'r') as file:
-            content = file.read()
-
-        # Split the content at the "---" header line and get the second part
-        doc_content = content.split("---", 2)[-1].strip()
-
-        return doc_content
-
-    except Exception as e:
-        print(f"Error reading {doc_name} content: {str(e)}")
-        return f'Sorry, I encountered an error retrieving the {doc_name} content.'
 
 def process_event(request):
     try:
@@ -76,6 +56,7 @@ def process_event(request):
     except Exception as e:
         print(f"Error processing event: {str(e)}")
         return jsonify({'text': 'Sorry, I encountered an error while processing your message.'})
+
 
 def handle_message(user_id, user_message):
     try:
