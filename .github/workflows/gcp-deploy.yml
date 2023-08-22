@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'main.py'
+      - '**.py'
       - 'requirements.txt'
   workflow_dispatch:
 
