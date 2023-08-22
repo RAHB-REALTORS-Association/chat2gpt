@@ -1,10 +1,8 @@
 import datetime
-import uuid
 from flask import jsonify
 from simpleaichat import AIChat
-import openai
 from env_loader import get_env
-from utils.openai import initialize_openai, moderate_content, num_tokens_from_string
+from utils.openai import initialize_openai, moderate_content, num_tokens_from_string, generate_image
 from utils.elevenlabs import get_voices_data, text_to_speech
 from utils.misc import generate_unique_card_id, get_docs
 
@@ -89,7 +87,7 @@ def handle_message(user_id, user_message):
                 return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
             
             try:
-                image_resp = openai.Image.create(prompt=prompt, n=1, size=IMAGE_SIZE)
+                image_resp = generate_image(prompt, n=1, size=IMAGE_SIZE)
                 image_url = image_resp["data"][0]["url"]
                 return jsonify({
                     'text': 'Processing your image request...',
