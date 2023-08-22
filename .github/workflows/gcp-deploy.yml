@@ -30,7 +30,7 @@ jobs:
       - name: Delete Existing Bucket
         run: |
           if gsutil ls "gs://$GCS_BUCKET_NAME"; then
-            gsutil rm -r "gs://$GCS_BUCKET_NAME"
+            gsutil -m rm -r "gs://$GCS_BUCKET_NAME"
           fi
         env:
           GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }}
