@@ -1,16 +1,12 @@
-import os
 import datetime
 import uuid
-import base64
-from google.cloud import storage
-from google.oauth2.service_account import Credentials
 from flask import jsonify
 from simpleaichat import AIChat
 import requests
-import json
 import openai
-import tiktoken
-from env_loader import get_env 
+from env_loader import get_env
+from utils.openai import initialize_openai, moderate_content, num_tokens_from_string
+from utils.gcs import initialize_gcs_client
 
 # Load environment variables
 OPENAI_API_KEY = get_env("OPENAI_API_KEY")
@@ -27,46 +23,20 @@ ELEVENLABS_API_KEY = get_env("ELEVENLABS_API_KEY")
 ELEVENLABS_MODEL_NAME = get_env("ELEVENLABS_MODEL_NAME")
 GCS_BUCKET_NAME = get_env("GCS_BUCKET_NAME")
 
+# Initialize OpenAI parameters
+params = initialize_openai(OPENAI_API_KEY, TEMPERATURE, MAX_TOKENS_OUTPUT)
+
 if GCS_BUCKET_NAME:
-    # Decode the base64 service account JSON
-    decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
-    service_account_info = json.loads(decoded_service_account_info)
-    
-    # Create credentials from the decoded service account JSON
-    credentials = Credentials.from_service_account_info(service_account_info)
-    
-    # Create a GCS client with the credentials
-    storage_client = storage.Client(credentials=credentials)
+    storage_client = initialize_gcs_client(GCS_BUCKET_NAME)
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
 turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
 
-# Set the OpenAI API key
-openai.api_key = OPENAI_API_KEY
-
-# Set the temperature and max_tokens for output
-params = {'temperature': TEMPERATURE, 'max_tokens': MAX_TOKENS_OUTPUT}
-
-
-# define the function for moderation
-def moderate_content(text: str) -> dict:
-    response = openai.Moderation.create(input=text)
-    return response["results"][0]
-
-
 # Function to generate a unique cardId
 def generate_unique_card_id():
     return f"image_card_{int(datetime.datetime.now().timestamp())}_{uuid.uuid4().hex[:6]}"
-
-
-# Define the function for token counting
-def num_tokens_from_string(string: str) -> int:
-    encoding = tiktoken.get_encoding("cl100k_base")
-    num_tokens = len(encoding.encode(string))
-    return num_tokens
-
 
 def get_docs(doc_name: str) -> str:
     try:
