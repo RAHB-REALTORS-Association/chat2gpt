@@ -10,74 +10,24 @@ import requests
 import json
 import openai
 import tiktoken
+from env_loader import get_env 
 
-# Try to get the OpenAI API key from an environment variable
-try:
-    openai_api_key = os.getenv('OPENAI_API_KEY')
-    if openai_api_key is None:
-        raise ValueError('OPENAI_API_KEY environment variable not set.')
-except Exception as e:
-    print(f"Error getting OpenAI API key: {str(e)}")
+# Load environment variables
+OPENAI_API_KEY = get_env("OPENAI_API_KEY")
+MODEL_NAME = get_env("MODEL_NAME")
+SYSTEM_PROMPT = get_env("SYSTEM_PROMPT")
+MAX_TURNS = get_env("MAX_TURNS")
+TTL = get_env("TTL")
+MAX_TOKENS_INPUT = get_env("MAX_TOKENS_INPUT")
+MAX_TOKENS_OUTPUT = get_env("MAX_TOKENS_OUTPUT")
+TEMPERATURE = get_env("TEMPERATURE")
+IMAGE_SIZE = get_env("IMAGE_SIZE")
+API_URL = get_env("API_URL")
+ELEVENLABS_API_KEY = get_env("ELEVENLABS_API_KEY")
+ELEVENLABS_MODEL_NAME = get_env("ELEVENLABS_MODEL_NAME")
+GCS_BUCKET_NAME = get_env("GCS_BUCKET_NAME")
 
-# Try to get the model from an environment variable
-try:
-    MODEL_NAME = os.getenv('MODEL_NAME', 'gpt-3.5-turbo')
-except Exception as e:
-    print(f"Error getting model name: {str(e)}")
-
-# Try to get the system prompt from an environment variable
-try:
-    SYSTEM_PROMPT = os.getenv('SYSTEM_PROMPT', 'You are a helpful assistant.')
-except Exception as e:
-    print(f"Error getting system prompt: {str(e)}")
-
-# Try to get the max turns from an environment variable
-try:
-    MAX_TURNS = int(os.getenv('MAX_TURNS', 10))
-except Exception as e:
-    print(f"Error getting max turns: {str(e)}")
-
-# Try to get the TTL from an environment variable
-try:
-    TTL = int(os.getenv('TTL', 600))  # Default to 600 seconds (10 minutes)
-except Exception as e:
-    print(f"Error getting TTL: {str(e)}")
-
-# Try to get the max tokens (input) from an environment variable
-try:
-    MAX_TOKENS_INPUT = int(os.getenv('MAX_TOKENS_INPUT', 1000))  # Default to 1000 tokens
-except Exception as e:
-    print(f"Error getting MAX_TOKENS_INPUT: {str(e)}")
-
-# Try to get the max tokens (output) from an environment variable
-try:
-    MAX_TOKENS_OUTPUT = int(os.getenv('MAX_TOKENS_OUTPUT', 1000))  # Default to 1000 tokens
-except Exception as e:
-    print(f"Error getting MAX_TOKENS_OUTPUT: {str(e)}")
-
-# Try to get the temperature value from an environment variable
-try:
-    TEMPERATURE = float(os.getenv('TEMPERATURE', 0.8)) # Default to 0.8
-except Exception as e:
-    print(f"Error getting TEMPERATURE: {str(e)}")
-
-# Try to get the image size from an environment variable
-try:
-    IMAGE_SIZE = os.getenv('IMAGE_SIZE', '512x512')
-except Exception as e:
-    print(f"Error getting image size: {str(e)}")
-
-# Try to get the chat completions API endpoint from an environment variable
-# Example: https://example.com:8000/v1/chat/completions
-API_URL = os.getenv('API_URL') # Defaults to OpenAI API if not set
-
-# Eleven Labs Text-to-Speech API
-xi_api_key = os.getenv('ELEVENLABS_API_KEY')
-xi_model_name = os.getenv('ELEVENLABS_MODEL_NAME', 'eleven_multilingual_v1')
-
-bucket_name = os.getenv('GCS_BUCKET_NAME')
-
-if bucket_name:
+if GCS_BUCKET_NAME:
     # Decode the base64 service account JSON
     decoded_service_account_info = base64.b64decode(os.getenv('GCP_SA_KEY')).decode('utf-8')
     service_account_info = json.loads(decoded_service_account_info)
@@ -94,7 +44,7 @@ turn_counts = {}  # A dictionary to track the turn count for each user
 last_received_times = {}  # A dictionary to track the last received time for each user
 
 # Set the OpenAI API key
-openai.api_key = openai_api_key
+openai.api_key = OPENAI_API_KEY
 
 # Set the temperature and max_tokens for output
 params = {'temperature': TEMPERATURE, 'max_tokens': MAX_TOKENS_OUTPUT}
@@ -143,7 +93,7 @@ def get_voices_data():
 
     endpoint = BASE_URL
     headers = {
-        "xi-api-key": xi_api_key,
+        "xi-api-key": ELEVENLABS_API_KEY,
         "Content-Type": "application/json"
     }
     
@@ -193,12 +143,12 @@ def text_to_speech(prompt, voice_name):
 
     endpoint = BASE_URL + voice_id
     headers = {
-        "xi-api-key": xi_api_key,
+        "xi-api-key": ELEVENLABS_API_KEY,
         "Content-Type": "application/json"
     }
     payload = {
         "text": prompt,
-        "model_id": xi_model_name,
+        "model_id": ELEVENLABS_MODEL_NAME,
     }
     response = requests.post(endpoint, json=payload, headers=headers)    
 
@@ -210,7 +160,7 @@ def text_to_speech(prompt, voice_name):
         file_name = f"tts_{uuid.uuid4()}.mp3"
 
         # Use the authenticated GCS client to upload
-        bucket = storage_client.bucket(bucket_name)
+        bucket = storage_client.bucket(GCS_BUCKET_NAME)
         blob = bucket.blob(file_name)
         blob.upload_from_string(audio_data, content_type="audio/mpeg")
 
@@ -320,7 +270,7 @@ def handle_message(user_id, user_message):
 
         # Check if the user input starts with /voice (assuming you meant /voices)
         elif user_message.strip().lower() == '/voices':
-            if not xi_api_key:
+            if not ELEVENLABS_API_KEY:
                 return jsonify({'text': 'This function is disabled.'})
             
             voices_data, error = get_voices_data()
@@ -335,7 +285,7 @@ def handle_message(user_id, user_message):
 
         # Check if the user input starts with /tts
         elif user_message.strip().lower().startswith('/tts'):
-            if not xi_api_key:
+            if not ELEVENLABS_API_KEY:
                 return jsonify({'text': 'This function is disabled.'})
             parts = user_message.split(' ')
             if len(parts) < 3:  # Checking for /tts, voice, and message
@@ -409,7 +359,7 @@ def handle_message(user_id, user_message):
                 if API_URL:
                     ai_chat = AIChat(api_key=None, api_url=API_URL, system=SYSTEM_PROMPT, params=params)
                 else:
-                    ai_chat = AIChat(api_key=openai_api_key, system=SYSTEM_PROMPT, model=MODEL_NAME, params=params)
+                    ai_chat = AIChat(api_key=OPENAI_API_KEY, system=SYSTEM_PROMPT, model=MODEL_NAME, params=params)
                 user_sessions[user_id] = ai_chat
                 turn_count = 0
 
