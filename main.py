@@ -1,7 +1,5 @@
 import datetime
 import uuid
-from google.cloud import storage
-from google.oauth2.service_account import Credentials
 from flask import jsonify
 from simpleaichat import AIChat
 import requests
