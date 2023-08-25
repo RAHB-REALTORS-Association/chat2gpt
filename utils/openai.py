@@ -10,7 +10,7 @@ def initialize_openai(api_key, temperature, max_tokens_output):
     return params
 
 def moderate_content(text: str) -> dict:
-    response = openai.Moderation.create(input=text)
+    response = openai.Moderation.create(input=text, model="text-moderation-latest")
     return response["results"][0]
 
 # Define the function for token counting

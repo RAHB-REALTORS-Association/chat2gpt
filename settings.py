@@ -66,7 +66,7 @@ SETTINGS = {
         "description": "ElevenLabs Text-to-Speech API key."
     },
     "ELEVENLABS_MODEL_NAME": {
-        "default": "eleven_multilingual_v1",
+        "default": "eleven_multilingual_v2",
         "required": False,
         "type": str,
         "description": "Name of the ElevenLabs Text-to-Speech model."
