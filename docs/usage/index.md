@@ -21,6 +21,6 @@ has_children: true
 
 - **Optimized Performance:** A fluid experience is paramount. The bot reviews message length by analyzing token count. If a message is overly verbose, a friendly error message nudges the user to keep it more concise. This ensures consistent, smooth interactions without overburdening the system.
 
-- **Help On-Demand:** Have questions on how to use Chat²GPT? Just type in the `/help` command. The bot fetches content directly from the `docs/usage.md` file, ensuring users get accurate, up-to-date information.
+- **Help On-Demand:** Have questions on how to use Chat²GPT? Just type in the `/help` command. The bot fetches content directly from the `docs/usage/help.md` file, ensuring users get accurate, up-to-date information.
 
 Chat²GPT's versatility shines, making it apt for deployment across Google Cloud, FaaS (Function as a Service), and PaaS (Platform as a Service) platforms, cementing its place in all your Google Chat activities.
