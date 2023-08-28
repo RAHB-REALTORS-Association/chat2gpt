@@ -5,6 +5,9 @@ from settings import SETTINGS
 load_dotenv()  # This will load environment variables from a .env file if it exists
 
 class EnvironmentLoader:
+    def __init__(self):
+        self.loaded_envs = {}  # Initialize the attribute as an empty dictionary
+        
     _instance = None
     
     def __new__(cls):
