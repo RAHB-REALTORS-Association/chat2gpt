@@ -2,7 +2,7 @@ import datetime
 from flask import jsonify
 from simpleaichat import AIChat
 from env_loader import get_env
-from utils.openai import initialize_openai, moderate_content, num_tokens_from_string, generate_image
+from utils.openai_helper import initialize_openai, moderate_content, num_tokens_from_string, generate_image
 from utils.elevenlabs import get_voices_data, text_to_speech
 from utils.misc import generate_unique_card_id, get_docs
 
