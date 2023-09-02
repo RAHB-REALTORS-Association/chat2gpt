@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from main import process_event
 
 app = Flask(__name__, static_url_path='', static_folder='.')
