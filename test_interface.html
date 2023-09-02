@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat²GPT Test Rig</title>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+</head>
+<body>
+    <h1>Chat²GPT Test Rig</h1>
+    <form hx-post="/post" hx-trigger="submit" hx-swap="outerHTML">
+        <label for="userInput">Enter your message or command:</label><br>
+        <input type="text" id="userInput" name="userInput" required><br><br>
+        <input type="radio" id="room" name="environment" value="ROOM" checked>
+        <label for="room">Room</label><br>
+        <input type="radio" id="dm" name="environment" value="DM">
+        <label for="dm">Direct Message</label><br><br>
+        <input type="submit" value="Send">
+    </form>
+    <div id="responseContainer">
+        <!-- The server response will be displayed here -->
+    </div>
+
+    <script>
+        document.addEventListener('htmx:configRequest', (event) => {
+            const userInput = document.getElementById('userInput').value;
+            const environment = document.querySelector('input[name="environment"]:checked').value;
+            const wrappedEventData = {
+                "type": "MESSAGE",
+                "eventTime": new Date().toISOString(),
+                "message": {
+                    "name": "spaces/simulated/messages/simulated",
+                    "sender": {
+                        "displayName": "User",
+                        "avatarUrl": "https://simulated.avatar.url",
+                        "email": "user@example.com"
+                    },
+                    "createTime": new Date().toISOString(),
+                    "text": userInput
+                },
+                "space": {
+                    "name": "spaces/room",
+                    "type": environment,
+                    "displayName": environment === "ROOM" ? "Room" : "Direct Message"
+                }
+            };
+            event.detail.parameters = JSON.stringify(wrappedEventData);
+            event.detail.headers = {'Content-Type': 'application/json'};
+        });
+    </script>
+</body>
+</html>
