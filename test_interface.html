@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat²GPT Test Rig</title>
-    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Chat²GPT Test Rig</h1>
-    <form hx-post="/post" hx-trigger="submit" hx-swap="outerHTML">
+    <form id="userForm">
         <label for="userInput">Enter your message or command:</label><br>
         <input type="text" id="userInput" name="userInput" required><br><br>
         <input type="submit" value="Send">
@@ -15,21 +15,31 @@
     <div id="responseContainer">
         <!-- The server response will be displayed here -->
     </div>
-
     <script>
-        document.addEventListener('htmx:configRequest', (event) => {
-            const userInput = document.getElementById('userInput').value;
+        $("#userForm").submit(function(e) {
+            e.preventDefault();
+            const userInput = $("#userInput").val();
             const wrappedEventData = {
                 "type": "MESSAGE",
-                "user": {
-                    "name": "users/simulated"
-                },
-                "message": {
-                    "text": userInput
-                }
+                "user": { "name": "users/simulated" },
+                "message": { "text": userInput }
             };
-            event.detail.parameters = JSON.stringify(wrappedEventData);
-            event.detail.headers = {'Content-Type': 'application/json'};
+            $.ajax({
+                url: "/post",
+                type: "POST",
+                data: JSON.stringify(wrappedEventData),
+                contentType: "application/json",
+                success: function(response) {
+                    // Handle the response
+                    console.log(response);
+                    $("#responseContainer").html("Server Response: " + JSON.stringify(response));
+                },
+                error: function(error) {
+                    // Handle the error
+                    console.log(error);
+                    $("#responseContainer").html("Error: " + JSON.stringify(error));
+                }
+            });
         });
     </script>
 </body>
