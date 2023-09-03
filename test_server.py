@@ -11,14 +11,18 @@ def root():
 @app.route('/post', methods=['POST'])
 def google_chat_event():
     try:
-        # Debug: Print the raw request data
+        # Log the raw request data for debugging
         print("Raw Request Data:", request.data)
 
         # Get the event data from the request body
         response = process_event(request)
+
+        # Log the raw request data for debugging
+        print("Raw Response Data:", json.dumps(response.get_json(), indent=4))
+
         return response
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000)
