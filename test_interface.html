@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chat²GPT Test Rig</title>
+    <title>Chat²GPT Test</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -19,10 +19,17 @@
     </style>   
 </head>
 <body class="container">
-    <h1 class="mt-5">Chat²GPT Test Rig</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+        <h1 class="mt-5">🤖💬 Chat²GPT Test</h1>
+        <div>
+            <a href="https://rahb-realtors-association.github.io/chat2gpt" target="_blank" rel="noopener noreferrer">Homepage</a>
+            |
+            <a href="https://github.com/RAHB-REALTORS-Association/chat2gpt" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+        </div>
+    </div>
     <form id="userForm" class="mt-4">
         <div class="mb-3">
-            <label for="userInput" class="form-label">Enter your message or command:</label>
+            <h6>Enter your message or <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/help.html" title="/reset&#10;&#10;/image &lt;prompt&gt;&#10;&#10;/voices&#10;&#10;/tts &lt;voice&gt; &lt;prompt&gt;&#10;&#10;/help" target="_blank" rel="noopener noreferrer">command</a>:</h6>
             <textarea id="userInput" name="userInput" class="form-control" rows="4" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Send</button>
@@ -30,30 +37,6 @@
     <div id="responseContainer" class="mt-4">
         <!-- The server response will be displayed here -->
     </div>
-    <script>
-        $("#userForm").submit(function(e) {
-            e.preventDefault();
-            const userInput = $("#userInput").val();
-            const wrappedEventData = {
-                "type": "MESSAGE",
-                "user": { "name": "users/simulated" },
-                "message": { "text": userInput }
-            };
-            $.ajax({
-                url: "/post",
-                type: "POST",
-                data: JSON.stringify(wrappedEventData),
-                contentType: "application/json",
-                success: function(response) {
-                    // Handle the response
-                    $("#responseContainer").html("<h3>Response:</h3><pre>" + JSON.stringify(response, null, 2) + "</pre>");
-                },
-                error: function(error) {
-                    // Handle the error
-                    $("#responseContainer").html("<h3>Response:</h3><pre>" + JSON.stringify(error, null, 2) + "</pre>");
-                }
-            });
-        });
-    </script>
+    <script src="test_client.js"></script>
 </body>
 </html>
