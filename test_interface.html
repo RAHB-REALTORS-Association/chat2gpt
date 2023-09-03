@@ -10,10 +10,6 @@
     <form hx-post="/post" hx-trigger="submit" hx-swap="outerHTML">
         <label for="userInput">Enter your message or command:</label><br>
         <input type="text" id="userInput" name="userInput" required><br><br>
-        <input type="radio" id="room" name="environment" value="ROOM" checked>
-        <label for="room">Room</label><br>
-        <input type="radio" id="dm" name="environment" value="DM">
-        <label for="dm">Direct Message</label><br><br>
         <input type="submit" value="Send">
     </form>
     <div id="responseContainer">
@@ -23,24 +19,13 @@
     <script>
         document.addEventListener('htmx:configRequest', (event) => {
             const userInput = document.getElementById('userInput').value;
-            const environment = document.querySelector('input[name="environment"]:checked').value;
             const wrappedEventData = {
                 "type": "MESSAGE",
-                "eventTime": new Date().toISOString(),
-                "message": {
-                    "name": "spaces/simulated/messages/simulated",
-                    "sender": {
-                        "displayName": "User",
-                        "avatarUrl": "https://simulated.avatar.url",
-                        "email": "user@example.com"
-                    },
-                    "createTime": new Date().toISOString(),
-                    "text": userInput
+                "user": {
+                    "name": "users/simulated"
                 },
-                "space": {
-                    "name": "spaces/room",
-                    "type": environment,
-                    "displayName": environment === "ROOM" ? "Room" : "Direct Message"
+                "message": {
+                    "text": userInput
                 }
             };
             event.detail.parameters = JSON.stringify(wrappedEventData);
