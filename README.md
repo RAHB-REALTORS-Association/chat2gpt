@@ -12,6 +12,7 @@
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
+- [👷 Development](#-development)
 - [🧑‍💻 Usage](#-usage)
   - [Commands ⌨️](#%EF%B8%8F-commands)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
@@ -77,7 +78,7 @@ In your GitHub repository:
   - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
   - `ELEVENLABS_API_KEY`: Your ElevenLabs API key. Can be disabled by omitting this secret.
-  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_monolingual_v1".
+  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_multilingual_v1".
   - `GCS_BUCKET_NAME`: Your chosen name for the GCS bucket meant for TTS audio file storage.
 
 **5. GitHub Actions 🚀**
