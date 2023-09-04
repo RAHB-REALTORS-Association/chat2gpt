@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Ubuntu
+title: Ubuntu 🤓
 parent: 👷 Development
 nav_order: 1
 ---

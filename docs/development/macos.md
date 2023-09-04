@@ -1,6 +1,6 @@
 ---
 layout: default
-title: macOS
+title: macOS 🍎
 parent: 👷 Development
 nav_order: 2
 ---
