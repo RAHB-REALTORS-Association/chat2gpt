@@ -17,7 +17,7 @@
   - [macOS 🍎](#macos-)
   - [Android 🤖](#android-)
 - [🧑‍💻 Usage](#-usage)
-  - [Commands ⌨️](#%EF%B8%8F-commands)
+  - [Commands ⌨️](#commands-%EF%B8%8F)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
   - [Data Practices 📝](#data-practices-)
   - [OpenAI and User Awareness ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
@@ -81,7 +81,7 @@ In your GitHub repository:
   - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
   - `ELEVENLABS_API_KEY`: Your ElevenLabs API key. Can be disabled by omitting this secret.
-  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_multilingual_v1".
+  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_multilingual_v2".
   - `GCS_BUCKET_NAME`: Your chosen name for the GCS bucket meant for TTS audio file storage.
 
 **5. GitHub Actions 🚀**
@@ -276,7 +276,7 @@ To run Chat²GPT on an Android device using Termux, follow these steps:
 
 Remember, Chat²GPT is flexible, suitable for deployment on Google Cloud, FaaS (Function as a Service), or PaaS (Platform as a Service) environments, ensuring it's a perfect fit for all your Google Chat endeavors.
 
-### ⌨️ Commands
+### Commands ⌨️
 
 Use the following commands for Chat²GPT:
 
