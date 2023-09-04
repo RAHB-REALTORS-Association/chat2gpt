@@ -5,7 +5,7 @@ parent: 👷 Development
 nav_order: 3
 ---
 
-## Running Chat²GPT on Termux
+## Android 🤖
 
 To run Chat²GPT on an Android device using Termux, follow these steps:
 

@@ -5,7 +5,7 @@ parent: 👷 Development
 nav_order: 2
 ---
 
-## Running Chat²GPT on macOS
+## macOS 🍎
 
 To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow these steps:
 

@@ -5,7 +5,7 @@ parent: 👷 Development
 nav_order: 1
 ---
 
-## Running Chat²GPT on Ubuntu
+## Ubuntu 🤓
 
 To run Chat²GPT on Ubuntu, follow these steps:
 
