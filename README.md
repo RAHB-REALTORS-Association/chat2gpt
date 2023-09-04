@@ -12,6 +12,10 @@
 
 ## 📖 Table of Contents
 - [🛠️ Setup](#%EF%B8%8F-setup)
+- [👷 Development](#-development)
+  - [Ubuntu 🤓](#ubuntu-)
+  - [macOS 🍎](#macos-)
+  - [Android 🤖](#android-)
 - [🧑‍💻 Usage](#-usage)
   - [Commands ⌨️](#%EF%B8%8F-commands)
 - [🛡️ Privacy](#%EF%B8%8F-privacy)
@@ -77,7 +81,7 @@ In your GitHub repository:
   - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
   - `ELEVENLABS_API_KEY`: Your ElevenLabs API key. Can be disabled by omitting this secret.
-  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_monolingual_v1".
+  - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_multilingual_v1".
   - `GCS_BUCKET_NAME`: Your chosen name for the GCS bucket meant for TTS audio file storage.
 
 **5. GitHub Actions 🚀**
@@ -93,6 +97,166 @@ The bot's deployment to Google Cloud Functions and Storage gets automatically ha
 - Click "Save".
 
 Now, your bot can be added to any room within your Google Workspace.
+
+## 👷 Development
+
+The `test_server.py` script included in this repository serves as a lightweight, local development server for Chat²GPT. This enables you to test new features, debug issues, or get a firsthand experience of the chatbot's capabilities without deploying it to a production environment. Running the test server starts a web service that you can access at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+
+### Ubuntu 🤓
+
+To run Chat²GPT on Ubuntu, follow these steps:
+
+1. **Update Packages**
+
+   Open Terminal and update your package list:
+
+   ```bash
+   sudo apt update
+   ```
+
+2. **Install Required Dependencies**
+
+   Install Python and other necessary packages:
+
+   ```bash
+   sudo apt install python3 python3-pip git
+   ```
+
+3. **Clone the Repository**
+
+   Clone the Chat²GPT repository:
+
+   ```bash
+   git clone https://github.com/RAHB-REALTORS-Association/chat2gpt.git
+   ```
+
+   Navigate to the cloned directory:
+
+   ```bash
+   cd chat2gpt
+   ```
+
+4. **Install Python Packages**
+
+   Install the required Python packages:
+
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+5. **Run the Test Server**
+
+   Start the Chat²GPT server:
+
+   ```bash
+   python3 test_server.py
+   ```
+
+   The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+
+### macOS 🍎
+
+To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow these steps:
+
+1. **Install Homebrew**
+
+   If you don't have Homebrew installed, open Terminal and run:
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+2. **Install Python**
+
+   Install Python using Homebrew:
+
+   ```bash
+   brew install python
+   ```
+
+3. **Clone the Repository**
+
+   Clone the Chat²GPT repository:
+
+   ```bash
+   git clone https://github.com/RAHB-REALTORS-Association/chat2gpt.git
+   ```
+
+   Navigate to the cloned directory:
+
+   ```bash
+   cd chat2gpt
+   ```
+
+4. **Install Python Packages**
+
+   Install the required Python packages:
+
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+5. **Run the Test Server**
+
+   Start the Chat²GPT server:
+
+   ```bash
+   python3 test_server.py
+   ```
+
+   The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+
+### Android 🤖
+
+To run Chat²GPT on an Android device using Termux, follow these steps:
+
+1. **Update and Upgrade Termux Packages**
+
+   Open Termux and run the following command to update and upgrade existing packages:
+
+   ```bash
+   pkg upgrade
+   ```
+
+2. **Install Required Dependencies**
+
+   Install the necessary packages like OpenSSL, Python, pip, Git, Rust, and Binutils by executing:
+
+   ```bash
+   pkg install openssl python python-pip git rust binutils
+   ```
+
+3. **Clone the Repository**
+
+   Use the `git` command to clone the Chat²GPT repository to your device:
+
+   ```bash
+   git clone https://github.com/RAHB-REALTORS-Association/chat2gpt.git
+   ```
+
+   Navigate to the cloned directory:
+
+   ```bash
+   cd chat2gpt
+   ```
+
+4. **Install Python Packages**
+
+   Run the following command to install the Python packages required for Chat²GPT:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Run the Test Server**
+
+   Finally, start the Chat²GPT server using the `python` command:
+
+   ```bash
+   python test_server.py
+   ```
+
+   The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
 ## 🧑‍💻 Usage
 
