@@ -1,11 +1,11 @@
 ---
 layout: default
-title: ⌨️ Commands
+title: Commands ⌨️
 parent: 🧑‍💻 Usage
 nav_order: 3
 ---
 
-## ⌨️ Commands
+## Commands ⌨️
 
 Use the following commands for Chat²GPT:
 
