@@ -10,6 +10,8 @@ from utils.misc import generate_unique_card_id, get_docs
 OPENAI_API_KEY = get_env("OPENAI_API_KEY")
 MODEL_NAME = get_env("MODEL_NAME")
 SYSTEM_PROMPT = get_env("SYSTEM_PROMPT")
+PROMPT_PREFIX = get_env("PROMPT_PREFIX")
+PROMPT_SUFFIX = get_env("PROMPT_SUFFIX")
 MAX_TURNS = get_env("MAX_TURNS")
 TTL = get_env("TTL")
 MAX_TOKENS_INPUT = get_env("MAX_TOKENS_INPUT")
@@ -218,7 +220,11 @@ def handle_message(user_id, user_message):
                 turn_count = 0
 
             # Generate the response
-            response = ai_chat(user_message)
+            if API_URL:
+                local_user_message = f"{PROMPT_PREFIX}{user_message}{PROMPT_SUFFIX}"
+                response = ai_chat(local_user_message)
+            else:
+                response = ai_chat(user_message)
 
             # Ensure the response is less than 4096 characters
             if len(response) > 4096:

@@ -11,16 +11,17 @@
 **Chat²GPT** is a [ChatGPT](https://openai.com/chatgpt) chat bot for Google Chat 🤖💬. It's designed to amplify the experience in your Google Chat rooms by offering personalized user sessions for coherent dialogues, a manual reset capability, the power to generate images via OpenAI's [DALL·E 2 API](https://openai.com/dall-e-2), and dynamic interactions through mentions or direct messaging. Moreover, with the integration of ElevenLabs' [Text-to-Speech API](https://docs.elevenlabs.io/api-reference/text-to-speech), Chat²GPT now brings voice interactions, letting users convert textual prompts into audio. User input and text output is moderated with OpenAI's [Moderation API](https://platform.openai.com/docs/guides/moderation).
 
 ## 📖 Table of Contents
-- [🛠️ Setup](#%EF%B8%8F-setup)
+- [📖 Table of Contents](#-table-of-contents)
+- [🛠️ Setup](#️-setup)
 - [👷 Development](#-development)
   - [Ubuntu 🤓](#ubuntu-)
   - [macOS 🍎](#macos-)
   - [Android 🤖](#android-)
 - [🧑‍💻 Usage](#-usage)
-  - [Commands ⌨️](#commands-%EF%B8%8F)
-- [🛡️ Privacy](#%EF%B8%8F-privacy)
+  - [Commands ⌨️](#commands-️)
+- [🛡️ Privacy](#️-privacy)
   - [Data Practices 📝](#data-practices-)
-  - [OpenAI and User Awareness ℹ️](#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
+- [AI APIs and User Awareness ℹ️](#ai-apis-and-user-awareness-ℹ️)
 - [🌐 Community](#-community)
   - [Contributing 👥🤝](#contributing-)
   - [Reporting Bugs 🐛📝](#reporting-bugs-)
@@ -72,7 +73,9 @@ In your GitHub repository:
   - `GCP_SA_KEY`: The entire JSON key file content that was downloaded in the previous step, encoded as base64.
   - `OPENAI_API_KEY`: Your OpenAI API key.
   - `MODEL_NAME`: The name of the OpenAI model you're using. Default: "gpt-3.5-turbo".
-  - `SYSTEM_PROMPT`: The system prompt to use for the OpenAI API.
+  - `SYSTEM_PROMPT`: The system prompt to use for the text-generation API.
+  - `PROMPT_PREFIX`: Prefix added to beginning of user prompt for local model API. Default: LLaMa2 style.
+  - `PROMPT_SUFFIX`: Suffix added to ending of user prompt for local model API. Default: LLaMa2 style.
   - `MAX_TURNS`: This sets the maximum number of exchanges the bot remembers in a user session before resetting. Default: 10 exchanges.
   - `TTL`: This sets the duration (in seconds) a user session stays active from the last received message before it resets. Default: 600 seconds (10 minutes).
   - `MAX_TOKENS_INPUT`: This sets the maximum number of tokens that can be sent. Default: 1000 tokens.
