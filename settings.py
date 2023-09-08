@@ -17,6 +17,18 @@ SETTINGS = {
         "type": str,
         "description": "Prompt to set the behavior of the assistant."
     },
+    "PROMPT_PREFIX": {
+        "default": "[INST]",
+        "required": False,
+        "type": str,
+        "description": "Prefix added to beginning of user prompt for local model API. Default: LLaMa2"
+    },
+    "PROMPT_SUFFIX": {
+        "default": "[/INST]",
+        "required": False,
+        "type": str,
+        "description": "Suffix added to ending of user prompt for local model API. Default: LLaMa2"
+    },
     "MAX_TURNS": {
         "default": 10,
         "required": False,
