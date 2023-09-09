@@ -12,13 +12,13 @@ def root():
 def google_chat_event():
     try:
         # Log the raw request data for debugging
-        print("Raw Request Data:", request.data)
+        print("Request Data:", request.data)
 
         # Get the event data from the request body
         response = process_event(request)
 
         # Log the raw request data for debugging
-        print("Raw Response Data:", json.dumps(response.get_json(), indent=4))
+        print("Response Data:", json.dumps(response.get_json(), indent=4))
 
         return response
     except Exception as e:
