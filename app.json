@@ -1,0 +1,5 @@
+{
+    "name": "Chat2GPT Bot",
+    "description": "A chatbot that uses OpenAI API to generate responses to messages.",
+    "repository": "https://github.com/RAHB-REALTORS-Association/chat2gpt"
+}
