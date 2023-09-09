@@ -55,4 +55,4 @@ To run Chat²GPT on Ubuntu, follow these steps:
    python3 server.py
    ```
 
-   The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).

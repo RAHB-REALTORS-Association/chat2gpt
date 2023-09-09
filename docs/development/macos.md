@@ -55,4 +55,4 @@ To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow 
    python3 server.py
    ```
 
-   The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
