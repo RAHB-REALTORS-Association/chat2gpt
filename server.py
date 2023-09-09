@@ -3,16 +3,18 @@ from main import process_event
 import json
 import logging
 
-LOG_FILE = "chat2gpt-server-log.txt"
+LOG_FILE = "chat2gpt-server-log.txt"  # Set to None or an empty string to disable
 
+# Basic logging setup for console
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] - %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_FILE),
-        logging.StreamHandler()
-    ]
+    handlers=[logging.StreamHandler()]
 )
+
+# If LOG_FILE is set, add FileHandler
+if LOG_FILE:
+    logging.getLogger().addHandler(logging.FileHandler(LOG_FILE))
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
