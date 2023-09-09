@@ -1,0 +1,50 @@
+name: Docker Image
+
+on:
+  push:
+    branches: ['master']
+  create:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: rahb-realtors-association/chat2gpt
+
+jobs:
+  build-and-push-image:
+    # The job runs if the event was a push to master or a created tag.
+    if: github.event_name == 'push' || (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Use the Git reference (branch or tag) as the Docker tag.
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=sha,format=long
+            type=raw,value=latest,enable=${{ github.event_name == 'push' }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
