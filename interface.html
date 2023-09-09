@@ -18,7 +18,7 @@
             white-space: -o-pre-wrap;
             word-wrap: break-word;
         }
-    </style>   
+    </style>
 </head>
 <body class="container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -32,8 +32,8 @@
     <form id="userForm" class="mt-4">
         <h4>Request:</h4>
         <div class="mb-3">
-            <h6>Enter your message or <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/help.html" title="/reset&#10;&#10;/image &lt;prompt&gt;&#10;&#10;/voices&#10;&#10;/tts &lt;voice&gt; &lt;prompt&gt;&#10;&#10;/help" target="_blank" rel="noopener noreferrer">command</a>:</h6>
             <textarea id="userInput" name="userInput" class="form-control" rows="4" required></textarea>
+            <span>&nbsp;Enter your message or <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal">command</a>.</span>
         </div>
         <button type="submit" class="btn btn-primary" id="submitButton">
             <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
@@ -59,6 +59,32 @@
                     <!-- Raw markdown content goes here -->
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Commands ⌨️</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Use the following commands for Chat²GPT:</p>
+                <ul>
+                <li><code>/reset</code>: Reinitialize your session.</li>
+                <li><code>/image &lt;prompt&gt;</code>: Generate an image using OpenAI's DALL·E 2 API.</li>
+                <li><code>/tts &lt;voice&gt; &lt;prompt&gt;</code>: Get a voice response with ElevenLabs' TTS API.</li>
+                <li><code>/voices</code>: View available voices for TTS.</li>
+                <li><code>/help</code>: Access accurate, up-to-date information from the docs.</li>
+                </ul>
+                <p>For more details, visit <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/">Usage</a>.</p>
+                <p>For privacy information, see <a href="https://rahb-realtors-association.github.io/chat2gpt/privacy.html">Privacy</a>.</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
         </div>
     </div>
     <script src="client.js"></script>
