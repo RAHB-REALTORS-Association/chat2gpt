@@ -161,6 +161,7 @@ cython_debug/
 
 .DS_Store
 .env
+chat2gpt-server-log.txt
 
 # Docs site
 _site/
