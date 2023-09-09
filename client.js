@@ -26,7 +26,7 @@ $("#userForm").submit(function(e) {
         error: function(error) {
             // Handle the error
             $("#formatted").html(error);
-            $("#raw").html("<pre>" + JSON.stringify(error, null, 2) + "</pre>");
+            $("#raw").html('<span style="color: red;"><pre>' + JSON.stringify(error, null, 2) + '</pre></span>');
         },
         complete: function() {
             // Hide spinner and re-enable button
