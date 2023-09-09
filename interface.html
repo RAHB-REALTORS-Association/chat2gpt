@@ -35,7 +35,10 @@
             <h6>Enter your message or <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/help.html" title="/reset&#10;&#10;/image &lt;prompt&gt;&#10;&#10;/voices&#10;&#10;/tts &lt;voice&gt; &lt;prompt&gt;&#10;&#10;/help" target="_blank" rel="noopener noreferrer">command</a>:</h6>
             <textarea id="userInput" name="userInput" class="form-control" rows="4" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary" id="submitButton">
+            <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+            Send
+        </button>        
     </form>
     <div id="responseContainer" class="mt-4">
         <h4>Response:</h4> 
