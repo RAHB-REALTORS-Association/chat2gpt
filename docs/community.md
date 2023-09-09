@@ -6,7 +6,7 @@ nav_order: 5
 
 # 🌐 Community
 
-## Contributing 👥🤝
+## Contributing 👥
 
 Contributions of any kind are very welcome, and would be much appreciated. 🙏
 For Code of Conduct, see [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
@@ -15,7 +15,7 @@ To get started, fork the repo, make your changes, add, commit and push the code,
 
 [![Submit a PR](https://img.shields.io/badge/Submit_a_PR-GitHub-%23060606?style=for-the-badge&logo=github&logoColor=fff)](https://github.com/RAHB-REALTORS-Association/chat2gpt/compare)
 
-## Reporting Bugs 🐛📝
+## Reporting Bugs 🐛
 
 If you've found something that doesn't work as it should, or would like to suggest a new feature, then go ahead and raise an issue on GitHub.
 For bugs, please outline the steps needed to reproduce, and include relevant info like system info and resulting logs.

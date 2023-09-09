@@ -13,6 +13,7 @@ nav_order: 0
 ## 📖 Table of Contents
 - [🛠️ Setup](setup.html)
 - [👷 Development](development/)
+  - [Docker 🐳](development/docker.html)
   - [Ubuntu 🤓](development/ubuntu.html)
   - [macOS 🍎](development/macos.html)
   - [Android 🤖](development/termux.html)
