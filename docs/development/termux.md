@@ -47,12 +47,12 @@ To run Chat²GPT on an Android device using Termux, follow these steps:
    pip install -r requirements.txt
    ```
 
-5. **Run the Test Server**
+5. **Run the Server**
 
    Finally, start the Chat²GPT server using the `python` command:
 
    ```bash
-   python test_server.py
+   python server.py
    ```
 
    The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).

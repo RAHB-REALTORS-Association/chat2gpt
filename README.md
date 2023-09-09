@@ -23,8 +23,8 @@
   - [Data Practices 📝](#data-practices-)
 - [AI APIs and User Awareness ℹ️](#ai-apis-and-user-awareness-ℹ️)
 - [🌐 Community](#-community)
-  - [Contributing 👥🤝](#contributing-)
-  - [Reporting Bugs 🐛📝](#reporting-bugs-)
+  - [Contributing 👥](#contributing-)
+  - [Reporting Bugs 🐛](#reporting-bugs-)
 - [📄 License](#-license)
 
 ## 🛠️ Setup
@@ -103,7 +103,7 @@ Now, your bot can be added to any room within your Google Workspace.
 
 ## 👷 Development
 
-The `test_server.py` script included in this repository serves as a lightweight, local development server for Chat²GPT. This enables you to test new features, debug issues, or get a firsthand experience of the chatbot's capabilities without deploying it to a production environment. Running the test server starts a web service that you can access at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+The `server.py` script included in this repository serves as a lightweight, local development server for Chat²GPT. This enables you to test new features, debug issues, or get a firsthand experience of the chatbot's capabilities without deploying it to a production environment. Running the server starts a web service that you can access at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
 ### Ubuntu 🤓
 
@@ -147,12 +147,12 @@ To run Chat²GPT on Ubuntu, follow these steps:
    pip3 install -r requirements.txt
    ```
 
-5. **Run the Test Server**
+5. **Run the Server**
 
    Start the Chat²GPT server:
 
    ```bash
-   python3 test_server.py
+   python3 server.py
    ```
 
    The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
@@ -199,12 +199,12 @@ To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow 
    pip3 install -r requirements.txt
    ```
 
-5. **Run the Test Server**
+5. **Run the Server**
 
    Start the Chat²GPT server:
 
    ```bash
-   python3 test_server.py
+   python3 server.py
    ```
 
    The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
@@ -251,12 +251,12 @@ To run Chat²GPT on an Android device using Termux, follow these steps:
    pip install -r requirements.txt
    ```
 
-5. **Run the Test Server**
+5. **Run the Server**
 
    Finally, start the Chat²GPT server using the `python` command:
 
    ```bash
-   python test_server.py
+   python server.py
    ```
 
    The server should start successfully and can be accessed at [http://127.0.0.1:5000](http://127.0.0.1:5000).
@@ -311,7 +311,7 @@ Use the following commands for Chat²GPT:
 
 ## 🌐 Community
 
-### Contributing 👥🤝
+### Contributing 👥
 
 Contributions of any kind are very welcome, and would be much appreciated. 🙏
 For Code of Conduct, see [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
@@ -320,7 +320,7 @@ To get started, fork the repo, make your changes, add, commit and push the code,
 
 [![Submit a PR](https://img.shields.io/badge/Submit_a_PR-GitHub-%23060606?style=for-the-badge&logo=github&logoColor=fff)](https://github.com/RAHB-REALTORS-Association/chat2gpt/compare)
 
-### Reporting Bugs 🐛📝
+### Reporting Bugs 🐛
 
 If you've found something that doesn't work as it should, or would like to suggest a new feature, then go ahead and raise an issue on GitHub.
 For bugs, please outline the steps needed to reproduce, and include relevant info like system info and resulting logs.
