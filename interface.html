@@ -30,6 +30,7 @@
         </div>
     </div>
     <form id="userForm" class="mt-4">
+        <h4>Request:</h4>
         <div class="mb-3">
             <h6>Enter your message or <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/help.html" title="/reset&#10;&#10;/image &lt;prompt&gt;&#10;&#10;/voices&#10;&#10;/tts &lt;voice&gt; &lt;prompt&gt;&#10;&#10;/help" target="_blank" rel="noopener noreferrer">command</a>:</h6>
             <textarea id="userInput" name="userInput" class="form-control" rows="4" required></textarea>
@@ -41,13 +42,13 @@
         <div class="container mt-4">
             <ul class="nav nav-tabs" id="responseTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="formatted-tab" data-bs-toggle="tab" href="#formatted" role="tab" aria-controls="formatted" aria-selected="true">Formatted</a>
+                    <a class="nav-link active" id="formatted-tab" data-bs-toggle="tab" href="#formatted" role="tab" aria-controls="formatted" aria-selected="true">Formatted 📄</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="raw-tab" data-bs-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">Raw</a>
+                    <a class="nav-link" id="raw-tab" data-bs-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">JSON ⚙️</a>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="responseTabContent">
                 <div class="tab-pane fade show active" id="formatted" role="tabpanel" aria-labelledby="formatted-tab">
                     <!-- Formatted markdown content goes here -->
                 </div>
@@ -57,6 +58,6 @@
             </div>
         </div>
     </div>
-    <script src="test_client.js"></script>
+    <script src="client.js"></script>
 </body>
 </html>

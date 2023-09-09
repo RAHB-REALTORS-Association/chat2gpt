@@ -22,6 +22,6 @@ nav_order: 0
   - [Data Practices 📝](privacy.html#data-practices-)
   - [OpenAI and User Awareness ℹ️](privacy.html#openai-and-user-awareness-%E2%84%B9%EF%B8%8F)
 - [🌐 Community](community.html)
-  - [Contributing 👥🤝](community.html#Contributing-)
-  - [Reporting Bugs 🐛📝](community.html#reporting-bugs-)
+  - [Contributing 👥](community.html#Contributing-)
+  - [Reporting Bugs 🐛](community.html#reporting-bugs-)
 - [📄 License](license.html)

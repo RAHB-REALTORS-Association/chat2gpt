@@ -7,7 +7,7 @@ $("#userForm").submit(function(e) {
         "message": { "text": userInput }
     };
     $.ajax({
-        url: "/post",
+        url: "/api",
         type: "POST",
         data: JSON.stringify(wrappedEventData),
         contentType: "application/json",
@@ -20,7 +20,8 @@ $("#userForm").submit(function(e) {
         },              
         error: function(error) {
             // Handle the error
-            $("#responseContainer").html("<h6>Response:</h6><pre>" + JSON.stringify(error, null, 2) + "</pre>");
+            $("#formatted").html(error);
+            $("#raw").html("<pre>" + JSON.stringify(error, null, 2) + "</pre>");
         }
     });
 });
