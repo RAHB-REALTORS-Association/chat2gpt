@@ -13,8 +13,11 @@ $("#userForm").submit(function(e) {
         contentType: "application/json",
         success: function(response) {
             // Handle the response
-            $("#responseContainer").html("<h6>Response:</h6><pre>" + JSON.stringify(response, null, 2) + "</pre>");
-        },
+            const markdownText = response.text;
+            const htmlFormattedText = marked.parse(markdownText);
+            $("#formatted").html(htmlFormattedText);
+            $("#raw").html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+        },              
         error: function(error) {
             // Handle the error
             $("#responseContainer").html("<h6>Response:</h6><pre>" + JSON.stringify(error, null, 2) + "</pre>");
