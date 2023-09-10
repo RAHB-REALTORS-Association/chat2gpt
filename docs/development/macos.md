@@ -7,7 +7,7 @@ nav_order: 2
 
 ## macOS 🍎
 
-To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow these steps:
+To run Chat²GPT on macOS, you can use [Homebrew](https://brew.sh/) to manage your packages. Follow these steps:
 
 1. **Install Homebrew**
 

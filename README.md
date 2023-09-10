@@ -199,7 +199,7 @@ The server should start successfully and can be accessed at [http://127.0.0.1:50
 
 ### macOS 🍎
 
-To run Chat²GPT on macOS, you can use Homebrew to manage your packages. Follow these steps:
+To run Chat²GPT on macOS, you can use [Homebrew](https://brew.sh/) to manage your packages. Follow these steps:
 
 1. **Install Homebrew**
 
@@ -251,7 +251,7 @@ The server should start successfully and can be accessed at [http://127.0.0.1:50
 
 ### Android 🤖
 
-To run Chat²GPT on an Android device using Termux, follow these steps:
+To run Chat²GPT on an Android device using [Termux](https://termux.dev/en/), follow these steps:
 
 1. **Update and Upgrade Termux Packages**
 

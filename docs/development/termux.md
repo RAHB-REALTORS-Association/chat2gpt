@@ -7,7 +7,7 @@ nav_order: 3
 
 ## Android 🤖
 
-To run Chat²GPT on an Android device using Termux, follow these steps:
+To run Chat²GPT on an Android device using [Termux](https://termux.dev/en/), follow these steps:
 
 1. **Update and Upgrade Termux Packages**
 
