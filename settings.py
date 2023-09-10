@@ -102,7 +102,7 @@ SETTINGS = {
         "description": "Enable debugging for server."
     },
     "HOST": {
-        "default": "127.0.0.1",
+        "default": "0.0.0.0",
         "required": False,
         "type": str,
         "description": "Server host."
