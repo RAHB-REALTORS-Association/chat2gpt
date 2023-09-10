@@ -14,5 +14,5 @@ The following are only applicable if using the `server.py` script or Docker:
 - Additional environment variables:
   - `LOG_FILE`: Path to save server log file to. Default: None (disabled)
   - `DEBUG`: [True/False] Enable Flask server debugging. Default: False
-  - `HOST`: Interfaces to bind server to. Default: 127.0.0.1
+  - `HOST`: Interfaces to bind server to. Default: "0.0.0.0"
   - `PORT`: Port to bind server to. Default 5000
