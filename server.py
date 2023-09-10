@@ -1,9 +1,13 @@
-from flask import Flask, request, jsonify, send_from_directory
-from main import process_event
 import json
 import logging
+from flask import Flask, request, jsonify, send_from_directory
+from env_loader import get_env
+from main import process_event
 
-LOG_FILE = "chat2gpt-server-log.txt"  # Set to None or an empty string to disable
+LOG_FILE = get_env("LOG_FILE")
+DEBUG = get_env("DEBUG")
+HOST = get_env("HOST")
+PORT = get_env("PORT")
 
 # Basic logging setup for console
 logging.basicConfig(
@@ -40,4 +44,4 @@ def google_chat_event():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host=HOST, port=PORT, debug=DEBUG)

@@ -88,5 +88,29 @@ SETTINGS = {
         "required": False,
         "type": str,
         "description": "Name of the Google Cloud Storage bucket."
+    },
+    "LOG_FILE": {
+        "default": None,
+        "required": False,
+        "type": str,
+        "description": "Path to save server log file. Disabled if none."
+    },
+    "DEBUG": {
+        "default": False,
+        "required": False,
+        "type": bool,
+        "description": "Enable debugging for server."
+    },
+    "HOST": {
+        "default": "0.0.0.0",
+        "required": False,
+        "type": str,
+        "description": "Server host."
+    },
+    "PORT": {
+        "default": 5000,
+        "required": False,
+        "type": int,
+        "description": "Server port."
     }
 }
