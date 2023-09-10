@@ -22,7 +22,7 @@ docker run -d -e OPENAI_API_KEY=sk-myopenaisecretapikey -p 5000:5000 --name chat
 **Volume Mapping**: To load from .env file or persist logs, use volume mapping:
 
 ```bash
-docker run -d -v ./.env:/app/.env -v ./chat2gpt-server-log.txt:/app/chat2gpt-server-log.txt -e LOG_FILE=chat2gpt-server-log.txt -p 5000:5000 ghcr.io/rahb-realtors-assocaition/chat2gpt:latest
+docker run -d -v ./.env:/app/.env -v ./server-log.txt:/app/server-log.txt -e LOG_FILE=server-log.txt -p 5000:5000 ghcr.io/rahb-realtors-assocaition/chat2gpt:latest
 ```
 
 **Host Networking**: To access an API_URL running on the Docker host:
