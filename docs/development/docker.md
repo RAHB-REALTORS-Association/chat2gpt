@@ -19,13 +19,13 @@ To quickly set up and run the Chat²GPT application, you can use the pre-built D
   
 2. **Additional Options**
 
-   **Volume Mapping**: To load from .env file or persist logs, use volume mapping:
+   To load from .env file or persist logs, use volume mapping:
 
    ```bash
    docker run -d -v ./.env:/app/.env -v ./server-log.txt:/app/server-log.txt -e LOG_FILE=server-log.txt -p 5000:5000 ghcr.io/rahb-realtors-association/chat2gpt:latest
    ```
 
-   **Host Networking**: To access an API_URL running on the Docker host:
+   To access an API_URL running on the Docker host, use host networking:
 
    ```bash
    docker run -d -e API_URL=http://127.0.0.1:1234/v1/chat/completions --network host --name chat2gpt ghcr.io/rahb-realtors-association/chat2gpt:latest
