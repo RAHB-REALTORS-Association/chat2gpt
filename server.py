@@ -29,7 +29,7 @@ def root():
     return send_from_directory('static', 'interface.html')
 
 @app.route('/api', methods=['POST'])
-def google_chat_event():
+def handle_request():
     try:
         # Log the raw request data for debugging
         logging.info("Request Data: %s", request.data)
