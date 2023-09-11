@@ -20,7 +20,10 @@ logging.basicConfig(
 
 # If LOG_FILE is set, add FileHandler
 if LOG_FILE:
-    logging.getLogger().addHandler(logging.FileHandler(LOG_FILE))
+    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler.setLevel(log_level)
+    file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] - %(message)s"))
+    logging.getLogger().addHandler(file_handler)
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
