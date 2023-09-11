@@ -19,11 +19,11 @@ logging.basicConfig(
 if LOG_FILE:
     logging.getLogger().addHandler(logging.FileHandler(LOG_FILE))
 
-app = Flask(__name__, static_url_path='', static_folder='.')
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/')
 def root():
-    return send_from_directory('.', 'interface.html')
+    return send_from_directory('static', 'interface.html')
 
 @app.route('/api', methods=['POST'])
 def google_chat_event():
