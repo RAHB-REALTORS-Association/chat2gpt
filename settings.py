@@ -95,11 +95,11 @@ SETTINGS = {
         "type": str,
         "description": "Path to save server log file. Disabled if none."
     },
-    "DEBUG": {
-        "default": False,
+    "LOG_LEVEL": {
+        "default": "INFO",
         "required": False,
-        "type": bool,
-        "description": "Enable debugging for server."
+        "type": str,
+        "description": "Enable debugging for server by setting to 'DEBUG'"
     },
     "HOST": {
         "default": "0.0.0.0",

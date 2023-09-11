@@ -5,28 +5,34 @@ from env_loader import get_env
 from main import process_event
 
 LOG_FILE = get_env("LOG_FILE")
+LOG_LEVEL = get_env("LOG_LEVEL").upper()
 HOST = get_env("HOST")
 PORT = get_env("PORT")
 
+log_level = getattr(logging, LOG_LEVEL, logging.INFO)
+
 # Basic logging setup for console
 logging.basicConfig(
-    level=logging.INFO,
+    level=log_level,
     format="%(asctime)s [%(levelname)s] - %(message)s",
     handlers=[logging.StreamHandler()]
 )
 
 # If LOG_FILE is set, add FileHandler
 if LOG_FILE:
-    logging.getLogger().addHandler(logging.FileHandler(LOG_FILE))
+    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler.setLevel(log_level)
+    file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] - %(message)s"))
+    logging.getLogger().addHandler(file_handler)
 
-app = Flask(__name__, static_url_path='', static_folder='.')
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/')
 def root():
-    return send_from_directory('.', 'interface.html')
+    return send_from_directory('static', 'interface.html')
 
 @app.route('/api', methods=['POST'])
-def google_chat_event():
+def handle_request():
     try:
         # Log the raw request data for debugging
         logging.info("Request Data: %s", request.data)
@@ -43,4 +49,7 @@ def google_chat_event():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host=HOST, port=PORT)
+    if LOG_LEVEL == "DEBUG":
+        app.run(host=HOST, port=PORT, debug=True)
+    else:
+        app.run(host=HOST, port=PORT)
