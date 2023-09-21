@@ -3,6 +3,6 @@ flask==2.3.3
 requests==2.31.0
 simpleaichat==0.2.2
 openai==0.28.0
-tiktoken==0.4.0
+tiktoken==0.5.1
 google-cloud-storage==2.10.0
 google-auth==2.23.0
