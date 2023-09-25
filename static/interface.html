@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
@@ -14,6 +15,7 @@
         #responseContainer {
             overflow-y: auto;
         }
+
         #responseContainer pre {
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;
@@ -21,11 +23,13 @@
             white-space: -o-pre-wrap;
             word-wrap: break-word;
         }
+
         #responseTabContent {
             padding-top: 10px;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -41,12 +45,14 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="https://rahb-realtors-association.github.io/chat2gpt" target="_blank" rel="noopener noreferrer">
+                        <a class="nav-link" href="https://rahb-realtors-association.github.io/chat2gpt" target="_blank"
+                            rel="noopener noreferrer">
                             <span aria-hidden="true" class="fas fa-book"></span> Docs
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/RAHB-REALTORS-Association/chat2gpt" target="_blank" rel="noopener noreferrer">
+                        <a class="nav-link" href="https://github.com/RAHB-REALTORS-Association/chat2gpt" target="_blank"
+                            rel="noopener noreferrer">
                             <span aria-hidden="true" class="fab fa-github"></span> GitHub
                         </a>
                     </li>
@@ -56,33 +62,43 @@
     </nav>
     <div class="container">
         <div class="container bg-light p-5 my-3 rounded text-center">
-            <h1 class="display-4">🤖💬</h1>
+            <img class="mb-2" width="92px" alt="🤖💬" 
+                src="https://raw.githubusercontent.com/RAHB-REALTORS-Association/chat2gpt/master/docs/chat2gpt.png" />
             <p class="lead">Chat²GPT is a ChatGPT (and DALL·E 2, and ElevenLabs) chat bot for Google Chat.</p>
         </div>
         <form id="userForm" class="mt-4">
             <h4>Request:</h4>
             <div class="mb-3">
                 <textarea id="userInput" name="userInput" class="form-control" rows="4" required></textarea>
-                <span>&nbsp;Enter your message or <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal">command</a>.</span>
+                <div class="mt-3 d-flex align-items-center justify-content-between">
+                    <div class="mb-4">
+                        <span>&nbsp;Enter your message or <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#helpModal">command</a>.</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitButton">
+                        <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            style="display:none;"></span>
+                        Send <i class="fas fa-paper-plane" id="sendIcon"></i>
+                    </button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">
-                <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
-                Send <i class="fas fa-paper-plane" id="sendIcon"></i>
-            </button>        
         </form>
         <div id="responseContainer" class="mt-4">
-            <h4>Response:</h4> 
+            <h4>Response:</h4>
             <div class="container mt-4">
                 <ul class="nav nav-tabs" id="responseTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="formatted-tab" data-bs-toggle="tab" href="#formatted" role="tab" aria-controls="formatted" aria-selected="true">Formatted 📄</a>
+                        <a class="nav-link active" id="formatted-tab" data-bs-toggle="tab" href="#formatted" role="tab"
+                            aria-controls="formatted" aria-selected="true">Formatted 📄</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="raw-tab" data-bs-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">JSON ⚙️</a>
+                        <a class="nav-link" id="raw-tab" data-bs-toggle="tab" href="#raw" role="tab" aria-controls="raw"
+                            aria-selected="false">JSON ⚙️</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="responseTabContent">
-                    <div class="tab-pane fade show active" id="formatted" role="tabpanel" aria-labelledby="formatted-tab">
+                    <div class="tab-pane fade show active" id="formatted" role="tabpanel"
+                        aria-labelledby="formatted-tab">
                         <!-- Formatted markdown content goes here -->
                     </div>
                     <div class="tab-pane fade" id="raw" role="tabpanel" aria-labelledby="raw-tab">
@@ -95,28 +111,31 @@
     <!-- Help Modal -->
     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="helpModalLabel">Commands ⌨️</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Commands ⌨️</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Use the following commands for Chat²GPT:</p>
+                    <ul>
+                        <li><code>/reset</code>: Reinitialize your session.</li>
+                        <li><code>/image &lt;prompt&gt;</code>: Generate an image using OpenAI's DALL·E 2 API.</li>
+                        <li><code>/tts &lt;voice&gt; &lt;prompt&gt;</code>: Get a voice response with ElevenLabs' TTS
+                            API.</li>
+                        <li><code>/voices</code>: View available voices for TTS.</li>
+                        <li><code>/help</code>: Access accurate, up-to-date information from the docs.</li>
+                    </ul>
+                    <p>For more details, visit <a
+                            href="https://rahb-realtors-association.github.io/chat2gpt/usage/">Usage</a>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Use the following commands for Chat²GPT:</p>
-                <ul>
-                    <li><code>/reset</code>: Reinitialize your session.</li>
-                    <li><code>/image &lt;prompt&gt;</code>: Generate an image using OpenAI's DALL·E 2 API.</li>
-                    <li><code>/tts &lt;voice&gt; &lt;prompt&gt;</code>: Get a voice response with ElevenLabs' TTS API.</li>
-                    <li><code>/voices</code>: View available voices for TTS.</li>
-                    <li><code>/help</code>: Access accurate, up-to-date information from the docs.</li>
-                </ul>
-                <p>For more details, visit <a href="https://rahb-realtors-association.github.io/chat2gpt/usage/">Usage</a>.</p>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
         </div>
     </div>
     <script src="client.js"></script>
 </body>
+
 </html>
