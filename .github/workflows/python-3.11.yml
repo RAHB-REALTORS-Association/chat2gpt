@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -35,14 +35,14 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-#  dependabot:
-#    name: 'Dependabot'
-#    needs: build
-#    runs-on: ubuntu-latest
-#    if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}}
-#    steps:
-#      - name: Enable auto-merge for Dependabot PRs
-#        run: gh pr merge --auto --merge "$PR_URL"
-#        env:
-#          PR_URL: ${{github.event.pull_request.html_url}}
-#          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  dependabot:
+    name: 'Dependabot'
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}}
+    steps:
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
