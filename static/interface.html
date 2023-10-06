@@ -12,10 +12,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <style>
+        a.navbar-brand::after {
+            content: ' TEST';
+            color:orangered;
+            font-size: 14px;
+            vertical-align:top;
+        }
         #responseContainer {
             overflow-y: auto;
         }
-
         #responseContainer pre {
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;
@@ -23,7 +28,6 @@
             white-space: -o-pre-wrap;
             word-wrap: break-word;
         }
-
         #responseTabContent {
             padding-top: 10px;
         }
