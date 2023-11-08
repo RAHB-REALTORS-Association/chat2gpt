@@ -60,10 +60,28 @@ SETTINGS = {
         "description": "Temperature parameter for randomness in generation."
     },
     "IMAGE_SIZE": {
-        "default": "512x512",
+        "default": "1024x1024",
         "required": False,
         "type": str,
         "description": "Size of the images."
+    },
+    "IMAGE_STYLE": {
+        "default": "natural",
+        "required": False,
+        "type": str,
+        "description": "Style of the images."
+    },
+    "IMAGE_QUALITY": {
+        "default": "standard",
+        "required": False,
+        "type": str,
+        "description": "Quality of the images."
+    },
+    "DALLE_MODEL": {
+        "default": "dall-e-2",
+        "required": False,
+        "type": str,
+        "description": "DALL-E model to use."
     },
     "API_URL": {
         "default": None,
