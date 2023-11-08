@@ -18,6 +18,9 @@ MAX_TOKENS_INPUT = get_env("MAX_TOKENS_INPUT")
 MAX_TOKENS_OUTPUT = get_env("MAX_TOKENS_OUTPUT")
 TEMPERATURE = get_env("TEMPERATURE")
 IMAGE_SIZE = get_env("IMAGE_SIZE")
+IMAGE_STYLE = get_env("IMAGE_STYLE")
+IMAGE_QUALITY = get_env("IMAGE_QUALITY")
+DALLE_MODEL = get_env("DALLE_MODEL")
 API_URL = get_env("API_URL")
 ELEVENLABS_API_KEY = get_env("ELEVENLABS_API_KEY")
 
@@ -88,8 +91,20 @@ def handle_message(user_id, user_message):
             if not prompt:
                 return jsonify({'text': 'Please provide a prompt for the image generation. Example: `/image sunset over a beach`.'})
             
+            model = DALLE_MODEL
+            style = IMAGE_STYLE
+            quality = IMAGE_QUALITY
+
             try:
-                image_resp = generate_image(prompt, n=1, size=IMAGE_SIZE)
+                image_resp = generate_image(
+                    prompt=prompt,
+                    n=1,
+                    size=IMAGE_SIZE,
+                    model=model,
+                    style=style,
+                    quality=quality,
+                    user=user_id
+                )
                 image_url = image_resp["data"][0]["url"]
                 return jsonify({
                     'text': 'Processing your image request...',

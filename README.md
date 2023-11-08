@@ -82,7 +82,10 @@ In your GitHub repository:
   - `MAX_TOKENS_INPUT`: This sets the maximum number of tokens that can be sent. Default: 1000 tokens.
   - `MAX_TOKENS_OUTPUT`: This sets the maximum number of tokens that can be received. Default: 1000 tokens.
   - `TEMPERATURE`: This sets the temperature for the OpenAI API. Default: 0.8.
-  - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "512x512".
+  - `IMAGE_SIZE`: This sets the image size for the DALL-E API. Default: "1024x1024".
+  - `IMAGE_STYLE`: This sets the image style for the DALL-E API. Must choose between "natural", or "vivid". Default: "natural".
+  - `IMAGE_QUALITY`: This sets the image quality for the DALL-E API, can be "standard" or "hd". Default: "standard".
+  - `DALLE_MODEL`: This sets the DALL-E model for the DALL-E API. Must choose between "dall-e-2" or "dall-e-3". Default: "dall-e-2".
   - `API_URL`: This sets the API endpoint for the chat completions API. Default: "https://api.openai.com/v1/chat/completions".
   - `ELEVENLABS_API_KEY`: Your ElevenLabs API key. Can be disabled by omitting this secret.
   - `ELEVENLABS_MODEL_NAME`: ElevenLabs model you're using. Default: "eleven_multilingual_v2".
