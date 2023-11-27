@@ -12,3 +12,5 @@ updates:
     ignore:
       - dependency-name: "flask"
         versions: [">=3.0.0"]
+      - dependency-name: "openai"
+        versions: [">=2.0.0"]
