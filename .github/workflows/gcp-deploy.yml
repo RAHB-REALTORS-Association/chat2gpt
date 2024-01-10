@@ -43,14 +43,13 @@ jobs:
           
       - run: |
           GCR_IMAGE_URL="gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_FUNCTION }}"
-          gcloud functions deploy ${{ secrets.GCP_FUNCTION }} \\
-            --runtime python311 \\
-            --memory 512MB \\
-            --timeout 120s \\
-            --trigger-http \\
-            --allow-unauthenticated \\
-            --entry-point process_event \\
-            --region ${{ secrets.GCP_REGION }} \\
-            --set-env-vars GCP_SA_KEY=${{ secrets.GCP_SA_KEY }},GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }},OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}",MAX_TURNS="${{ secrets.MAX_TURNS }}",TTL="${{ secrets.TTL }}",MAX_TOKENS_INPUT="${{ secrets.MAX_TOKENS_INPUT }}",MAX_TOKENS_OUTPUT="${{ secrets.MAX_TOKENS_OUTPUT }}",TEMPERATURE="${{ secrets.TEMPERATURE }}",IMAGE_SIZE="${{ secrets.IMAGE_SIZE }}",IMAGE_STYLE="${{ secrets.IMAGE_STYLE}}",IMAGE_QUALITY="${{ secrets.IMAGE_QUALITY }}",DALLE_MODEL="${{ secrets.DALLE_MODEL }}",ELEVENLABS_API_KEY="${{ secrets.ELEVENLABS_API_KEY }}",ELEVENLABS_MODEL_NAME="${{ secrets.ELEVENLABS_MODEL_NAME }}" \\
+          gcloud functions deploy ${{ secrets.GCP_FUNCTION }} \
+            --runtime python311 \
+            --memory 512MB \
+            --timeout 120s \
+            --trigger-http \
+            --allow-unauthenticated \
+            --entry-point process_event \
+            --region ${{ secrets.GCP_REGION }} \
+            --set-env-vars GCP_SA_KEY=${{ secrets.GCP_SA_KEY }},GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }},OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},MODEL_NAME=${{ secrets.MODEL_NAME }},SYSTEM_PROMPT="${{ secrets.SYSTEM_PROMPT }}",MAX_TURNS="${{ secrets.MAX_TURNS }}",TTL="${{ secrets.TTL }}",MAX_TOKENS_INPUT="${{ secrets.MAX_TOKENS_INPUT }}",MAX_TOKENS_OUTPUT="${{ secrets.MAX_TOKENS_OUTPUT }}",TEMPERATURE="${{ secrets.TEMPERATURE }}",IMAGE_SIZE="${{ secrets.IMAGE_SIZE }}",IMAGE_STYLE="${{ secrets.IMAGE_STYLE}}",IMAGE_QUALITY="${{ secrets.IMAGE_QUALITY }}",DALLE_MODEL="${{ secrets.DALLE_MODEL }}",ELEVENLABS_API_KEY="${{ secrets.ELEVENLABS_API_KEY }}",ELEVENLABS_MODEL_NAME="${{ secrets.ELEVENLABS_MODEL_NAME }}" \
             --image-url=$GCR_IMAGE_URL
-
