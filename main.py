@@ -65,7 +65,7 @@ def process_event(request):
 def handle_message(user_id, user_message):
     try:
         # Check the user input for any policy violations
-        if enable_moderation:
+        if enable_moderation == "True":
             moderation_result = moderate_content(user_message)
             if moderation_result["flagged"]:
                 return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
@@ -248,7 +248,7 @@ def handle_message(user_id, user_message):
                 response = response[:4070] + "<MESSAGE TRUNCATED>"  # truncated to leave space for the appended message
 
             # Check the API output for any policy violations
-            if enable_moderation:
+            if enable_moderation == "True":
                 moderation_result = moderate_content(user_message)
                 if moderation_result["flagged"]:
                     return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})

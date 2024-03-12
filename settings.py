@@ -132,9 +132,9 @@ SETTINGS = {
         "description": "Server port."
     },
     "MODERATION": {
-        "default": True,
+        "default": "True",
         "required": False,
-        "type": bool,
+        "type": str,
         "description": "Enable content moderation."
     }
 }
