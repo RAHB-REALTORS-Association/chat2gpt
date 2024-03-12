@@ -26,6 +26,7 @@ ELEVENLABS_API_KEY = get_env("ELEVENLABS_API_KEY")
 
 # Initialize OpenAI parameters
 params = initialize_openai(OPENAI_API_KEY, TEMPERATURE, MAX_TOKENS_OUTPUT)
+enable_moderation = get_env("MODERATION")
 
 # Define globals
 user_sessions = {}  # A dictionary to track the AIChat instances for each user
@@ -64,9 +65,10 @@ def process_event(request):
 def handle_message(user_id, user_message):
     try:
         # Check the user input for any policy violations
-        moderation_result = moderate_content(user_message)
-        if moderation_result["flagged"]:
-            return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+        if enable_moderation == "True":
+            moderation_result = moderate_content(user_message)
+            if moderation_result["flagged"]:
+                return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
         
         current_time = datetime.datetime.now()
 
@@ -246,9 +248,10 @@ def handle_message(user_id, user_message):
                 response = response[:4070] + "<MESSAGE TRUNCATED>"  # truncated to leave space for the appended message
 
             # Check the API output for any policy violations
-            moderation_result = moderate_content(response)
-            if moderation_result["flagged"]:
-                return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
+            if enable_moderation == "True":
+                moderation_result = moderate_content(user_message)
+                if moderation_result["flagged"]:
+                    return jsonify({'text': 'Sorry, your message does not comply with our content policy. Please refrain from inappropriate content.'})
 
             bot_message = response
 
