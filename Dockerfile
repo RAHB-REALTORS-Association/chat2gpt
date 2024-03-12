@@ -1,17 +1,19 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim-buster
-
-# Set the working directory in the container to /app
+# Build stage
+FROM python:3.11-slim-bookworm as builder
 WORKDIR /app
-
-# Add the current directory files (i.e., the app) to the Docker container at /app
-ADD . /app
-
-# Install any needed packages specified in requirements.txt
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt /app/requirements.txt
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Final stage
+FROM python:3.11-slim-bookworm
+WORKDIR /app
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY . /app
+
 # Define environment variable
-ENV NAME chat2gpt
+ENV NAME=chat2gpt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
