@@ -4,5 +4,5 @@ requests==2.31.0
 simpleaichat==0.2.2
 openai<1.0.0
 tiktoken==0.6.0
-google-cloud-storage==2.15.0
+google-cloud-storage==2.16.0
 google-auth==2.28.2
